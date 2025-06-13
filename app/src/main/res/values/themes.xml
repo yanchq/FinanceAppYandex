@@ -2,4 +2,13 @@
 <resources>
 
     <style name="Theme.SHMRYandex" parent="android:Theme.Material.Light.NoActionBar" />
+    <style name="Theme.SHMRYandex.Splash" parent="Theme.SplashScreen">
+        <!-- Custom background color -->
+        <item name="windowSplashScreenBackground">@color/white</item>
+        <!-- Optional icon -->
+        <item name="windowSplashScreenAnimatedIcon">@drawable/ic_plus</item>
+        <!-- Duration while system shows splash (we'll override anyway) -->
+        <item name="postSplashScreenTheme">@style/Theme.SHMRYandex</item>
+        <item name="android:windowIsTranslucent">true</item>
+    </style>
 </resources>
