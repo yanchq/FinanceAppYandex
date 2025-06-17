@@ -1,6 +1,5 @@
 package com.example.shmryandex.presentation.screens.account
 
-sealed class AccountIntent {
-
-    object GetAccount: AccountIntent()
+sealed interface AccountIntent {
+    data object RefreshAccount : AccountIntent
 }

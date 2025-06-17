@@ -1,41 +1,58 @@
 package com.example.shmryandex.presentation.screens.expenses
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.example.shmryandex.data.network.Result
+import com.example.shmryandex.domain.entity.Expense
 import com.example.shmryandex.domain.usecase.GetExpensesListUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class ExpensesViewModel @Inject constructor(
     private val getExpensesListUseCase: GetExpensesListUseCase
-): ViewModel() {
+) : ViewModel() {
 
-    private val _uiState = MutableStateFlow(ExpensesUiState())
-    val uiState: StateFlow<ExpensesUiState>
-        get() = _uiState
+    private val _uiState = MutableStateFlow<ExpensesUiState>(ExpensesUiState())
+    val uiState: StateFlow<ExpensesUiState> = _uiState.asStateFlow()
 
     init {
-        getExpensesList()
+        loadExpenses()
     }
 
     fun onIntent(intent: ExpensesIntent) {
         when (intent) {
-            is ExpensesIntent.LoadExpenses -> {
-                getExpensesList()
-            }
+            ExpensesIntent.RefreshExpenses -> loadExpenses()
         }
     }
 
-    private fun getExpensesList() {
-        val list = getExpensesListUseCase()
-        var sum = 0
-        list.forEach {
-            sum += it.amount
+    private fun loadExpenses() {
+        viewModelScope.launch {
+            _uiState.value = _uiState.value.copy(isLoading = true, error = null)
+            when (val result = getExpensesListUseCase()) {
+                is Result.Success -> {
+                    _uiState.value = _uiState.value.copy(
+                        expenses = result.data,
+                        isLoading = false,
+                        error = null
+                    )
+                }
+                is Result.Error -> {
+                    _uiState.value = _uiState.value.copy(
+                        expenses = emptyList(),
+                        isLoading = false,
+                        error = result.exception.message
+                    )
+                }
+                is Result.Loading -> {
+                    _uiState.value = _uiState.value.copy(isLoading = true)
+                }
+            }
         }
-        _uiState.value = _uiState.value.copy(
-            expenses = list,
-            summary = sum)
     }
 }

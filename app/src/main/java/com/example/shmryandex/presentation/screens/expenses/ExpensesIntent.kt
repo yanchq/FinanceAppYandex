@@ -1,6 +1,5 @@
 package com.example.shmryandex.presentation.screens.expenses
 
-sealed class ExpensesIntent {
-
-    object LoadExpenses: ExpensesIntent()
+sealed interface ExpensesIntent {
+    data object RefreshExpenses : ExpensesIntent
 }

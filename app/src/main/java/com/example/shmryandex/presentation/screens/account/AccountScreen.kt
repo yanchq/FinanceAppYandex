@@ -35,13 +35,13 @@ fun AccountScreen(viewModel: AccountViewModel = hiltViewModel()) {
     val uiState = viewModel.uiState.collectAsState()
 
     Column {
-        BalanceCard(uiState.value!!.balance)
-        CurrencyCard(uiState.value!!.currency)
+        BalanceCard(uiState.value.accounts[0].balance)
+        CurrencyCard(uiState.value.accounts[0].currency)
     }
 }
 
 @Composable
-private fun BalanceCard(balance: Int) {
+private fun BalanceCard(balance: Double) {
     Row(
         horizontalArrangement = Arrangement.spacedBy(16.dp),
         verticalAlignment = Alignment.CenterVertically,

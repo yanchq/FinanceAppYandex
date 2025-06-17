@@ -1,5 +1,6 @@
 package com.example.shmryandex.domain
 
+import com.example.shmryandex.data.network.Result
 import com.example.shmryandex.domain.entity.Account
 import com.example.shmryandex.domain.entity.Category
 import com.example.shmryandex.domain.entity.Expense
@@ -7,11 +8,13 @@ import com.example.shmryandex.domain.entity.Income
 
 interface FinanceRepository {
 
-    fun getExpensesList(): List<Expense>
+    suspend fun getExpensesList(): Result<List<Expense>>
 
-    fun getIncomesList(): List<Income>
+    suspend fun getIncomesList(): Result<List<Income>>
 
-    fun getAccount(): Account
+    fun getAccountsList(): List<Account>
 
-    fun getCategoriesList(): List<Category>
+    suspend fun loadAccountsList(): Result<Unit>
+
+    suspend fun getCategoriesList(): Result<List<Category>>
 }

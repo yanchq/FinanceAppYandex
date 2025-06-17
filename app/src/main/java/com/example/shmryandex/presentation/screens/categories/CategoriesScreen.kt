@@ -52,7 +52,7 @@ fun CategoriesScreen(viewModel: CategoriesViewModel = hiltViewModel()) {
         )
 
         LazyColumn {
-            items(uiState.value.categoriesList) { category ->
+            items(uiState.value.categories) { category ->
                 CategoryCard(
                     emoji = category.emoji,
                     name = category.name

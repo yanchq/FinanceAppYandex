@@ -5,7 +5,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.shmryandex.presentation.MainScreen
-import com.example.shmryandex.presentation.SplashScreen
+import com.example.shmryandex.presentation.screens.splash.SplashScreen
 
 @Composable
 fun RootNavGraph(navController: NavHostController) {
