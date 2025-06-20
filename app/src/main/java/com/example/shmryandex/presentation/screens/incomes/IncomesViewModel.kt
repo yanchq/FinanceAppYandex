@@ -30,28 +30,9 @@ class IncomesViewModel @Inject constructor(
     }
 
     private fun loadIncomes() {
-        viewModelScope.launch {
-            _uiState.value = _uiState.value.copy(isLoading = true, error = null)
-            
-            when (val result = getIncomesListUseCase()) {
-                is Result.Success -> {
-                    _uiState.value = _uiState.value.copy(
-                        incomes = result.data,
-                        isLoading = false,
-                        error = null
-                    )
-                }
-                is Result.Error -> {
-                    _uiState.value = _uiState.value.copy(
-                        incomes = emptyList(),
-                        isLoading = false,
-                        error = result.exception.message
-                    )
-                }
-                is Result.Loading -> {
-                    _uiState.value = _uiState.value.copy(isLoading = true)
-                }
-            }
-        }
+        val incomesList = getIncomesListUseCase()
+        _uiState.value = _uiState.value.copy(
+            incomes = incomesList
+        )
     }
 }

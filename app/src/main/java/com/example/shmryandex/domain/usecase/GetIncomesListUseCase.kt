@@ -8,5 +8,5 @@ import javax.inject.Inject
 class GetIncomesListUseCase @Inject constructor(
     private val repository: FinanceRepository
 ) {
-    suspend operator fun invoke(): Result<List<Income>> = repository.getIncomesList()
+    operator fun invoke(): List<Income> = repository.getIncomesList()
 }

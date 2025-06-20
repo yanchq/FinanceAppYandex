@@ -32,27 +32,14 @@ class ExpensesViewModel @Inject constructor(
     }
 
     private fun loadExpenses() {
-        viewModelScope.launch {
-            _uiState.value = _uiState.value.copy(isLoading = true, error = null)
-            when (val result = getExpensesListUseCase()) {
-                is Result.Success -> {
-                    _uiState.value = _uiState.value.copy(
-                        expenses = result.data,
-                        isLoading = false,
-                        error = null
-                    )
-                }
-                is Result.Error -> {
-                    _uiState.value = _uiState.value.copy(
-                        expenses = emptyList(),
-                        isLoading = false,
-                        error = result.exception.message
-                    )
-                }
-                is Result.Loading -> {
-                    _uiState.value = _uiState.value.copy(isLoading = true)
-                }
-            }
-        }
+        val expensesList = getExpensesListUseCase()
+        _uiState.value = _uiState.value.copy(
+            expenses = expensesList
+        )
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        Log.d("ExpensesViewModelTest", "Cleared")
     }
 }

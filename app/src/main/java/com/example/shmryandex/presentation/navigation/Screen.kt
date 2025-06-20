@@ -14,7 +14,7 @@ sealed class Screen(
         EXPENSES_TITLE,
         R.drawable.ic_history,
         true
-        )
+    )
     object Incomes: Screen(
         INCOMES_ROUTE,
         INCOMES_TITLE,
@@ -42,20 +42,37 @@ sealed class Screen(
     object Splash: Screen(
         SPLASH_ROUTE
     )
+    object ExpensesHistory: Screen(
+        EXPENSES_HISTORY_ROUTE,
+        EXPENSES_HISTORY_TITLE
+    )
+    object AddAccount: Screen(
+        ADD_ACCOUNT_ROUTE,
+        ADD_ACCOUNT_TITLE
+    )
 
     companion object {
-
         const val EXPENSES_ROUTE = "Expenses"
         const val INCOMES_ROUTE = "Incomes"
         const val ACCOUNT_ROUTE = "Account"
         const val CATEGORIES_ROUTE = "Categories"
         const val OPTIONS_ROUTE = "Options"
         const val SPLASH_ROUTE = "Splash"
+        const val EXPENSES_HISTORY_ROUTE = "ExpensesHistory"
+        const val ADD_ACCOUNT_ROUTE = "AddAccountRoute"
 
         const val EXPENSES_TITLE = "Расходы сегодня"
         const val INCOMES_TITLE = "Доходы сегодня"
         const val ACCOUNT_TITLE = "Мой счет"
         const val CATEGORIES_TITLE = "Мои статьи"
         const val OPTIONS_TITLE = "Настройки"
+        const val EXPENSES_HISTORY_TITLE = "История расходов"
+        const val ADD_ACCOUNT_TITLE = "Создать счет"
+
+        const val EXPENSES_GRAPH_ROUTE = "ExpensesGraphRoute"
+        const val INCOMES_GRAPH_ROUTE = "IncomesGraphRoute"
+        const val ACCOUNT_GRAPH_ROUTE = "AccountGraphRoute"
+        const val CATEGORIES_GRAPH_ROUTE = "CategoriesGraphRoute"
+        const val OPTIONS_GRAPH_ROUTE = "OptionsGraphRoute"
     }
 }

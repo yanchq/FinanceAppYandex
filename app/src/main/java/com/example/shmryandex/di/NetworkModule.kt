@@ -1,11 +1,14 @@
 package com.example.shmryandex.di
 
+import android.content.Context
+import com.example.shmryandex.data.network.NetworkStateReceiver
 import com.example.shmryandex.data.network.api.FinanceApi
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -50,4 +53,10 @@ object NetworkModule {
     @Singleton
     fun provideFinanceApi(retrofit: Retrofit): FinanceApi =
         retrofit.create(FinanceApi::class.java)
+
+    @Provides
+    @Singleton
+    fun provideNetworkStateReceiver(
+        @ApplicationContext context: Context
+    ): NetworkStateReceiver = NetworkStateReceiver(context)
 } 

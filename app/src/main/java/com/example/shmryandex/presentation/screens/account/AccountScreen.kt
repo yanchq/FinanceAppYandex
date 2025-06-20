@@ -26,6 +26,8 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.shmryandex.R
 import com.example.shmryandex.presentation.toCurrencyString
+import com.example.shmryandex.ui.AccountDropdownMenu
+import com.example.shmryandex.ui.TopGreenCard
 import com.example.shmryandex.ui.theme.DividerGrey
 import com.example.shmryandex.ui.theme.SecondaryGreen
 
@@ -33,10 +35,28 @@ import com.example.shmryandex.ui.theme.SecondaryGreen
 fun AccountScreen(viewModel: AccountViewModel = hiltViewModel()) {
 
     val uiState = viewModel.uiState.collectAsState()
+    Column() {
+        AccountDropdownMenu(
+            accounts = uiState.value.accounts,
+            selectedAccount = uiState.value.selectedAccount,
+            onAccountSelected = { viewModel.onIntent(AccountIntent.SelectAccount(it)) }
+        )
+        uiState.value.selectedAccount?.let { account ->
+            TopGreenCard(
+                title = account.name,
+                amount = uiState.value.selectedAccount!!.balance,
+                canNavigate = true,
+                onNavigateClick = {},
+                avatarEmoji = "\uD83D\uDCB0"
+            )
 
-    Column {
-        BalanceCard(uiState.value.accounts[0].balance)
-        CurrencyCard(uiState.value.accounts[0].currency)
+            TopGreenCard(
+                title = "Валюта",
+                currency = account.currency,
+                canNavigate = true,
+                onNavigateClick = {},
+            )
+        }
     }
 }
 
@@ -112,5 +132,34 @@ private fun CurrencyCard(currency: String) {
             painter = painterResource(R.drawable.ic_more),
             contentDescription = null
         )
+    }
+}
+
+@Composable
+fun AccountContent(viewModel: AccountViewModel) {
+
+    val uiState = viewModel.uiState.collectAsState()
+    Column() {
+        AccountDropdownMenu(
+            accounts = uiState.value.accounts,
+            selectedAccount = uiState.value.selectedAccount,
+            onAccountSelected = { viewModel.onIntent(AccountIntent.SelectAccount(it)) }
+        )
+        uiState.value.selectedAccount?.let { account ->
+            TopGreenCard(
+                title = account.name,
+                amount = uiState.value.selectedAccount!!.balance,
+                canNavigate = true,
+                onNavigateClick = {},
+                avatarEmoji = "\uD83D\uDCB0"
+            )
+
+            TopGreenCard(
+                title = "Валюта",
+                currency = account.currency,
+                canNavigate = true,
+                onNavigateClick = {},
+            )
+        }
     }
 }
