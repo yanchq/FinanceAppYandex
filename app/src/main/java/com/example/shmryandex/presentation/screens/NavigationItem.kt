@@ -4,34 +4,34 @@ import com.example.shmryandex.R
 import com.example.shmryandex.presentation.navigation.Screen
 
 sealed class NavigationItem(
-    val screen: Screen,
+    val screen: String,
     val label: String,
     val iconId: Int
 ) {
     data object Expenses: NavigationItem(
-        Screen.Expenses,
+        Screen.EXPENSES_GRAPH_ROUTE,
         "Расходы",
         R.drawable.expenses
     )
 
     data object Incomes: NavigationItem(
-        Screen.Incomes,
+        Screen.INCOMES_GRAPH_ROUTE,
         "Доходы",
         R.drawable.incomes
     )
 
     data object Account: NavigationItem(
-        Screen.Account,
+        Screen.ACCOUNT_GRAPH_ROUTE,
         "Счет",
         R.drawable.account
     )
     data object Categories: NavigationItem(
-        Screen.Categories,
+        Screen.CATEGORIES_GRAPH_ROUTE,
         "Статьи",
         R.drawable.categories
     )
     data object Options: NavigationItem(
-        Screen.Options,
+        Screen.OPTIONS_GRAPH_ROUTE,
         "Настройки",
         R.drawable.options
     )

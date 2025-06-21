@@ -1,0 +1,54 @@
+package com.example.shmryandex.presentation.screens.splash
+
+import android.util.Log
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.example.shmryandex.data.network.Result
+import com.example.shmryandex.domain.usecase.LoadAccountsListUseCase
+import com.example.shmryandex.domain.usecase.LoadTodayTransactionsUseCase
+import com.example.shmryandex.presentation.screens.account.AccountUiState
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.launch
+import javax.inject.Inject
+
+@HiltViewModel
+class SplashViewModel @Inject constructor(
+    private val loadAccountsListUseCase: LoadAccountsListUseCase,
+    private val loadTodayTransactionsUseCase: LoadTodayTransactionsUseCase
+): ViewModel() {
+
+    private val _uiState = MutableStateFlow(false)
+    val uiState: StateFlow<Boolean> = _uiState.asStateFlow()
+
+    init {
+        loadInitialData()
+    }
+
+    private fun loadInitialData() {
+        viewModelScope.launch(Dispatchers.IO) {
+            when(val accountsResult = loadAccountsListUseCase()) {
+                is Result.Success -> {
+                    when(val transactionsResult = loadTodayTransactionsUseCase()) {
+                        is Result.Success -> {
+                            _uiState.value = true
+                        }
+                        is Result.Error -> {
+                            Log.e("SplashViewModel", "Failed to load transactions: ${transactionsResult.exception.message}")
+                        }
+                        is Result.Loading -> {
+                        }
+                    }
+                }
+                is Result.Error -> {
+                    Log.e("SplashViewModel", "Failed to load accounts: ${accountsResult.exception.message}")
+                }
+                is Result.Loading -> {
+                }
+            }
+        }
+    }
+}

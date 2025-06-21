@@ -4,6 +4,9 @@ import com.example.shmryandex.domain.entity.Expense
 
 data class ExpensesUiState(
     val expenses: List<Expense> = emptyList(),
-    val summary: Int = 0
+    val isLoading: Boolean = false,
+    val error: String? = null
 ) {
+    val summary: Double
+        get() = expenses.sumOf { it.amount }
 }

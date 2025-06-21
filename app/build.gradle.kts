@@ -68,4 +68,11 @@ dependencies {
     implementation(libs.lottie)
     //Splash
     implementation(libs.splash)
+    //Network
+    implementation(libs.retrofit.core)
+    implementation(libs.retrofit.moshi)
+    implementation(libs.okhttp.core)
+    implementation(libs.okhttp.logging)
+    implementation(libs.moshi.kotlin)
+    kapt(libs.moshi.codegen)
 }

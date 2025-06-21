@@ -1,5 +1,6 @@
 package com.example.shmryandex.presentation
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -35,9 +36,12 @@ import com.example.shmryandex.presentation.navigation.AppNavGraph
 import com.example.shmryandex.presentation.navigation.Screen
 import com.example.shmryandex.presentation.screens.NavigationItem
 import com.example.shmryandex.presentation.screens.account.AccountScreen
+import com.example.shmryandex.presentation.screens.account.addAccount.AddAccountScreen
 import com.example.shmryandex.presentation.screens.categories.CategoriesScreen
 import com.example.shmryandex.presentation.screens.expenses.ExpensesScreen
+import com.example.shmryandex.presentation.screens.expenses.history.ExpensesHistoryScreen
 import com.example.shmryandex.presentation.screens.incomes.IncomesScreen
+import com.example.shmryandex.presentation.screens.incomes.history.IncomesHistoryScreen
 import com.example.shmryandex.presentation.screens.options.OptionsScreen
 import com.example.shmryandex.ui.theme.PrimaryGreen
 
@@ -47,20 +51,41 @@ fun MainScreen() {
     val navHostController = rememberNavController()
 
     val navBackStackEntry by navHostController.currentBackStackEntryAsState()
-    val currentRoute = navBackStackEntry?.destination?.route
+    val currentNavigationBarRoute =
+        navBackStackEntry?.destination?.parent?.route ?: navBackStackEntry?.destination?.route
+    val currentScreenRoute =  navBackStackEntry?.destination?.route
 
-    val currentScreen = when (currentRoute) {
+
+    val currentScreen = when (currentScreenRoute) {
         Screen.Expenses.route -> Screen.Expenses
         Screen.Incomes.route -> Screen.Incomes
         Screen.Account.route -> Screen.Account
         Screen.Categories.route -> Screen.Categories
         Screen.Options.route -> Screen.Options
+        Screen.ExpensesHistory.route -> Screen.ExpensesHistory
+        Screen.AddAccount.route -> Screen.AddAccount
+        Screen.IncomesHistory.route -> Screen.IncomesHistory
         else -> Screen.Expenses
     }
+    Log.d("NavigateTest", "$currentScreenRoute")
 
     Scaffold(
         topBar = {
-            CustomTopAppBar(currentScreen.title, currentScreen.topAppBarIcon)
+            CustomTopAppBar(
+                title = currentScreen.title,
+                icon = currentScreen.topAppBarIcon,
+                onIconClick = {
+                    when (currentScreen) {
+                        Screen.Expenses -> {
+                            navHostController.navigate(Screen.ExpensesHistory.route)
+                        }
+                        Screen.Incomes -> {
+                            navHostController.navigate(Screen.IncomesHistory.route)
+                        }
+                        else -> {}
+                    }
+                }
+            )
         },
         bottomBar = {
             val navigateList = listOf(
@@ -72,13 +97,12 @@ fun MainScreen() {
             )
 
             NavigationBar {
-
                 navigateList.forEach { item ->
                     NavigationBarItem(
-                        selected = currentRoute == item.screen.route,
+                        selected = currentNavigationBarRoute == item.screen,
                         onClick = {
-                            if (currentRoute != item.screen.route) {
-                                navHostController.navigate(item.screen.route) {
+                            if (currentNavigationBarRoute != item.screen) {
+                                navHostController.navigate(item.screen) {
                                     launchSingleTop = true
                                     popUpTo(navHostController.graph.findStartDestination().id) {
                                         saveState = true
@@ -106,7 +130,10 @@ fun MainScreen() {
         floatingActionButton = {
             if (currentScreen.hasFloatingActionButton) {
                 FloatingActionButton(
-                    onClick = {},
+                    onClick = {
+                        if (currentScreen == Screen.Account)
+                            navHostController.navigate(Screen.AddAccount.route)
+                    },
                     shape = CircleShape
                 ) {
                     Image(painter = painterResource(R.drawable.ic_plus), contentDescription = null)
@@ -114,7 +141,6 @@ fun MainScreen() {
             }
         }
     ) { paddingValues ->
-
         Box(
             modifier = Modifier
                 .padding(paddingValues)
@@ -122,8 +148,11 @@ fun MainScreen() {
             AppNavGraph(
                 navHostController = navHostController,
                 expensesScreenContent = { ExpensesScreen() },
+                expensesHistoryScreenContent = { ExpensesHistoryScreen() },
                 incomesScreenContent = { IncomesScreen() },
+                incomesHistoryScreenContent = { IncomesHistoryScreen() },
                 accountScreenContent = { AccountScreen() },
+                addAccountScreenContent = { AddAccountScreen() },
                 categoriesScreenContent = { CategoriesScreen() },
                 optionsScreenContent = { OptionsScreen() },
             )
@@ -132,7 +161,11 @@ fun MainScreen() {
 }
 
 @Composable
-private fun CustomTopAppBar(title: String, icon: Int?) {
+private fun CustomTopAppBar(
+    title: String,
+    icon: Int?,
+    onIconClick: () -> Unit = {}
+) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -151,9 +184,8 @@ private fun CustomTopAppBar(title: String, icon: Int?) {
 
         icon?.let {
             IconButton(
-                onClick = {},
+                onClick = onIconClick,
                 modifier = Modifier.align(Alignment.CenterEnd)
-
             ) {
                 Image(
                     painter = painterResource(it),
@@ -161,6 +193,5 @@ private fun CustomTopAppBar(title: String, icon: Int?) {
                 )
             }
         }
-
     }
 }

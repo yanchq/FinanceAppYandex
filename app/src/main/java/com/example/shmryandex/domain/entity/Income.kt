@@ -1,9 +1,11 @@
 package com.example.shmryandex.domain.entity
 
 data class Income(
-    val id: Int,
+    val id: Long,
     val category: Category,
-    val amount: Int,
-    val comment: String = ""
+    val amount: Double,
+    val currency: String,
+    val comment: String = "",
+    val createdAt: String
 ) {
 }

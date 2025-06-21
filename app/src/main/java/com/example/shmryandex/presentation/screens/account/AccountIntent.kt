@@ -1,6 +1,8 @@
 package com.example.shmryandex.presentation.screens.account
 
-sealed class AccountIntent {
+import com.example.shmryandex.domain.entity.Account
 
-    object GetAccount: AccountIntent()
+sealed interface AccountIntent {
+    data object RefreshAccount : AccountIntent
+    data class SelectAccount(val account: Account): AccountIntent
 }
