@@ -16,6 +16,12 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableLongStateOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
@@ -26,9 +32,17 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.shmryandex.R
 import com.example.shmryandex.domain.entity.Income
+import com.example.shmryandex.presentation.screens.expenses.history.DateType
+import com.example.shmryandex.ui.AppCard
+import com.example.shmryandex.ui.CustomDatePickerDialog
+import com.example.shmryandex.ui.TopGreenCard
 import com.example.shmryandex.ui.toCurrencyString
 import com.example.shmryandex.ui.theme.DividerGrey
 import com.example.shmryandex.ui.theme.SecondaryGreen
+import java.text.SimpleDateFormat
+import java.util.Calendar
+import java.util.Date
+import java.util.Locale
 
 
 @Composable
@@ -36,103 +50,102 @@ fun IncomesHistoryScreen(viewModel: IncomesHistoryViewModel = hiltViewModel()) {
 
     val uiState = viewModel.uiState.collectAsStateWithLifecycle()
 
+    var startDateMillis by remember {
+        val calendar = Calendar.getInstance()
+        calendar.set(Calendar.DAY_OF_MONTH, 1)
+        calendar.set(Calendar.HOUR_OF_DAY, 0)
+        calendar.set(Calendar.MINUTE, 0)
+        calendar.set(Calendar.SECOND, 0)
+        calendar.set(Calendar.MILLISECOND, 0)
+        mutableLongStateOf(calendar.timeInMillis)
+    }
+
+    var endDateMillis by remember {
+        val calendar = Calendar.getInstance()
+        calendar.set(Calendar.HOUR_OF_DAY, 23)
+        calendar.set(Calendar.MINUTE, 59)
+        calendar.set(Calendar.SECOND, 59)
+        calendar.set(Calendar.MILLISECOND, 999)
+        mutableStateOf(calendar.timeInMillis)
+    }
+
+    var showDialog by remember { mutableStateOf(false) }
+    var currentPicker by remember { mutableStateOf(DateType.START) }
+
+    val dateFormatter = remember { SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()) }
+    val formattedStartDate = startDateMillis?.let { dateFormatter.format(Date(it)) } ?: "Выберите дату"
+    val formattedEndDate = endDateMillis?.let { dateFormatter.format(Date(it)) }
+        ?: "Выберите дату"
+
+
+    LaunchedEffect(startDateMillis, endDateMillis) {
+        viewModel.loadIncomesByPeriod(
+            startDate = formattedStartDate,
+            endDate = formattedEndDate
+        )
+    }
+
     Column {
-        Row(
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier
-                .background(SecondaryGreen)
-                .fillMaxWidth()
-                .height(56.dp)
-                .drawBehind {
-                    val strokeWidth = 0.7.dp.toPx()
-                    drawLine(
-                        color = DividerGrey,
-                        start = Offset(0f, size.height - strokeWidth / 2),
-                        end = Offset(size.width, size.height - strokeWidth / 2),
-                        strokeWidth = strokeWidth
-                    )
-                }
-                .padding(horizontal = 16.dp, vertical = 8.dp)
-        ) {
-            Text(
-                text = "Всего",
-                style = MaterialTheme.typography.bodyMedium
-            )
-            Text(
-                text = uiState.value.totalAmount.toCurrencyString(),
-                style = MaterialTheme.typography.bodyMedium
-            )
-        }
+
+        TopGreenCard(
+            title = "Начало",
+            currency = formattedStartDate,
+            onNavigateClick = {
+                currentPicker = DateType.START
+                showDialog = true
+            }
+        )
+
+        TopGreenCard(
+            title = "Конец",
+            currency = formattedEndDate,
+            onNavigateClick = {
+                currentPicker = DateType.END
+                showDialog = true
+            }
+        )
+
+        TopGreenCard(
+            title = "Сумма",
+            amount = uiState.value.totalAmount,
+            currency = "₽"
+        )
 
         LazyColumn {
-            items(uiState.value.incomes) { income ->
-                IncomeCard(
-                    income
+            items(
+                items = uiState.value.incomes,
+                key = { it.id }
+            ) { expense ->
+                AppCard(
+                    title = expense.category.name,
+                    amount = expense.amount,
+                    currency = expense.currency,
+                    subAmount = expense.createdAt,
+                    avatarEmoji = expense.category.emoji,
+                    subtitle = expense.comment,
+                    canNavigate = true,
+                    onNavigateClick = {},
                 )
             }
         }
-    }
-}
 
-@Composable
-private fun IncomeCard(income: Income) {
-    Row(
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(16.dp),
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(70.dp)
-            .drawBehind {
-                val strokeWidth = 0.7.dp.toPx()
-                drawLine(
-                    color = DividerGrey,
-                    start = Offset(0f, size.height - strokeWidth / 2),
-                    end = Offset(size.width, size.height - strokeWidth / 2),
-                    strokeWidth = strokeWidth
-                )
-            }
-            .padding(horizontal = 16.dp, vertical = 8.dp)
+        if (showDialog) {
+            CustomDatePickerDialog(
+                initialDate = when (currentPicker) {
+                    DateType.START -> startDateMillis
+                    DateType.END -> endDateMillis
+                },
+                onDismissRequest = { showDialog = false },
+                onClear = {
 
-    ) {
-        Box(
-            modifier = Modifier
-                .size(24.dp)
-                .background(SecondaryGreen, CircleShape)
-        ) {
-            Text(
-                modifier = Modifier.align(Alignment.Center),
-                text = income.category.emoji
+                },
+                onDateSelected = {
+                    when (currentPicker) {
+                        DateType.START -> startDateMillis = it!!
+                        DateType.END -> endDateMillis = it!!
+                    }
+                }
             )
         }
-
-        Column(
-            modifier = Modifier.weight(1f)
-        ) {
-            Text(
-                modifier = Modifier
-                    .fillMaxWidth(),
-                text = income.category.name,
-                style = MaterialTheme.typography.bodyMedium
-            )
-            if (income.comment != "") {
-                Text(
-                    modifier = Modifier
-                        .fillMaxWidth(),
-                    text = income.comment,
-                    style = MaterialTheme.typography.bodySmall
-                )
-            }
-
-        }
-
-        Text(
-            text = income.amount.toCurrencyString(),
-            style = MaterialTheme.typography.bodyMedium
-        )
-        Image(
-            painter = painterResource(R.drawable.ic_more),
-            contentDescription = null
-        )
     }
 }

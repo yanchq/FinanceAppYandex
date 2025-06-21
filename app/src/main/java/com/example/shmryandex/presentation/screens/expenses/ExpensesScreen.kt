@@ -60,7 +60,7 @@ fun ExpensesScreen(viewModel: ExpensesViewModel = hiltViewModel()) {
                 style = MaterialTheme.typography.bodyMedium
             )
             Text(
-                text = uiState.value.totalAmount.toCurrencyString(),
+                text = uiState.value.totalAmount.toCurrencyString("₽"),
                 style = MaterialTheme.typography.bodyMedium
             )
         }
@@ -127,7 +127,7 @@ private fun ExpenseCard(expense: Expense) {
         }
 
         Text(
-            text = expense.amount.toCurrencyString(),
+            text = expense.amount.toCurrencyString(expense.currency),
             style = MaterialTheme.typography.bodyMedium
         )
         Image(

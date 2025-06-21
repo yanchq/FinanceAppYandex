@@ -16,7 +16,7 @@ class FinanceMapper @Inject constructor() {
             id = id,
             name = name,
             balance = balance.toDouble(),
-            currency = currency
+            currency = currency.convertCurrency()
         )
     }
 
@@ -34,6 +34,7 @@ class FinanceMapper @Inject constructor() {
             id = id,
             category = mapCategoryDtoToDomain(category),
             amount = amount.toDouble(),
+            currency = dto.account.currency.convertCurrency(),
             comment = comment,
             createdAt = transactionDate.substring(0, 10)
         )
@@ -44,8 +45,18 @@ class FinanceMapper @Inject constructor() {
             id = id,
             category = mapCategoryDtoToDomain(category),
             amount = amount.toDouble(),
+            currency = dto.account.currency.convertCurrency(),
             comment = comment,
             createdAt = transactionDate.substring(0, 10)
         )
+    }
+
+    private fun String.convertCurrency(): String {
+        when (this) {
+            "RUB" -> return "₽"
+            "USD" -> return "$"
+            "EUR" -> return "€"
+            else -> return "₽"
+        }
     }
 } 

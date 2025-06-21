@@ -41,6 +41,7 @@ fun AppCard(
     title: String,
     subtitle: String? = null,
     amount: Double,
+    currency: String,
     subAmount: String? = null,
     avatarEmoji: String? = null,
     canNavigate: Boolean = false,
@@ -94,7 +95,7 @@ fun AppCard(
                     modifier = Modifier
                         .size(30.dp)
                         .clip(CircleShape)
-                        .background(MaterialTheme.colorScheme.secondary),
+                        .background(MaterialTheme.colorScheme.secondaryContainer),
                     contentAlignment = Alignment.Center
                 ) {
                     Text(
@@ -130,7 +131,7 @@ fun AppCard(
                     horizontalAlignment = Alignment.End
                 ) {
                     Text(
-                        text = amount.toCurrencyString(),
+                        text = amount.toCurrencyString(currency),
                         style = MaterialTheme.typography.bodyLarge,
                         fontSize = 16.sp,
                         fontFamily = FontFamily(Font(R.font.roboto_regular)),
@@ -171,117 +172,3 @@ fun AppCard(
     }
 }
 
-@Composable
-fun AppListItem(
-    title: String,
-    subtitle: String? = null,
-    amount: Int? = null,
-    subAmount: String? = null,
-    avatarEmoji: String? = null,
-    canNavigate: Boolean = false,
-    onNavigateClick: (() -> Unit)? = null,
-) {
-    val borderColor = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.1f)
-    Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(70.dp)
-            .drawBehind {
-                val strokeWidth = 1.dp.toPx()
-                val y = size.height - strokeWidth / 2
-                drawLine(
-                    color = borderColor,
-                    start = Offset(0f, y),
-                    end = Offset(size.width, y),
-                    strokeWidth = strokeWidth
-                )
-            }
-    ) {
-        ListItem(
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(70.dp)
-                .clickable(enabled = canNavigate && onNavigateClick != null) {
-                    onNavigateClick?.invoke()
-                }
-                .drawBehind {
-                    // нижняя линия
-                    val strokeWidth = 1.dp.toPx()
-                    val y = size.height - strokeWidth / 2
-                    drawLine(
-                        color = borderColor,
-                        start = Offset(0f, y),
-                        end = Offset(size.width, y),
-                        strokeWidth = strokeWidth
-                    )
-                },
-            colors = ListItemDefaults.colors(
-                containerColor = MaterialTheme.colorScheme.background
-            ),
-            leadingContent = {
-                avatarEmoji?.let {
-                    Box(
-                        modifier = Modifier
-                            .size(30.dp)
-                            .clip(CircleShape)
-                            .background(MaterialTheme.colorScheme.secondary),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        Text(avatarEmoji, fontSize = 19.sp)
-                    }
-                    Spacer(modifier = Modifier.width(12.dp))
-                }
-            },
-            headlineContent = {
-                Column() {
-                    Text(
-                        text = title,
-                        style = MaterialTheme.typography.bodyLarge,
-                        fontSize = 16.sp
-
-                    )
-                    if (!subtitle.isNullOrEmpty()) {
-                        Text(
-                            text = subtitle,
-                            style = MaterialTheme.typography.bodyMedium,
-                            fontSize = 12.sp,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant
-                        )
-                    }
-                }
-            },
-
-            trailingContent = {
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    if (amount != null) {
-                        Column(horizontalAlignment = Alignment.End) {
-                            Text(
-                                text = amount.toCurrencyString(),
-                                style = MaterialTheme.typography.bodyLarge,
-                                fontSize = 16.sp
-                            )
-                            subAmount?.let {
-                                Text(
-                                    text = it,
-                                    style = MaterialTheme.typography.bodyMedium,
-                                    fontSize = 12.sp,
-                                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                                    textAlign = TextAlign.End
-                                )
-                            }
-                        }
-                    }
-
-                    if (canNavigate && onNavigateClick != null) {
-                        Spacer(modifier = Modifier.width(8.dp))
-                        Image(
-                            painter = painterResource(R.drawable.ic_more),
-                            contentDescription = "Подробнее",
-                            modifier = Modifier.size(24.dp)
-                        )
-                    }
-                }
-            }
-        )
-    }
-}

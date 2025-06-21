@@ -38,8 +38,13 @@ class IncomesHistoryViewModel @Inject constructor(
                 }
                 Result.Loading -> {}
                 is Result.Success<List<Income>> -> {
+                    var totalAmount = 0.0
+                    result.data.forEach {
+                        totalAmount += it.amount
+                    }
                     _uiState.value = uiState.value.copy(
-                        incomes = result.data
+                        incomes = result.data,
+                        totalAmount = totalAmount
                     )
                 }
             }

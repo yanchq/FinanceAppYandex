@@ -77,7 +77,8 @@ fun ExpensesHistoryScreen(
 
         TopGreenCard(
             title = "Сумма",
-            amount = uiState.value.totalAmount
+            amount = uiState.value.totalAmount,
+            currency = "₽"
         )
 
         LazyColumn {
@@ -88,6 +89,7 @@ fun ExpensesHistoryScreen(
                 AppCard(
                     title = expense.category.name,
                     amount = expense.amount,
+                    currency = expense.currency,
                     subAmount = expense.createdAt,
                     avatarEmoji = expense.category.emoji,
                     subtitle = expense.comment,

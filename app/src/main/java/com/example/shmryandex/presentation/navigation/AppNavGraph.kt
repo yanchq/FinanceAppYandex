@@ -14,6 +14,7 @@ import com.example.shmryandex.presentation.screens.categories.CategoriesScreen
 import com.example.shmryandex.presentation.screens.expenses.ExpensesScreen
 import com.example.shmryandex.presentation.screens.expenses.history.ExpensesHistoryScreen
 import com.example.shmryandex.presentation.screens.incomes.IncomesScreen
+import com.example.shmryandex.presentation.screens.incomes.history.IncomesHistoryScreen
 import com.example.shmryandex.presentation.screens.options.OptionsScreen
 
 @Composable

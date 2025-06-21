@@ -63,8 +63,8 @@ sealed class Screen(
         const val OPTIONS_ROUTE = "Options"
         const val SPLASH_ROUTE = "Splash"
         const val EXPENSES_HISTORY_ROUTE = "ExpensesHistory"
-        const val ADD_ACCOUNT_ROUTE = "AddAccountRoute"
-        const val INCOMES_HISTORY_ROUTE = "IncomesHistoryRoute"
+        const val ADD_ACCOUNT_ROUTE = "AddAccount"
+        const val INCOMES_HISTORY_ROUTE = "IncomesHistory"
 
         const val EXPENSES_TITLE = "Расходы сегодня"
         const val INCOMES_TITLE = "Доходы сегодня"

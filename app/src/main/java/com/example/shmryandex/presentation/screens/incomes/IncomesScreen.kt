@@ -56,7 +56,7 @@ fun IncomesScreen(viewModel: IncomesViewModel = hiltViewModel()) {
                 style = MaterialTheme.typography.bodyMedium
             )
             Text(
-                text = uiState.value.summary.toCurrencyString(),
+                text = uiState.value.summary.toCurrencyString("₽"),
                 style = MaterialTheme.typography.bodyMedium
             )
         }
@@ -112,7 +112,7 @@ private fun IncomeCard(income: Income) {
 
         }
         Text(
-            text = income.amount.toCurrencyString(),
+            text = income.amount.toCurrencyString(income.currency),
             style = MaterialTheme.typography.bodyMedium
         )
         Image(

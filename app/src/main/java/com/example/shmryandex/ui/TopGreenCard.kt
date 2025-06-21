@@ -37,7 +37,7 @@ import com.example.shmryandex.R
 fun TopGreenCard(
     title: String,
     amount: Double? = null,
-    currency: String? = null,
+    currency: String,
     avatarEmoji: String? = null,
     canNavigate: Boolean = false,
     onNavigateClick: (() -> Unit)? = null,
@@ -107,11 +107,12 @@ fun TopGreenCard(
 
             if (amount != null) {
                 Text(
-                    text = amount.toCurrencyString(),
+                    text = amount.toCurrencyString(""),
                     style = MaterialTheme.typography.bodyMedium,
                 )
                 Spacer(modifier = Modifier.width(8.dp))
             }
+
             if (currency != null) {
                 Text(
                     text = currency,

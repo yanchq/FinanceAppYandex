@@ -44,6 +44,7 @@ fun AccountScreen(viewModel: AccountViewModel = hiltViewModel()) {
             TopGreenCard(
                 title = account.name,
                 amount = uiState.value.selectedAccount!!.balance,
+                currency = account.currency,
                 canNavigate = true,
                 onNavigateClick = {},
                 avatarEmoji = "\uD83D\uDCB0"

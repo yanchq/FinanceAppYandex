@@ -1,5 +1,6 @@
 package com.example.shmryandex.presentation
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -66,6 +67,7 @@ fun MainScreen() {
         Screen.IncomesHistory.route -> Screen.IncomesHistory
         else -> Screen.Expenses
     }
+    Log.d("NavigateTest", "$currentScreenRoute")
 
     Scaffold(
         topBar = {
