@@ -40,6 +40,7 @@ import com.example.shmryandex.presentation.screens.categories.CategoriesScreen
 import com.example.shmryandex.presentation.screens.expenses.ExpensesScreen
 import com.example.shmryandex.presentation.screens.expenses.history.ExpensesHistoryScreen
 import com.example.shmryandex.presentation.screens.incomes.IncomesScreen
+import com.example.shmryandex.presentation.screens.incomes.history.IncomesHistoryScreen
 import com.example.shmryandex.presentation.screens.options.OptionsScreen
 import com.example.shmryandex.ui.theme.PrimaryGreen
 
@@ -62,6 +63,7 @@ fun MainScreen() {
         Screen.Options.route -> Screen.Options
         Screen.ExpensesHistory.route -> Screen.ExpensesHistory
         Screen.AddAccount.route -> Screen.AddAccount
+        Screen.IncomesHistory.route -> Screen.IncomesHistory
         else -> Screen.Expenses
     }
 
@@ -71,8 +73,14 @@ fun MainScreen() {
                 title = currentScreen.title,
                 icon = currentScreen.topAppBarIcon,
                 onIconClick = {
-                    if (currentScreen == Screen.Expenses) {
-                        navHostController.navigate(Screen.ExpensesHistory.route)
+                    when (currentScreen) {
+                        Screen.Expenses -> {
+                            navHostController.navigate(Screen.ExpensesHistory.route)
+                        }
+                        Screen.Incomes -> {
+                            navHostController.navigate(Screen.IncomesHistory.route)
+                        }
+                        else -> {}
                     }
                 }
             )
@@ -89,10 +97,10 @@ fun MainScreen() {
             NavigationBar {
                 navigateList.forEach { item ->
                     NavigationBarItem(
-                        selected = currentNavigationBarRoute == item.screen.route,
+                        selected = currentNavigationBarRoute == item.screen,
                         onClick = {
-                            if (currentNavigationBarRoute != item.screen.route) {
-                                navHostController.navigate(item.screen.route) {
+                            if (currentNavigationBarRoute != item.screen) {
+                                navHostController.navigate(item.screen) {
                                     launchSingleTop = true
                                     popUpTo(navHostController.graph.findStartDestination().id) {
                                         saveState = true
@@ -140,6 +148,7 @@ fun MainScreen() {
                 expensesScreenContent = { ExpensesScreen() },
                 expensesHistoryScreenContent = { ExpensesHistoryScreen() },
                 incomesScreenContent = { IncomesScreen() },
+                incomesHistoryScreenContent = { IncomesHistoryScreen() },
                 accountScreenContent = { AccountScreen() },
                 addAccountScreenContent = { AddAccountScreen() },
                 categoriesScreenContent = { CategoriesScreen() },

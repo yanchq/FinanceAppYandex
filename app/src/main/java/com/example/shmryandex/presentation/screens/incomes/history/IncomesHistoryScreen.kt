@@ -1,4 +1,4 @@
-package com.example.shmryandex.presentation.screens.expenses
+package com.example.shmryandex.presentation.screens.incomes.history
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -16,7 +16,6 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
@@ -24,17 +23,18 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.shmryandex.R
-import com.example.shmryandex.domain.entity.Expense
+import com.example.shmryandex.domain.entity.Income
 import com.example.shmryandex.ui.toCurrencyString
 import com.example.shmryandex.ui.theme.DividerGrey
 import com.example.shmryandex.ui.theme.SecondaryGreen
 
 
 @Composable
-fun ExpensesScreen(viewModel: ExpensesViewModel = hiltViewModel()) {
+fun IncomesHistoryScreen(viewModel: IncomesHistoryViewModel = hiltViewModel()) {
 
-    val uiState = viewModel.uiState.collectAsState()
+    val uiState = viewModel.uiState.collectAsStateWithLifecycle()
 
     Column {
         Row(
@@ -66,9 +66,9 @@ fun ExpensesScreen(viewModel: ExpensesViewModel = hiltViewModel()) {
         }
 
         LazyColumn {
-            items(uiState.value.expenses) { expense ->
-                ExpenseCard(
-                    expense
+            items(uiState.value.incomes) { income ->
+                IncomeCard(
+                    income
                 )
             }
         }
@@ -76,7 +76,7 @@ fun ExpensesScreen(viewModel: ExpensesViewModel = hiltViewModel()) {
 }
 
 @Composable
-private fun ExpenseCard(expense: Expense) {
+private fun IncomeCard(income: Income) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(16.dp),
@@ -102,7 +102,7 @@ private fun ExpenseCard(expense: Expense) {
         ) {
             Text(
                 modifier = Modifier.align(Alignment.Center),
-                text = expense.category.emoji
+                text = income.category.emoji
             )
         }
 
@@ -112,14 +112,14 @@ private fun ExpenseCard(expense: Expense) {
             Text(
                 modifier = Modifier
                     .fillMaxWidth(),
-                text = expense.category.name,
+                text = income.category.name,
                 style = MaterialTheme.typography.bodyMedium
             )
-            if (expense.comment != "") {
+            if (income.comment != "") {
                 Text(
                     modifier = Modifier
                         .fillMaxWidth(),
-                    text = expense.comment,
+                    text = income.comment,
                     style = MaterialTheme.typography.bodySmall
                 )
             }
@@ -127,7 +127,7 @@ private fun ExpenseCard(expense: Expense) {
         }
 
         Text(
-            text = expense.amount.toCurrencyString(),
+            text = income.amount.toCurrencyString(),
             style = MaterialTheme.typography.bodyMedium
         )
         Image(

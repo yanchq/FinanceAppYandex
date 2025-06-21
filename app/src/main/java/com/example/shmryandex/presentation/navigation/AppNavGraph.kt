@@ -21,6 +21,7 @@ fun AppNavGraph(
     navHostController: NavHostController,
     expensesScreenContent: @Composable () -> Unit,
     incomesScreenContent: @Composable () -> Unit,
+    incomesHistoryScreenContent: @Composable () -> Unit,
     accountScreenContent: @Composable () -> Unit,
     addAccountScreenContent: @Composable () -> Unit,
     categoriesScreenContent: @Composable () -> Unit,
@@ -29,7 +30,7 @@ fun AppNavGraph(
 ) {
     NavHost(
         navController = navHostController,
-        startDestination = Screen.Expenses.route,
+        startDestination = Screen.EXPENSES_GRAPH_ROUTE,
         enterTransition = {
             EnterTransition.None
         },
@@ -38,10 +39,10 @@ fun AppNavGraph(
         }
     ) {
         navigation(
-            startDestination = "expenses_main",
-            route = Screen.Expenses.route
+            startDestination = Screen.Expenses.route,
+            route = Screen.EXPENSES_GRAPH_ROUTE
         ) {
-            composable("expenses_main") {
+            composable(Screen.Expenses.route) {
                 expensesScreenContent()
             }
             composable(Screen.ExpensesHistory.route) {
@@ -50,19 +51,22 @@ fun AppNavGraph(
         }
 
         navigation(
-            startDestination = "incomes_main",
-            route = Screen.Incomes.route
+            startDestination = Screen.Incomes.route,
+            route = Screen.INCOMES_GRAPH_ROUTE
         ) {
-            composable("incomes_main") {
+            composable(Screen.Incomes.route) {
                 incomesScreenContent()
+            }
+            composable(Screen.IncomesHistory.route) {
+                incomesHistoryScreenContent()
             }
         }
 
         navigation(
-            startDestination = "account_main",
-            route = Screen.Account.route
+            startDestination = Screen.Account.route,
+            route = Screen.ACCOUNT_GRAPH_ROUTE
         ) {
-            composable("account_main") {
+            composable(Screen.Account.route) {
                 accountScreenContent()
             }
             composable(Screen.AddAccount.route) {
@@ -71,19 +75,19 @@ fun AppNavGraph(
         }
 
         navigation(
-            startDestination = "categories_main",
-            route = Screen.Categories.route
+            startDestination = Screen.Categories.route,
+            route = Screen.CATEGORIES_GRAPH_ROUTE
         ) {
-            composable("categories_main") {
+            composable(Screen.Categories.route) {
                 categoriesScreenContent()
             }
         }
 
         navigation(
-            startDestination = "options_main",
-            route = Screen.Options.route
+            startDestination = Screen.Options.route,
+            route = Screen.OPTIONS_GRAPH_ROUTE
         ) {
-            composable("options_main") {
+            composable(Screen.Options.route) {
                 optionsScreenContent()
             }
         }

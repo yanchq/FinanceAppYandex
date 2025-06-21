@@ -4,10 +4,12 @@ import android.icu.util.Currency
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.shmryandex.data.network.Result
+import com.example.shmryandex.domain.entity.Account
 import com.example.shmryandex.domain.usecase.CreateAccountUseCase
 import com.example.shmryandex.domain.usecase.GetAccountUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -17,7 +19,6 @@ import javax.inject.Inject
 @HiltViewModel
 class AccountViewModel @Inject constructor(
     private val getAccountUseCase: GetAccountUseCase,
-    private val createAccountUseCase: CreateAccountUseCase
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(AccountUiState())
@@ -38,24 +39,7 @@ class AccountViewModel @Inject constructor(
         }
     }
 
-    private fun loadAccount() {
-        _uiState.value = uiState.value.copy(
-            accounts = getAccountUseCase()
-        )
-    }
-
-    private fun createAccount(
-        name: String,
-        balance:  String,
-        currency: String
-    ) {
-        viewModelScope.launch(Dispatchers.IO) {
-            createAccountUseCase(
-                name = name,
-                balance = balance,
-                currency = currency
-            )
-        }
-
+    fun loadAccount(): StateFlow<List<Account>> {
+        return getAccountUseCase()
     }
 }

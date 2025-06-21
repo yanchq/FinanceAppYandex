@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.shmryandex.data.network.Result
 import com.example.shmryandex.domain.entity.Expense
 import com.example.shmryandex.domain.usecase.GetExpensesListUseCase
+import com.example.shmryandex.presentation.screens.expenses.history.ExpensesHistoryUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -18,8 +19,8 @@ class ExpensesViewModel @Inject constructor(
     private val getExpensesListUseCase: GetExpensesListUseCase
 ) : ViewModel() {
 
-    private val _uiState = MutableStateFlow<ExpensesUiState>(ExpensesUiState())
-    val uiState: StateFlow<ExpensesUiState> = _uiState.asStateFlow()
+    private val _uiState = MutableStateFlow(ExpensesHistoryUiState())
+    val uiState: StateFlow<ExpensesHistoryUiState> = _uiState.asStateFlow()
 
     init {
         loadExpenses()

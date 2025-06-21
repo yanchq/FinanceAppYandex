@@ -1,11 +1,13 @@
-package com.example.shmryandex.presentation.screens.expenses.history
+package com.example.shmryandex.presentation.screens.incomes.history
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.shmryandex.data.network.Result
+import com.example.shmryandex.domain.FinanceRepository
 import com.example.shmryandex.domain.entity.Expense
-import com.example.shmryandex.domain.usecase.LoadExpensesByPeriodUseCase
+import com.example.shmryandex.domain.entity.Income
+import com.example.shmryandex.domain.usecase.LoadIncomesByPeriodUseCase
+import com.example.shmryandex.presentation.screens.expenses.history.ExpensesHistoryUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -15,19 +17,18 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class ExpensesHistoryViewModel @Inject constructor(
-    private val loadExpensesByPeriodUseCase: LoadExpensesByPeriodUseCase
-) : ViewModel() {
+class IncomesHistoryViewModel @Inject constructor(
+    private val loadIncomesByPeriodUseCase: LoadIncomesByPeriodUseCase
+): ViewModel() {
+    private val _uiState = MutableStateFlow(IncomesHistoryUiState())
+    val uiState: StateFlow<IncomesHistoryUiState> = _uiState.asStateFlow()
 
-    private val _uiState = MutableStateFlow(ExpensesHistoryUiState())
-    val uiState: StateFlow<ExpensesHistoryUiState> = _uiState.asStateFlow()
-
-    fun loadExpensesByPeriod(
+    fun loadIncomesByPeriod(
         startDate: String,
         endDate: String
     ) {
         viewModelScope.launch(Dispatchers.IO) {
-            val result = loadExpensesByPeriodUseCase(
+            val result = loadIncomesByPeriodUseCase (
                 startDate = startDate,
                 endDate = endDate
             )
@@ -36,9 +37,9 @@ class ExpensesHistoryViewModel @Inject constructor(
 
                 }
                 Result.Loading -> {}
-                is Result.Success<List<Expense>> -> {
+                is Result.Success<List<Income>> -> {
                     _uiState.value = uiState.value.copy(
-                        expenses = result.data
+                        incomes = result.data
                     )
                 }
             }
@@ -46,4 +47,3 @@ class ExpensesHistoryViewModel @Inject constructor(
 
     }
 }
-

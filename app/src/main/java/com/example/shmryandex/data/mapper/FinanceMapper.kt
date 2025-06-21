@@ -35,7 +35,7 @@ class FinanceMapper @Inject constructor() {
             category = mapCategoryDtoToDomain(category),
             amount = amount.toDouble(),
             comment = comment,
-            createdAt = transactionDate
+            createdAt = transactionDate.substring(0, 10)
         )
     }
 
@@ -45,7 +45,7 @@ class FinanceMapper @Inject constructor() {
             category = mapCategoryDtoToDomain(category),
             amount = amount.toDouble(),
             comment = comment,
-            createdAt = transactionDate
+            createdAt = transactionDate.substring(0, 10)
         )
     }
 } 

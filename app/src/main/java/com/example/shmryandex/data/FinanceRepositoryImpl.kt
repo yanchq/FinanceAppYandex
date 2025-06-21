@@ -14,7 +14,10 @@ import com.example.shmryandex.domain.entity.Income
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitAll
 import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 import javax.inject.Inject
 
 class FinanceRepositoryImpl @Inject constructor(
@@ -23,7 +26,7 @@ class FinanceRepositoryImpl @Inject constructor(
 ) : FinanceRepository {
 
     private val today = LocalDate.now().toString()
-    private var accountsList = emptyList<Account>()
+    private val accountsList = MutableStateFlow<List<Account>>(emptyList())
     private var todayTransactionsList = emptyList<TransactionDto>()
 
     override fun getExpensesList(): List<Expense> {
@@ -43,7 +46,7 @@ class FinanceRepositoryImpl @Inject constructor(
     override suspend fun loadTodayTransactions(): Result<Unit> = Result.execute {
 
         todayTransactionsList = coroutineScope {
-            accountsList.map { account ->
+            accountsList.value.map { account ->
                 async {
                     api.getTransactionsByAccountPeriod(
                         accountId = account.id,
@@ -59,13 +62,14 @@ class FinanceRepositoryImpl @Inject constructor(
         startDate: String,
         endDate: String
     ): Result<List<Expense>> = Result.execute {
+        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
         val expensesList = coroutineScope {
-            accountsList.map { account ->
+            accountsList.value.map { account ->
                 async {
                     api.getTransactionsByAccountPeriod(
                         accountId = account.id,
-                        startDate = today,
-                        endDate = today
+                        startDate = startDate,
+                        endDate = endDate
                     ).filter { !it.category.isIncome }
                         .map { dto ->
                             mapper.mapTransactionDtoToExpense(dto)
@@ -73,20 +77,24 @@ class FinanceRepositoryImpl @Inject constructor(
                 }
             }
         }.awaitAll().flatten()
-        expensesList
+        val sortedList = expensesList.sortedByDescending { expense ->
+            LocalDate.parse(expense.createdAt, formatter)
+        }
+        sortedList
     }
 
     override suspend fun loadIncomesByPeriod(
         startDate: String,
         endDate: String
     ): Result<List<Income>> = Result.execute {
+        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
         val incomeList = coroutineScope {
-            accountsList.map { account ->
+            accountsList.value.map { account ->
                 async {
                     api.getTransactionsByAccountPeriod(
                         accountId = account.id,
-                        startDate = today,
-                        endDate = today
+                        startDate = startDate,
+                        endDate = endDate
                     ).filter { it.category.isIncome }
                         .map { dto ->
                             mapper.mapTransactionDtoToIncome(dto)
@@ -94,14 +102,17 @@ class FinanceRepositoryImpl @Inject constructor(
                 }
             }
         }.awaitAll().flatten()
-        incomeList
+        val sortedList = incomeList.sortedByDescending { income ->
+            LocalDate.parse(income.createdAt, formatter)
+        }
+        sortedList
     }
 
-    override fun getAccountsList(): List<Account> = accountsList
+    override fun getAccountsList(): StateFlow<List<Account>> = accountsList
 
     override suspend fun loadAccountsList() = Result.execute {
 
-        accountsList = api.getAccountsList().map { dto ->
+        accountsList.value = api.getAccountsList().map { dto ->
             mapper.mapAccountDtoToDomain(dto)
         }
     }

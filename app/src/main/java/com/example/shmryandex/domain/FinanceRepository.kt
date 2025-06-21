@@ -5,6 +5,7 @@ import com.example.shmryandex.domain.entity.Account
 import com.example.shmryandex.domain.entity.Category
 import com.example.shmryandex.domain.entity.Expense
 import com.example.shmryandex.domain.entity.Income
+import kotlinx.coroutines.flow.StateFlow
 
 interface FinanceRepository {
 
@@ -24,7 +25,7 @@ interface FinanceRepository {
         endDate: String
     ): Result<List<Income>>
 
-    fun getAccountsList(): List<Account>
+    fun getAccountsList(): StateFlow<List<Account>>
 
     suspend fun loadAccountsList(): Result<Unit>
 

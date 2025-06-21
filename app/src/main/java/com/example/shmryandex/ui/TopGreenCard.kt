@@ -31,7 +31,6 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.shmryandex.R
-import com.example.shmryandex.presentation.toCurrencyString
 
 
 @Composable
