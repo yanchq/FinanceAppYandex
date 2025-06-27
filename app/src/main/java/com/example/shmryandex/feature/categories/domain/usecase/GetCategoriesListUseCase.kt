@@ -5,6 +5,10 @@ import com.example.shmryandex.feature.categories.domain.entity.Category
 import com.example.shmryandex.feature.categories.domain.repository.CategoriesRepository
 import javax.inject.Inject
 
+/**
+ * Use case для получения списка категорий.
+ * Возвращает Result с списком категорий в случае успеха или ошибку в случае неудачи.
+ */
 class GetCategoriesListUseCase @Inject constructor(
     private val repository: CategoriesRepository
 ) {

@@ -11,6 +11,11 @@ import kotlinx.coroutines.flow.asStateFlow
 import javax.inject.Inject
 import javax.inject.Singleton
 
+/**
+ * Класс для отслеживания состояния сетевого подключения.
+ * Использует ConnectivityManager для мониторинга доступности сети и интернета.
+ * Предоставляет StateFlow с текущим состоянием подключения.
+ */
 @Singleton
 class NetworkStateReceiver @Inject constructor(
     context: Context

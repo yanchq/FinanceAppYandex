@@ -7,6 +7,10 @@ import androidx.navigation.compose.composable
 import com.example.shmryandex.app.presentation.screen.MainScreen
 import com.example.shmryandex.feature.splash.screen.SplashScreen
 
+/**
+ * Корневой навигационный граф приложения.
+ * Определяет навигацию между сплеш-скрином и основным экраном.
+ */
 @Composable
 fun RootNavGraph(navController: NavHostController) {
     NavHost(

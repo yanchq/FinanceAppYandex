@@ -15,6 +15,11 @@ import com.example.shmryandex.feature.splash.contract.SplashUIEffect
 import com.example.shmryandex.feature.splash.viewmodel.SplashViewModel
 import kotlinx.coroutines.delay
 
+/**
+ * Composable-функция, представляющая сплеш-экран приложения.
+ * Отображает анимацию загрузки и обрабатывает навигацию на главный экран
+ * после завершения инициализации приложения.
+ */
 @Composable
 fun SplashScreen(
     navController: NavHostController,

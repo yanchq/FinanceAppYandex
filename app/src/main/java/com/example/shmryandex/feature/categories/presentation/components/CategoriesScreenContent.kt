@@ -37,7 +37,13 @@ import com.example.shmryandex.core.presentation.ui.theme.SecondaryGreen
 import com.example.shmryandex.feature.categories.presentation.contract.CategoriesUIEvent
 import com.example.shmryandex.feature.categories.presentation.contract.CategoriesUIState
 
-
+/**
+ * Composable функция контента экрана категорий.
+ * Отображает поле поиска и список категорий в виде карточек.
+ * Каждая карточка содержит эмодзи-иконку и название категории.
+ * @param uiState текущее состояние UI с списком категорий
+ * @param sendEvent функция для отправки событий в ViewModel
+ */
 @Composable
 fun CategoriesScreenContent(
     uiState: CategoriesUIState,

@@ -8,6 +8,11 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
+/**
+ * Dagger Hilt модуль для внедрения зависимостей репозитория доходов.
+ * Обеспечивает привязку реализации репозитория к его интерфейсу
+ * в рамках жизненного цикла синглтона.
+ */
 @Module
 @InstallIn(SingletonComponent::class)
 interface IncomesRepositoryModule {

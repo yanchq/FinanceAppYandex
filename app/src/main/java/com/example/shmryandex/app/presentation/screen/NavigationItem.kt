@@ -3,6 +3,10 @@ package com.example.shmryandex.app.presentation.screen
 import com.example.shmryandex.R
 import com.example.shmryandex.app.navigation.Screen
 
+/**
+ * Sealed класс, представляющий элементы нижней навигации.
+ * Содержит информацию о маршруте экрана, метке и иконке для каждого пункта меню.
+ */
 sealed class NavigationItem(
     val screen: String,
     val label: String,

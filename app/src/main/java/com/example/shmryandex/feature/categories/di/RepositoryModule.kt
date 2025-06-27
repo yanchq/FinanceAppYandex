@@ -8,6 +8,10 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
+/**
+ * Модуль Hilt для предоставления репозиториев модуля категорий.
+ * Связывает интерфейс репозитория категорий с его реализацией.
+ */
 @Module
 @InstallIn(SingletonComponent::class)
 interface RepositoryModule {

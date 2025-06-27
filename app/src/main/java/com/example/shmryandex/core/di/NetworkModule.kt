@@ -17,6 +17,10 @@ import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import javax.inject.Singleton
 
+/**
+ * Модуль Hilt для предоставления сетевых зависимостей.
+ * Конфигурирует и предоставляет экземпляры Retrofit, OkHttpClient, Moshi и базовые API интерфейсы.
+ */
 @Module
 @InstallIn(SingletonComponent::class)
 class NetworkModule {

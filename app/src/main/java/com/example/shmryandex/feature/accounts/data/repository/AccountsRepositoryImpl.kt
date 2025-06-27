@@ -6,6 +6,10 @@ import com.example.shmryandex.feature.accounts.data.network.api.AccountsApi
 import com.example.shmryandex.feature.accounts.domain.repository.AccountsRepository
 import javax.inject.Inject
 
+/**
+ * Реализация репозитория для работы со счетами.
+ * Обеспечивает создание новых счетов через API.
+ */
 class AccountsRepositoryImpl @Inject constructor(
     private val api: AccountsApi
 ): AccountsRepository {

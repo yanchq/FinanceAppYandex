@@ -15,6 +15,15 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+/**
+ * ViewModel для экрана истории транзакций.
+ * Управляет состоянием UI, обрабатывает события и загружает данные о транзакциях.
+ * Использует MVI архитектуру через наследование от [BaseViewModel].
+ *
+ * @property getHistoryByPeriodUseCase Use case для получения истории транзакций
+ * @property getAccountsListUseCase Use case для получения списка счетов
+ * @property isIncome Флаг, определяющий тип отображаемых транзакций (доходы/расходы)
+ */
 @HiltViewModel
 class HistoryViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle,
@@ -31,6 +40,12 @@ class HistoryViewModel @Inject constructor(
         getHistory()
     }
 
+    /**
+     * Обрабатывает события UI.
+     * При изменении дат периода обновляет состояние и перезагружает историю транзакций.
+     *
+     * @param event Событие UI для обработки
+     */
     override fun onEvent(event: HistoryUIEvent) {
         when (event) {
             is HistoryUIEvent.EndDateSelected -> {
@@ -53,6 +68,11 @@ class HistoryViewModel @Inject constructor(
         }
     }
 
+    /**
+     * Загружает историю транзакций за выбранный период.
+     * Получает список счетов и запрашивает транзакции для каждого счета.
+     * Обновляет состояние UI при успешной загрузке данных.
+     */
     private fun getHistory() {
         viewModelScope.launch(Dispatchers.IO) {
             val accounts = getAccountsListUseCase()

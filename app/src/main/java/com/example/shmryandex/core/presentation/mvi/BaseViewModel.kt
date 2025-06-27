@@ -8,6 +8,14 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 
+/**
+ * Базовый класс ViewModel для реализации MVI архитектуры.
+ * Обрабатывает события (Event), состояния (State) и эффекты (Effect).
+ * @param Event тип события пользовательского интерфейса
+ * @param State тип состояния пользовательского интерфейса
+ * @param Effect тип эффекта пользовательского интерфейса
+ * @param initialState начальное состояние ViewModel
+ */
 abstract class BaseViewModel<Event : UIEvent, State : UIState, Effect : UIEffect>
     (initialState: State): ViewModel() {
 

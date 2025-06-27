@@ -16,6 +16,13 @@ import java.util.Calendar
 import java.util.Date
 import java.util.Locale
 
+/**
+ * Composable-функция, представляющая экран истории транзакций.
+ * Отображает список транзакций за выбранный период с возможностью фильтрации и сортировки.
+ * Использует ViewModel для управления состоянием и обработки событий UI.
+ *
+ * @param viewModel ViewModel для управления данными и логикой экрана
+ */
 @Composable
 fun HistoryScreen(
     viewModel: HistoryViewModel = hiltViewModel()

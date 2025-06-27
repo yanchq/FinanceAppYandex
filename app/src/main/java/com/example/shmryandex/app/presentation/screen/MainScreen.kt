@@ -42,6 +42,11 @@ import com.example.shmryandex.feature.options.OptionsScreen
 import com.example.shmryandex.core.presentation.ui.theme.PrimaryGreen
 import com.example.shmryandex.feature.history.presentation.screen.HistoryScreen
 
+/**
+ * Основной экран приложения.
+ * Содержит нижнюю навигационную панель, верхний бар и контейнер для контента.
+ * Управляет навигацией между основными разделами приложения.
+ */
 @Composable
 fun MainScreen() {
 

@@ -7,6 +7,10 @@ import com.example.shmryandex.feature.categories.domain.entity.Category
 import com.example.shmryandex.feature.categories.domain.repository.CategoriesRepository
 import javax.inject.Inject
 
+/**
+ * Реализация репозитория для работы с категориями.
+ * Обеспечивает получение списка категорий через API с последующим маппингом в доменную модель.
+ */
 class CategoriesRepositoryImpl @Inject constructor(
     private val api: CategoriesApi,
     private val mapper: CategoriesMapper

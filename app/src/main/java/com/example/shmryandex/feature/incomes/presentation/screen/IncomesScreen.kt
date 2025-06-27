@@ -29,6 +29,11 @@ import com.example.shmryandex.feature.incomes.presentation.viewmodel.IncomesView
 import com.example.shmryandex.core.presentation.ui.theme.DividerGrey
 import com.example.shmryandex.core.presentation.ui.theme.SecondaryGreen
 
+/**
+ * Composable-функция, представляющая экран доходов.
+ * Отображает список доходов с возможностью просмотра деталей каждой транзакции
+ * и общей суммы за период.
+ */
 @Composable
 fun IncomesScreen(viewModel: IncomesViewModel = hiltViewModel()) {
 

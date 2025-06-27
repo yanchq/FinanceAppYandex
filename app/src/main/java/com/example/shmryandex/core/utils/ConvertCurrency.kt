@@ -1,6 +1,10 @@
 package com.example.shmryandex.core.utils
 
-
+/**
+ * Функция расширения для конвертации кода валюты в символ валюты.
+ * Преобразует трехбуквенный код валюты (например, RUB, USD, EUR) 
+ * в соответствующий символ валюты (₽, $, €).
+ */
 fun String.convertCurrency(): String {
     when (this) {
         "RUB" -> return "₽"

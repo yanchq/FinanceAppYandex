@@ -16,6 +16,10 @@ import com.example.shmryandex.core.presentation.ui.theme.SHMRYandexTheme
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
+/**
+ * Главная активность приложения.
+ * Инициализирует навигацию, тему и обработку сетевых событий.
+ */
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 

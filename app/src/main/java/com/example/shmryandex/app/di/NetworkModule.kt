@@ -8,6 +8,10 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
+/**
+ * Модуль Hilt для предоставления зависимостей, связанных с мониторингом сети.
+ * Связывает интерфейс NetworkRepository с его реализацией.
+ */
 @Module
 @InstallIn(SingletonComponent::class)
 interface NetworkModule {

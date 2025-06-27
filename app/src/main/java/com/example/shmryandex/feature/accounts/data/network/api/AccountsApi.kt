@@ -6,6 +6,10 @@ import retrofit2.http.DELETE
 import retrofit2.http.POST
 import retrofit2.http.Query
 
+/**
+ * Интерфейс API для управления счетами.
+ * Предоставляет методы для создания и удаления счетов через REST API.
+ */
 interface AccountsApi {
 
     @POST("accounts")

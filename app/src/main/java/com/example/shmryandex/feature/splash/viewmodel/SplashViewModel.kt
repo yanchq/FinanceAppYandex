@@ -13,6 +13,11 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+/**
+ * ViewModel для сплеш-экрана.
+ * Отвечает за загрузку начальных данных приложения и управление
+ * навигацией после успешной инициализации.
+ */
 @HiltViewModel
 class SplashViewModel @Inject constructor(
     private val loadAccountsUseCase: LoadAccountsUseCase,

@@ -3,6 +3,12 @@ package com.example.shmryandex.core.data.network.model
 import kotlinx.coroutines.delay
 import retrofit2.HttpException
 
+/**
+ * Sealed класс для обработки результатов сетевых запросов.
+ * Поддерживает три состояния: Success, Error и Loading.
+ * Включает механизм автоматического повтора запросов при получении ошибки 500.
+ * @param T тип данных, возвращаемых в случае успеха
+ */
 sealed class Result<out T> {
     data class Success<T>(val data: T) : Result<T>()
     data class Error(val exception: Exception) : Result<Nothing>()

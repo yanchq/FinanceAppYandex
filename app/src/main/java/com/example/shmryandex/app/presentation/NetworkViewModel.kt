@@ -12,6 +12,10 @@ import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+/**
+ * ViewModel для управления состоянием сетевого подключения.
+ * Отслеживает доступность сети и отправляет события для отображения уведомлений пользователю.
+ */
 @HiltViewModel
 class NetworkViewModel @Inject constructor(
     private val observeNetworkStateUseCase: ObserveNetworkStateUseCase,

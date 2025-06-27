@@ -5,6 +5,11 @@ import com.example.shmryandex.core.utils.convertCurrency
 import com.example.shmryandex.feature.incomes.domain.entity.Income
 import javax.inject.Inject
 
+/**
+ * Маппер для преобразования транзакций в доходы.
+ * Конвертирует сетевые DTO объекты транзакций в доменные модели доходов,
+ * обеспечивая корректное преобразование валют и форматирование дат.
+ */
 class IncomesMapper @Inject constructor() {
 
     fun mapTransactionDtoToIncome(dto: TransactionDto): Income = with(dto) {

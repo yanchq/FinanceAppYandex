@@ -6,6 +6,11 @@ import com.example.shmryandex.feature.incomes.domain.entity.Income
 import com.example.shmryandex.feature.incomes.domain.repository.IncomesRepository
 import javax.inject.Inject
 
+/**
+ * Use case для получения списка доходов.
+ * Принимает список счетов для фильтрации.
+ * Возвращает Result с списком доходов в случае успеха или ошибку в случае неудачи.
+ */
 class GetIncomesListUseCase @Inject constructor(
     private val repository: IncomesRepository
 ) {

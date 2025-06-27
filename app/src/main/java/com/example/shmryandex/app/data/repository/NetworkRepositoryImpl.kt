@@ -6,6 +6,10 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.StateFlow
 import javax.inject.Inject
 
+/**
+ * Реализация репозитория для мониторинга состояния сети.
+ * Управляет регистрацией и отменой регистрации NetworkStateReceiver.
+ */
 class NetworkRepositoryImpl @Inject constructor(
     private val networkStateReceiver: NetworkStateReceiver
 ) : NetworkRepository {

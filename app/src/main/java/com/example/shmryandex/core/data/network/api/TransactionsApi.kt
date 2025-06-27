@@ -5,6 +5,11 @@ import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
 
+/**
+ * Интерфейс API для работы с транзакциями.
+ * Предоставляет методы для получения списка транзакций по счету
+ * с возможностью фильтрации по временному периоду.
+ */
 interface TransactionsApi {
 
     @GET("transactions/account/{accountId}/period")

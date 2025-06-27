@@ -6,6 +6,11 @@ import com.example.shmryandex.feature.expenses.domain.entity.Expense
 import com.example.shmryandex.feature.expenses.domain.repository.ExpensesRepository
 import javax.inject.Inject
 
+/**
+ * Use case для получения списка расходов.
+ * Принимает список счетов для фильтрации.
+ * Возвращает Result с списком расходов в случае успеха или ошибку в случае неудачи.
+ */
 class GetExpensesListUseCase @Inject constructor(
     private val repository: ExpensesRepository
 ) {

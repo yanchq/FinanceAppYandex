@@ -12,6 +12,11 @@ import kotlinx.coroutines.coroutineScope
 import java.time.LocalDate
 import javax.inject.Inject
 
+/**
+ * Реализация репозитория для работы с доходами.
+ * Обеспечивает получение данных о доходах из сетевого источника с параллельной загрузкой
+ * для нескольких счетов и последующей фильтрацией транзакций по типу.
+ */
 class IncomesRepositoryImpl @Inject constructor(
     private val mapper: IncomesMapper,
     private val api: TransactionsApi

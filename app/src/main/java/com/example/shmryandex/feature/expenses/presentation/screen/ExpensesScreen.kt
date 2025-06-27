@@ -32,7 +32,11 @@ import com.example.shmryandex.feature.expenses.presentation.viewmodel.ExpensesVi
 import com.example.shmryandex.core.presentation.ui.theme.DividerGrey
 import com.example.shmryandex.core.presentation.ui.theme.SecondaryGreen
 
-
+/**
+ * Composable функция экрана расходов.
+ * Отображает список расходных операций с их суммами и категориями.
+ * Использует ExpensesViewModel для управления данными и состоянием.
+ */
 @Composable
 fun ExpensesScreen(viewModel: ExpensesViewModel = hiltViewModel()) {
 

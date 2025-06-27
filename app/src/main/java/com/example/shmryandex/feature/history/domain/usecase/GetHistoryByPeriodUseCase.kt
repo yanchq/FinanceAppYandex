@@ -6,6 +6,11 @@ import com.example.shmryandex.feature.history.domain.entity.HistoryItem
 import com.example.shmryandex.feature.history.domain.repository.HistoryRepository
 import javax.inject.Inject
 
+/**
+ * Use case для получения истории транзакций за определенный период.
+ * Принимает список счетов, начальную и конечную даты, а также флаг типа транзакции (доход/расход).
+ * Возвращает Result с списком элементов истории в случае успеха или ошибку в случае неудачи.
+ */
 class GetHistoryByPeriodUseCase @Inject constructor(
     private val repository: HistoryRepository
 ) {

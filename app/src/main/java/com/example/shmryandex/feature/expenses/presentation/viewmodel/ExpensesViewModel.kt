@@ -15,6 +15,12 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+/**
+ * ViewModel для экрана расходов.
+ * Управляет загрузкой и отображением списка расходов по всем счетам,
+ * обрабатывает пользовательские события и обновляет UI состояние.
+ */
+
 @HiltViewModel
 class ExpensesViewModel @Inject constructor(
     private val getExpensesListUseCase: GetExpensesListUseCase,

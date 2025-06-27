@@ -13,6 +13,11 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+/**
+ * ViewModel для экрана добавления нового счета.
+ * Обрабатывает логику создания счета, включая валидацию данных
+ * и отображение результатов операции пользователю.
+ */
 @HiltViewModel
 class AddAccountViewModel @Inject constructor(
     private val createAccountUseCase: CreateAccountUseCase,

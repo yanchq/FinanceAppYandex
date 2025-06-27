@@ -38,6 +38,11 @@ import com.example.shmryandex.core.presentation.ui.theme.SecondaryGreen
 import com.example.shmryandex.feature.categories.presentation.components.CategoriesScreenContent
 import com.example.shmryandex.feature.categories.presentation.viewmodel.CategoriesViewModel
 
+/**
+ * Composable функция экрана категорий.
+ * Отображает список категорий транзакций с возможностью их выбора.
+ * Использует CategoriesViewModel для управления данными и состоянием.
+ */
 @Composable
 fun CategoriesScreen(viewModel: CategoriesViewModel = hiltViewModel()) {
 

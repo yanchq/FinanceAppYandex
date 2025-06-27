@@ -11,6 +11,11 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+/**
+ * ViewModel для главного экрана счетов.
+ * Отвечает за управление списком счетов, обработку выбора счета пользователем
+ * и поддержание актуального состояния через Flow.
+ */
 @HiltViewModel
 class AccountsViewModel @Inject constructor(
     private val getAccountsFlowUseCase: GetAccountsFlowUseCase

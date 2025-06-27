@@ -5,6 +5,11 @@ import com.example.shmryandex.core.utils.convertCurrency
 import com.example.shmryandex.feature.expenses.domain.entity.Expense
 import javax.inject.Inject
 
+/**
+ * Маппер для преобразования транзакций в расходы.
+ * Конвертирует сетевые DTO объекты транзакций в доменные модели расходов,
+ * выполняя необходимые преобразования валют и форматирование данных.
+ */
 class ExpensesMapper @Inject constructor() {
 
     fun mapTransactionDtoToExpense(dto: TransactionDto): Expense = with(dto) {

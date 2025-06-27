@@ -12,6 +12,11 @@ import kotlinx.coroutines.coroutineScope
 import java.time.LocalDate
 import javax.inject.Inject
 
+/**
+ * Реализация репозитория для работы с расходами.
+ * Получает транзакции по всем счетам за текущий день,
+ * фильтрует расходные операции и преобразует их в доменную модель.
+ */
 class ExpensesRepositoryImpl @Inject constructor(
     private val mapper: ExpensesMapper,
     private val api: TransactionsApi

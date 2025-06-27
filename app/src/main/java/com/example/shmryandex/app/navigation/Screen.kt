@@ -2,6 +2,10 @@ package com.example.shmryandex.app.navigation
 
 import com.example.shmryandex.R
 
+/**
+ * Sealed класс, представляющий различные экраны приложения.
+ * Содержит информацию о маршруте, заголовке, иконке в топ-баре и наличии плавающей кнопки действия.
+ */
 sealed class Screen(
     val route: String,
     val title: String = "",

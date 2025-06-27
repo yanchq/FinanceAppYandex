@@ -37,6 +37,14 @@ import com.example.shmryandex.core.presentation.ui.theme.PrimaryGreen
 import com.example.shmryandex.feature.accounts.presentation.addaccount.contract.AddAccountUIEffect
 import kotlinx.coroutines.launch
 
+/**
+ * Composable функция контента экрана добавления счета.
+ * Отображает форму с полями ввода названия счета, баланса и выбора валюты.
+ * Включает валидацию полей и кнопку создания счета.
+ * @param uiState текущее состояние UI
+ * @param sendEvent функция для отправки событий в ViewModel
+ * @param snackbarHostState состояние для отображения уведомлений
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AddAccountScreenContent(

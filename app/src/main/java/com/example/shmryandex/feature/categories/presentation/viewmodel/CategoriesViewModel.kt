@@ -13,6 +13,11 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+/**
+ * ViewModel для экрана категорий транзакций.
+ * Управляет состоянием списка категорий, загружает данные при инициализации
+ * и обрабатывает пользовательские события.
+ */
 @HiltViewModel
 class CategoriesViewModel @Inject constructor(
     private val getCategoriesListUseCase: GetCategoriesListUseCase

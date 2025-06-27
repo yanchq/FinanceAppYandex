@@ -15,6 +15,11 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+/**
+ * ViewModel для экрана доходов.
+ * Управляет состоянием UI, обрабатывает пользовательские события
+ * и координирует загрузку данных о доходах через use cases.
+ */
 @HiltViewModel
 class IncomesViewModel @Inject constructor(
     private val getIncomesListUseCase: GetIncomesListUseCase,

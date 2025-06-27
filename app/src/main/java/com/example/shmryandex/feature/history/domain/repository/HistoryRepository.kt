@@ -4,6 +4,10 @@ import com.example.shmryandex.core.data.network.model.Result
 import com.example.shmryandex.core.domain.entity.Account
 import com.example.shmryandex.feature.history.domain.entity.HistoryItem
 
+/**
+ * Репозиторий для работы с историей транзакций.
+ * Определяет методы для получения истории транзакций за определенный период.
+ */
 interface HistoryRepository {
 
     suspend fun getHistoryByPeriod(

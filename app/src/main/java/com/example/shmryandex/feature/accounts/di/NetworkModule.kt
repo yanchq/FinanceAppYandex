@@ -8,6 +8,10 @@ import dagger.hilt.components.SingletonComponent
 import retrofit2.Retrofit
 import javax.inject.Singleton
 
+/**
+ * Модуль Hilt для предоставления сетевых зависимостей модуля счетов.
+ * Конфигурирует и предоставляет API интерфейс для работы со счетами.
+ */
 @Module
 @InstallIn(SingletonComponent::class)
 class NetworkModule {

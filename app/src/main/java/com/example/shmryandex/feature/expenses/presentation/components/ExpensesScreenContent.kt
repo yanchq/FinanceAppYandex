@@ -30,6 +30,14 @@ import com.example.shmryandex.feature.expenses.presentation.contract.ExpensesUIS
 import com.example.shmryandex.core.presentation.ui.theme.DividerGrey
 import com.example.shmryandex.core.presentation.ui.theme.SecondaryGreen
 
+/**
+ * Composable функция контента экрана расходов.
+ * Отображает общую сумму расходов и список расходных операций.
+ * Каждая операция представлена в виде карточки с эмодзи категории,
+ * названием, комментарием и суммой.
+ * @param uiState текущее состояние UI с списком расходов
+ * @param sendEvent функция для отправки событий в ViewModel
+ */
 @Composable
 fun ExpensesScreenContent(
     uiState: ExpensesUIState,

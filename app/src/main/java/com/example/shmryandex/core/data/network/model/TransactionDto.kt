@@ -4,6 +4,11 @@ import com.example.shmryandex.feature.categories.data.network.model.CategoryDto
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
+/**
+ * DTO класс для транзакции.
+ * Используется для сериализации/десериализации данных при работе с API.
+ * Содержит информацию о счете, категории, сумме и времени транзакции.
+ */
 @JsonClass(generateAdapter = true)
 data class TransactionDto(
     @Json(name = "id") val id: Long,

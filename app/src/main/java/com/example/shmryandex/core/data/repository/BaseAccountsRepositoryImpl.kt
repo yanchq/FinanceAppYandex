@@ -9,6 +9,11 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import javax.inject.Inject
 
+/**
+ * Реализация базового репозитория для работы со счетами.
+ * Обеспечивает загрузку и кэширование списка счетов,
+ * предоставляет доступ к данным через Flow для реактивного обновления UI.
+ */
 class BaseAccountsRepositoryImpl @Inject constructor(
     private val mapper: AccountMapper,
     private val accountsApi: BaseAccountsApi

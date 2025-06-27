@@ -10,6 +10,11 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
 import androidx.navigation.navArgument
 
+/**
+ * Основной навигационный граф приложения.
+ * Определяет навигацию между всеми основными экранами приложения.
+ * Поддерживает вложенную навигацию для каждого раздела.
+ */
 @Composable
 fun AppNavGraph(
     navHostController: NavHostController,

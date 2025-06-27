@@ -41,6 +41,11 @@ import com.example.shmryandex.core.presentation.ui.CurrencySelectorButton
 import com.example.shmryandex.core.presentation.ui.theme.PrimaryGreen
 import kotlinx.coroutines.launch
 
+/**
+ * Composable функция экрана добавления нового счета.
+ * Отображает форму для ввода данных счета и обрабатывает взаимодействие
+ * с пользователем, включая отображение уведомлений о результате операций.
+ */
 @Composable
 fun AddAccountScreen(viewModel: AddAccountViewModel = hiltViewModel()) {
 

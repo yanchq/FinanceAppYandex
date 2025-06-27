@@ -15,6 +15,11 @@ import com.airbnb.lottie.compose.rememberLottieComposition
 import com.example.shmryandex.feature.splash.contract.SplashUIEvent
 import com.example.shmryandex.feature.splash.contract.SplashUIState
 
+/**
+ * Composable-функция, отображающая содержимое сплеш-экрана.
+ * Воспроизводит Lottie-анимацию кошелька в центре экрана
+ * во время загрузки приложения.
+ */
 @Composable
 fun SplashScreenContent(
     uiState: SplashUIState,

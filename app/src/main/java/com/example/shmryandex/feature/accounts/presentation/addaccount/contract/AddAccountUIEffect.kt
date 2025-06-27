@@ -4,6 +4,11 @@ import androidx.compose.ui.graphics.Color
 import com.example.shmryandex.core.presentation.mvi.UIEffect
 import com.example.shmryandex.core.presentation.ui.theme.PrimaryGreen
 
+/**
+ * Sealed класс для определения UI эффектов экрана добавления счета.
+ * Включает эффекты для отображения уведомлений об успешном создании
+ * счета или возникновении ошибки.
+ */
 sealed class AddAccountUIEffect: UIEffect {
     data class ShowSuccessSnackbar(
         val message: String = "Счет успешно добавлен",
