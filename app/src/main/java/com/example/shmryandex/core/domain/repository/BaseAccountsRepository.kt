@@ -1,0 +1,12 @@
+package com.example.shmryandex.core.domain.repository
+
+import com.example.shmryandex.core.data.network.model.Result
+import com.example.shmryandex.core.domain.entity.Account
+import kotlinx.coroutines.flow.StateFlow
+
+interface BaseAccountsRepository {
+
+    suspend fun loadAccounts(): Result<List<Account>>
+    suspend fun getAccountsList(): List<Account>
+    suspend fun getAccountsFlow(): StateFlow<List<Account>>
+}
