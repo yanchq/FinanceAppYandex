@@ -13,4 +13,7 @@ interface BaseAccountsRepository {
     suspend fun loadAccounts(): Result<List<Account>>
     suspend fun getAccountsList(): List<Account>
     suspend fun getAccountsFlow(): StateFlow<List<Account>>
+    fun setSelectedAccount(account: Account)
+    suspend fun getSelectedAccountFlow(): StateFlow<Account?>
+    suspend fun getSelectedAccount(): Account?
 }

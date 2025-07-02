@@ -9,6 +9,9 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
 import androidx.navigation.navArgument
+import com.example.shmryandex.core.domain.entity.Account
+import com.google.gson.Gson
+import java.net.URLDecoder
 
 /**
  * Основной навигационный граф приложения.
@@ -23,6 +26,7 @@ fun AppNavGraph(
     incomesHistoryScreenContent: @Composable () -> Unit,
     accountScreenContent: @Composable () -> Unit,
     addAccountScreenContent: @Composable () -> Unit,
+    editAccountScreenContent: @Composable (Account) -> Unit,
     categoriesScreenContent: @Composable () -> Unit,
     optionsScreenContent: @Composable () -> Unit,
     expensesHistoryScreenContent: @Composable () -> Unit
@@ -80,6 +84,17 @@ fun AppNavGraph(
             }
             composable(Screen.AddAccount.route) {
                 addAccountScreenContent()
+            }
+            composable(
+                route = "${Screen.EditAccount.route}/{${Screen.EDIT_ACCOUNT_ARGUMENT}}",
+                arguments = listOf(
+                    navArgument(Screen.EDIT_ACCOUNT_ARGUMENT) { type = NavType.StringType }
+                )
+            ) { backStackEntry ->
+                val encoded = backStackEntry.arguments?.getString(Screen.EDIT_ACCOUNT_ARGUMENT)
+                val accountJson = URLDecoder.decode(encoded, "UTF-8")
+                val account = Gson().fromJson(accountJson, Account::class.java)
+                editAccountScreenContent(account)
             }
         }
 

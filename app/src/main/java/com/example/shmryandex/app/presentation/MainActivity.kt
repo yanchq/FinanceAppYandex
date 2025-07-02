@@ -12,6 +12,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.compose.rememberNavController
 import com.example.shmryandex.app.navigation.RootNavGraph
+import com.example.shmryandex.app.presentation.viewmodel.NetworkViewModel
 import com.example.shmryandex.core.presentation.ui.theme.SHMRYandexTheme
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch

@@ -13,4 +13,11 @@ interface AccountsRepository {
         balance: String,
         currency: String
     ): Result<Unit>
+
+    suspend fun editAccount(
+        accountId: Int,
+        name: String,
+        balance: String,
+        currency: String
+    ): Result<Unit>
 }

@@ -1,10 +1,11 @@
-package com.example.shmryandex.app.presentation
+package com.example.shmryandex.app.presentation.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.shmryandex.app.domain.usecase.ObserveNetworkStateUseCase
 import com.example.shmryandex.app.domain.usecase.StartMonitoringUseCase
 import com.example.shmryandex.app.domain.usecase.StopMonitoringUseCase
+import com.example.shmryandex.app.presentation.NetworkEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow

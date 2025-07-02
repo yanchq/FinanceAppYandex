@@ -58,9 +58,19 @@ sealed class Screen(
         ADD_ACCOUNT_ROUTE,
         ADD_ACCOUNT_TITLE
     )
+    data object EditAccount: Screen(
+        EDIT_ACCOUNT_ROUTE,
+        EDIT_ACCOUNT_TITLE,
+        null,
+        false
+    )
 
     companion object {
         const val HISTORY_ARGUMENT = "isIncome"
+        /**
+         * Аргумент для передачи Account в виде JSON-строки (StringType)
+         */
+        const val EDIT_ACCOUNT_ARGUMENT = "account"
 
         const val EXPENSES_ROUTE = "Expenses"
         const val INCOMES_ROUTE = "Incomes"
@@ -71,6 +81,7 @@ sealed class Screen(
         const val EXPENSES_HISTORY_ROUTE = "ExpensesHistory"
         const val ADD_ACCOUNT_ROUTE = "AddAccount"
         const val INCOMES_HISTORY_ROUTE = "IncomesHistory"
+        const val EDIT_ACCOUNT_ROUTE = "EditAccount"
 
         const val EXPENSES_TITLE = "Расходы сегодня"
         const val INCOMES_TITLE = "Доходы сегодня"
@@ -80,6 +91,7 @@ sealed class Screen(
         const val EXPENSES_HISTORY_TITLE = "История расходов"
         const val ADD_ACCOUNT_TITLE = "Создать счет"
         const val INCOMES_HISTORY_TITLE = "История доходов"
+        const val EDIT_ACCOUNT_TITLE = "Изменить счет"
 
         const val EXPENSES_GRAPH_ROUTE = "ExpensesGraphRoute"
         const val INCOMES_GRAPH_ROUTE = "IncomesGraphRoute"

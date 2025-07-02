@@ -1,7 +1,10 @@
 package com.example.shmryandex.feature.accounts.presentation.main.viewmodel
 
 import androidx.lifecycle.viewModelScope
+import com.example.shmryandex.core.domain.entity.Account
 import com.example.shmryandex.core.domain.usecase.GetAccountsFlowUseCase
+import com.example.shmryandex.core.domain.usecase.GetSelectedAccountFlowUseCase
+import com.example.shmryandex.core.domain.usecase.SetSelectedAccountUseCase
 import com.example.shmryandex.core.presentation.mvi.BaseViewModel
 import com.example.shmryandex.feature.accounts.presentation.main.contract.AccountsUIEffect
 import com.example.shmryandex.feature.accounts.presentation.main.contract.AccountsUIEvent
@@ -18,20 +21,21 @@ import javax.inject.Inject
  */
 @HiltViewModel
 class AccountsViewModel @Inject constructor(
-    private val getAccountsFlowUseCase: GetAccountsFlowUseCase
+    private val getAccountsFlowUseCase: GetAccountsFlowUseCase,
+    private val setSelectedAccountUseCase: SetSelectedAccountUseCase,
+    private val getSelectedAccountFlowUseCase: GetSelectedAccountFlowUseCase
 ) : BaseViewModel<AccountsUIEvent, AccountsUIState, AccountsUIEffect>
     (AccountsUIState()) {
 
     init {
         getAccounts()
+        getSelectedAccount()
     }
 
     override fun onEvent(event: AccountsUIEvent) {
         when (event) {
             is AccountsUIEvent.SelectAccount -> {
-                setState(currentState.copy(
-                    selectedAccount = event.account
-                ))
+                selectAccount(event.account)
             }
         }
     }
@@ -46,5 +50,22 @@ class AccountsViewModel @Inject constructor(
                 )
             }
         }
+    }
+
+    private fun getSelectedAccount() {
+        viewModelScope.launch(Dispatchers.IO) {
+            getSelectedAccountFlowUseCase().collect { account ->
+                setState(currentState.copy(
+                    selectedAccount = account
+                ))
+            }
+        }
+    }
+
+    private fun selectAccount(account: Account) {
+        setState(currentState.copy(
+            selectedAccount = account
+        ))
+        setSelectedAccountUseCase(account)
     }
 }
