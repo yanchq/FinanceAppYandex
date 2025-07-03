@@ -1,6 +1,5 @@
 package com.example.shmryandex.feature.accounts.presentation.editaccount.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.example.shmryandex.core.data.network.model.Result
@@ -35,8 +34,6 @@ class EditAccountViewModel @Inject constructor(
 
     init {
         val currency = currencyOptions.find { it.symbol == account.currency }
-        Log.d("EditedAccountTest", account.toString())
-        Log.d("EditedAccountTest", currency.toString())
         setState(currentState.copy(
             name = account.name,
             balance = account.balance.toString(),

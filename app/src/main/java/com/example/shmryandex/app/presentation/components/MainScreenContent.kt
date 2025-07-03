@@ -64,10 +64,10 @@ fun MainScreenContent(
         Screen.Account.route -> Screen.Account
         Screen.Categories.route -> Screen.Categories
         Screen.Options.route -> Screen.Options
-        Screen.ExpensesHistory.route -> Screen.ExpensesHistory
+        "${Screen.ExpensesHistory.route}/{${Screen.HISTORY_ARGUMENT}}" -> Screen.ExpensesHistory
         Screen.AddAccount.route -> Screen.AddAccount
-        Screen.IncomesHistory.route -> Screen.IncomesHistory
-        Screen.EditAccount.route -> Screen.EditAccount
+        "${Screen.IncomesHistory.route}/{${Screen.HISTORY_ARGUMENT}}" -> Screen.IncomesHistory
+        "${Screen.EditAccount.route}/{${Screen.EDIT_ACCOUNT_ARGUMENT}}" -> Screen.EditAccount
         else -> Screen.Expenses
     }
 

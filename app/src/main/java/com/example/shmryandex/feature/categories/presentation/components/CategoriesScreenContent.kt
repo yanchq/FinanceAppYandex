@@ -51,6 +51,10 @@ fun CategoriesScreenContent(
 ) {
     var query by remember { mutableStateOf("") }
 
+    val filteredCategories = uiState.categories.filter { category ->
+        category.name.contains(query, ignoreCase = true)
+    }
+
     Column {
         Search(
             query = query,
@@ -58,7 +62,7 @@ fun CategoriesScreenContent(
         )
 
         LazyColumn {
-            items(uiState.categories) { category ->
+            items(filteredCategories) { category ->
                 CategoryCard(
                     emoji = category.emoji,
                     name = category.name

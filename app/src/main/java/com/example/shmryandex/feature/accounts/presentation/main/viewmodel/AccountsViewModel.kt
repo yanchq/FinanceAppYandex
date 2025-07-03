@@ -4,6 +4,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.shmryandex.core.domain.entity.Account
 import com.example.shmryandex.core.domain.usecase.GetAccountsFlowUseCase
 import com.example.shmryandex.core.domain.usecase.GetSelectedAccountFlowUseCase
+import com.example.shmryandex.core.domain.usecase.LoadAccountsUseCase
 import com.example.shmryandex.core.domain.usecase.SetSelectedAccountUseCase
 import com.example.shmryandex.core.presentation.mvi.BaseViewModel
 import com.example.shmryandex.feature.accounts.presentation.main.contract.AccountsUIEffect
@@ -23,11 +24,13 @@ import javax.inject.Inject
 class AccountsViewModel @Inject constructor(
     private val getAccountsFlowUseCase: GetAccountsFlowUseCase,
     private val setSelectedAccountUseCase: SetSelectedAccountUseCase,
-    private val getSelectedAccountFlowUseCase: GetSelectedAccountFlowUseCase
+    private val getSelectedAccountFlowUseCase: GetSelectedAccountFlowUseCase,
+    private val loadAccountsUseCase: LoadAccountsUseCase
 ) : BaseViewModel<AccountsUIEvent, AccountsUIState, AccountsUIEffect>
     (AccountsUIState()) {
 
     init {
+        loadAccounts()
         getAccounts()
         getSelectedAccount()
     }
@@ -67,5 +70,11 @@ class AccountsViewModel @Inject constructor(
             selectedAccount = account
         ))
         setSelectedAccountUseCase(account)
+    }
+
+    private fun loadAccounts() {
+        viewModelScope.launch {
+            loadAccountsUseCase()
+        }
     }
 }

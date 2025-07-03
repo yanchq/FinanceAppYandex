@@ -1,12 +1,11 @@
 package com.example.shmryandex.feature.accounts.presentation.editaccount.contract
 
 import com.example.shmryandex.core.presentation.mvi.UIEffect
-import com.example.shmryandex.feature.accounts.presentation.addaccount.contract.AddAccountUIEffect
 
 sealed class EditAccountUIEffect: UIEffect {
 
     data class ShowSuccessSnackbar(
-        val message: String = "Счет успешно добавлен",
+        val message: String = "Счет успешно изменен",
         val color: String = SUCCESS_COLOR
     ): EditAccountUIEffect()
 

@@ -29,11 +29,12 @@ class ExpensesViewModel @Inject constructor(
     (ExpensesUIState()) {
 
     override fun onEvent(event: ExpensesUIEvent) {
-
-    }
-
-    init {
-        loadExpensesList()
+        when (event) {
+            ExpensesUIEvent.LoadExpenses -> {
+                Log.d("LoadExpensesTest", "Loaded")
+                loadExpensesList()
+            }
+        }
     }
 
     private fun loadExpensesList() {
