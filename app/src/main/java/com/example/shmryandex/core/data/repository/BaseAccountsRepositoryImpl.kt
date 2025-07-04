@@ -20,21 +20,27 @@ class BaseAccountsRepositoryImpl @Inject constructor(
 ): BaseAccountsRepository {
 
     private val accounts = MutableStateFlow<List<Account>>(emptyList())
+    private var selectedAccount = MutableStateFlow<Account?>(null)
 
     override suspend fun loadAccounts(): Result<List<Account>> = Result.execute {
         accounts.value = accountsApi.getAccountsList().map { dto ->
             mapper.mapAccountDtoToDomain(dto)
         }
+        selectedAccount.value?.let { selected ->
+            selectedAccount.value = accounts.value.find { it.id == selected.id }
+        }
         accounts.value
     }
 
-    override suspend fun getAccountsList(): List<Account> {
-        return accounts.value
+    override suspend fun getAccountsList(): List<Account> = accounts.value
+
+    override suspend fun getAccountsFlow(): StateFlow<List<Account>> = accounts
+
+    override fun setSelectedAccount(account: Account) {
+        selectedAccount.value = account
     }
 
-    override suspend fun getAccountsFlow(): StateFlow<List<Account>> {
-        return accounts
-    }
+    override suspend fun getSelectedAccountFlow(): StateFlow<Account?> = selectedAccount
 
-
+    override suspend fun getSelectedAccount(): Account? = selectedAccount.value
 }

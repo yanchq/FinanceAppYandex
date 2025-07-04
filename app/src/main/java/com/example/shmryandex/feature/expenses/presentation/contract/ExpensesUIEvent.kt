@@ -8,4 +8,6 @@ import com.example.shmryandex.core.presentation.mvi.UIEvent
  * будущего расширения функциональности.
  */
 sealed class ExpensesUIEvent: UIEvent {
+
+    data object LoadExpenses : ExpensesUIEvent()
 }

@@ -16,6 +16,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.drawBehind
@@ -44,6 +45,9 @@ fun ExpensesScreenContent(
     sendEvent: (ExpensesUIEvent) -> Unit
 ) {
 
+    LaunchedEffect(Unit) {
+        sendEvent(ExpensesUIEvent.LoadExpenses)
+    }
     Column {
         Row(
             horizontalArrangement = Arrangement.SpaceBetween,

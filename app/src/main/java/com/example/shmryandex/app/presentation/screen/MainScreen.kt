@@ -20,6 +20,7 @@ import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -27,12 +28,17 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.shmryandex.R
 import com.example.shmryandex.app.navigation.AppNavGraph
 import com.example.shmryandex.app.navigation.Screen
+import com.example.shmryandex.app.presentation.components.MainScreenContent
+import com.example.shmryandex.app.presentation.contract.MainUIEffect
+import com.example.shmryandex.app.presentation.viewmodel.MainViewModel
 import com.example.shmryandex.feature.accounts.presentation.main.screen.AccountScreen
 import com.example.shmryandex.feature.accounts.presentation.addaccount.screen.AddAccountScreen
 import com.example.shmryandex.feature.categories.presentation.screen.CategoriesScreen
@@ -40,7 +46,11 @@ import com.example.shmryandex.feature.expenses.presentation.screen.ExpensesScree
 import com.example.shmryandex.feature.incomes.presentation.screen.IncomesScreen
 import com.example.shmryandex.feature.options.OptionsScreen
 import com.example.shmryandex.core.presentation.ui.theme.PrimaryGreen
+import com.example.shmryandex.feature.accounts.presentation.editaccount.screen.EditAccountScreen
 import com.example.shmryandex.feature.history.presentation.screen.HistoryScreen
+import com.google.gson.Gson
+import kotlinx.coroutines.flow.collect
+import java.net.URLEncoder
 
 /**
  * Основной экран приложения.
@@ -48,152 +58,27 @@ import com.example.shmryandex.feature.history.presentation.screen.HistoryScreen
  * Управляет навигацией между основными разделами приложения.
  */
 @Composable
-fun MainScreen() {
+fun MainScreen(viewModel: MainViewModel = hiltViewModel()) {
+
+    val uiState = viewModel.uiState.collectAsStateWithLifecycle()
 
     val navHostController = rememberNavController()
 
-    val navBackStackEntry by navHostController.currentBackStackEntryAsState()
-    val currentNavigationBarRoute =
-        navBackStackEntry?.destination?.parent?.route ?: navBackStackEntry?.destination?.route
-    val currentScreenRoute =  navBackStackEntry?.destination?.route
-
-
-    val currentScreen = when (currentScreenRoute) {
-        Screen.Expenses.route -> Screen.Expenses
-        Screen.Incomes.route -> Screen.Incomes
-        Screen.Account.route -> Screen.Account
-        Screen.Categories.route -> Screen.Categories
-        Screen.Options.route -> Screen.Options
-        Screen.ExpensesHistory.route -> Screen.ExpensesHistory
-        Screen.AddAccount.route -> Screen.AddAccount
-        Screen.IncomesHistory.route -> Screen.IncomesHistory
-        else -> Screen.Expenses
+    LaunchedEffect(Unit) {
+        viewModel.effect.collect { effect ->
+            when (effect) {
+                is MainUIEffect.NavigateToEditAccountScreen -> {
+                    navHostController.navigate(Screen.EditAccount.route)
+                }
+            }
+        }
     }
-    Log.d("NavigateTest", "$currentScreenRoute")
 
-    Scaffold(
-        topBar = {
-            CustomTopAppBar(
-                title = currentScreen.title,
-                icon = currentScreen.topAppBarIcon,
-                onIconClick = {
-                    when (currentScreen) {
-                        Screen.Expenses -> {
-                            navHostController.navigate(Screen.ExpensesHistory.route + "/false")
-                        }
-                        Screen.Incomes -> {
-                            navHostController.navigate(Screen.IncomesHistory.route + "/true")
-                        }
-                        else -> {}
-                    }
-                }
-            )
-        },
-        bottomBar = {
-            val navigateList = listOf(
-                NavigationItem.Expenses,
-                NavigationItem.Incomes,
-                NavigationItem.Account,
-                NavigationItem.Categories,
-                NavigationItem.Options
-            )
-
-            NavigationBar {
-                navigateList.forEach { item ->
-                    NavigationBarItem(
-                        selected = currentNavigationBarRoute == item.screen,
-                        onClick = {
-                            if (currentNavigationBarRoute != item.screen) {
-                                navHostController.navigate(item.screen) {
-                                    launchSingleTop = true
-                                    popUpTo(navHostController.graph.findStartDestination().id) {
-                                        saveState = false
-                                    }
-                                    restoreState = false
-                                }
-                            }
-                        },
-                        icon = {
-                            Icon(
-                                painter = painterResource(item.iconId),
-                                contentDescription = null
-                            )
-                        },
-                        label = {
-                            Text(
-                                text = item.label,
-                                fontSize = 12.sp
-                            )
-                        }
-                    )
-                }
-            }
-        },
-        floatingActionButton = {
-            if (currentScreen.hasFloatingActionButton) {
-                FloatingActionButton(
-                    onClick = {
-                        if (currentScreen == Screen.Account)
-                            navHostController.navigate(Screen.AddAccount.route)
-                    },
-                    shape = CircleShape
-                ) {
-                    Image(painter = painterResource(R.drawable.ic_plus), contentDescription = null)
-                }
-            }
-        }
-    ) { paddingValues ->
-        Box(
-            modifier = Modifier
-                .padding(paddingValues)
-        ) {
-            AppNavGraph(
-                navHostController = navHostController,
-                expensesScreenContent = { ExpensesScreen() },
-                expensesHistoryScreenContent = { HistoryScreen() },
-                incomesScreenContent = { IncomesScreen() },
-                incomesHistoryScreenContent = { HistoryScreen() },
-                accountScreenContent = { AccountScreen() },
-                addAccountScreenContent = { AddAccountScreen() },
-                categoriesScreenContent = { CategoriesScreen() },
-                optionsScreenContent = { OptionsScreen() },
-            )
-        }
+    MainScreenContent(
+        uiState = uiState.value,
+        navHostController = navHostController
+    ) { event ->
+        viewModel.onEvent(event)
     }
 }
 
-@Composable
-private fun CustomTopAppBar(
-    title: String,
-    icon: Int?,
-    onIconClick: () -> Unit = {}
-) {
-    Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .background(PrimaryGreen)
-            .windowInsetsPadding(WindowInsets.statusBars)
-            .height(64.dp)
-    ) {
-        Text(
-            modifier = Modifier
-                .fillMaxWidth()
-                .align(Alignment.Center),
-            textAlign = TextAlign.Center,
-            text = title,
-            style = MaterialTheme.typography.titleLarge
-        )
-
-        icon?.let {
-            IconButton(
-                onClick = onIconClick,
-                modifier = Modifier.align(Alignment.CenterEnd)
-            ) {
-                Image(
-                    painter = painterResource(it),
-                    contentDescription = null
-                )
-            }
-        }
-    }
-}

@@ -84,4 +84,6 @@ dependencies {
     implementation(libs.okhttp.logging)
     implementation(libs.moshi.kotlin)
     kapt(libs.moshi.codegen)
+    //Gson
+    implementation(libs.gson)
 }
