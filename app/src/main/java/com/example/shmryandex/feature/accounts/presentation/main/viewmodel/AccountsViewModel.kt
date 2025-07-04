@@ -25,12 +25,10 @@ class AccountsViewModel @Inject constructor(
     private val getAccountsFlowUseCase: GetAccountsFlowUseCase,
     private val setSelectedAccountUseCase: SetSelectedAccountUseCase,
     private val getSelectedAccountFlowUseCase: GetSelectedAccountFlowUseCase,
-    private val loadAccountsUseCase: LoadAccountsUseCase
 ) : BaseViewModel<AccountsUIEvent, AccountsUIState, AccountsUIEffect>
     (AccountsUIState()) {
 
     init {
-        loadAccounts()
         getAccounts()
         getSelectedAccount()
     }
@@ -70,11 +68,5 @@ class AccountsViewModel @Inject constructor(
             selectedAccount = account
         ))
         setSelectedAccountUseCase(account)
-    }
-
-    private fun loadAccounts() {
-        viewModelScope.launch {
-            loadAccountsUseCase()
-        }
     }
 }

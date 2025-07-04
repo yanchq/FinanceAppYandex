@@ -57,8 +57,8 @@ class AddAccountViewModel @Inject constructor(
                 }
 
                 is Result.Success<Unit> -> {
-                    setEffect(AddAccountUIEffect.ShowSuccessSnackbar())
                     loadAccountsUseCase()
+                    setEffect(AddAccountUIEffect.ShowSuccessSnackbar())
                 }
             }
         }

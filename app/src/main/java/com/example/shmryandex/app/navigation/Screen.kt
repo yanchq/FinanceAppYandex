@@ -67,10 +67,6 @@ sealed class Screen(
 
     companion object {
         const val HISTORY_ARGUMENT = "isIncome"
-        /**
-         * Аргумент для передачи Account в виде JSON-строки (StringType)
-         */
-        const val EDIT_ACCOUNT_ARGUMENT = "account"
 
         const val EXPENSES_ROUTE = "Expenses"
         const val INCOMES_ROUTE = "Incomes"

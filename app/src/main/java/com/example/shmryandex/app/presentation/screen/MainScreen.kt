@@ -68,8 +68,7 @@ fun MainScreen(viewModel: MainViewModel = hiltViewModel()) {
         viewModel.effect.collect { effect ->
             when (effect) {
                 is MainUIEffect.NavigateToEditAccountScreen -> {
-                    navHostController.navigate(Screen.EditAccount.route
-                            + "/${effect.encodedAccount}")
+                    navHostController.navigate(Screen.EditAccount.route)
                 }
             }
         }
