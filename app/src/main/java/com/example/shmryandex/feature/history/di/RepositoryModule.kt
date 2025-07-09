@@ -4,12 +4,9 @@ import com.example.shmryandex.feature.history.data.repository.HistoryRepositoryI
 import com.example.shmryandex.feature.history.domain.repository.HistoryRepository
 import dagger.Binds
 import dagger.Module
-import dagger.hilt.InstallIn
-import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
 @Module
-@InstallIn(SingletonComponent::class)
 interface RepositoryModule {
 
     @Binds

@@ -20,7 +20,6 @@ import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.shmryandex.R
 import com.example.shmryandex.feature.incomes.domain.entity.Income
 import com.example.shmryandex.core.utils.toCurrencyString
@@ -28,6 +27,7 @@ import com.example.shmryandex.feature.incomes.presentation.components.IncomesScr
 import com.example.shmryandex.feature.incomes.presentation.viewmodel.IncomesViewModel
 import com.example.shmryandex.core.presentation.ui.theme.DividerGrey
 import com.example.shmryandex.core.presentation.ui.theme.SecondaryGreen
+import com.example.shmryandex.core.utils.rememberMyViewModel
 
 /**
  * Composable-функция, представляющая экран доходов.
@@ -35,7 +35,7 @@ import com.example.shmryandex.core.presentation.ui.theme.SecondaryGreen
  * и общей суммы за период.
  */
 @Composable
-fun IncomesScreen(viewModel: IncomesViewModel = hiltViewModel()) {
+fun IncomesScreen(viewModel: IncomesViewModel = rememberMyViewModel()) {
 
     val uiState = viewModel.uiState.collectAsState()
 

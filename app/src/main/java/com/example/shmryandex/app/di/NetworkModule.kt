@@ -4,8 +4,6 @@ import com.example.shmryandex.app.data.repository.NetworkRepositoryImpl
 import com.example.shmryandex.app.domain.repository.NetworkRepository
 import dagger.Binds
 import dagger.Module
-import dagger.hilt.InstallIn
-import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
 /**
@@ -13,7 +11,6 @@ import javax.inject.Singleton
  * Связывает интерфейс NetworkRepository с его реализацией.
  */
 @Module
-@InstallIn(SingletonComponent::class)
 interface NetworkModule {
 
     @Binds

@@ -4,17 +4,14 @@ import androidx.lifecycle.viewModelScope
 import com.example.shmryandex.app.presentation.contract.MainUIEffect
 import com.example.shmryandex.app.presentation.contract.MainUIEvent
 import com.example.shmryandex.app.presentation.contract.MainUIState
-import com.example.shmryandex.core.domain.usecase.GetSelectedAccountFlowUseCase
 import com.example.shmryandex.core.domain.usecase.GetSelectedAccountUseCase
 import com.example.shmryandex.core.presentation.mvi.BaseViewModel
 import com.google.gson.Gson
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import java.net.URLEncoder
 import javax.inject.Inject
 
-@HiltViewModel
 class MainViewModel @Inject constructor(
     private val getSelectedAccountUseCase: GetSelectedAccountUseCase
 ): BaseViewModel<MainUIEvent, MainUIState, MainUIEffect>

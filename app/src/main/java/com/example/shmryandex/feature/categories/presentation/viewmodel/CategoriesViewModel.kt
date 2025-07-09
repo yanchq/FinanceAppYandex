@@ -8,7 +8,6 @@ import com.example.shmryandex.feature.categories.domain.usecase.GetCategoriesLis
 import com.example.shmryandex.feature.categories.presentation.contract.CategoriesUIEffect
 import com.example.shmryandex.feature.categories.presentation.contract.CategoriesUIEvent
 import com.example.shmryandex.feature.categories.presentation.contract.CategoriesUIState
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -18,7 +17,7 @@ import javax.inject.Inject
  * Управляет состоянием списка категорий, загружает данные при инициализации
  * и обрабатывает пользовательские события.
  */
-@HiltViewModel
+
 class CategoriesViewModel @Inject constructor(
     private val getCategoriesListUseCase: GetCategoriesListUseCase
 ): BaseViewModel<CategoriesUIEvent, CategoriesUIState, CategoriesUIEffect>

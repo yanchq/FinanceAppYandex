@@ -8,7 +8,6 @@ import com.example.shmryandex.core.presentation.mvi.BaseViewModel
 import com.example.shmryandex.feature.splash.contract.SplashUIEffect
 import com.example.shmryandex.feature.splash.contract.SplashUIEvent
 import com.example.shmryandex.feature.splash.contract.SplashUIState
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -18,7 +17,7 @@ import javax.inject.Inject
  * Отвечает за загрузку начальных данных приложения и управление
  * навигацией после успешной инициализации.
  */
-@HiltViewModel
+
 class SplashViewModel @Inject constructor(
     private val loadAccountsUseCase: LoadAccountsUseCase,
 ) : BaseViewModel<SplashUIEvent, SplashUIState, SplashUIEffect>(

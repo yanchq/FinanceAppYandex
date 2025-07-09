@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -18,10 +19,20 @@ import com.example.shmryandex.feature.history.presentation.contract.HistoryUISta
 @Composable
 fun HistoryScreenContent(
     uiState: HistoryUIState,
-    sendEvent: (HistoryUIEvent) -> Unit
+    sendEvent: (HistoryUIEvent) -> Unit,
+    isIncome: Boolean
 ) {
     var showDialog by remember { mutableStateOf(false) }
     var currentPicker by remember { mutableStateOf(DateType.START) }
+
+    LaunchedEffect(Unit) {
+        sendEvent(
+            HistoryUIEvent.StartDateSelected(
+                startDate = uiState.startDate,
+                isIncome = isIncome
+            )
+        )
+    }
 
     Column {
 
@@ -79,11 +90,21 @@ fun HistoryScreenContent(
                 onDateSelected = {
                     when (currentPicker) {
                         DateType.START -> {
-                            sendEvent(HistoryUIEvent.StartDateSelected(it!!.formatDateToString()))
+                            sendEvent(
+                                HistoryUIEvent.StartDateSelected(
+                                    startDate = it!!.formatDateToString(),
+                                    isIncome = isIncome
+                                )
+                            )
                         }
 
                         DateType.END -> {
-                            sendEvent(HistoryUIEvent.EndDateSelected(it!!.formatDateToString()))
+                            sendEvent(
+                                HistoryUIEvent.EndDateSelected(
+                                    endDate = it!!.formatDateToString(),
+                                    isIncome = isIncome
+                                )
+                            )
                         }
                     }
                 }

@@ -1,9 +1,7 @@
 package com.example.shmryandex.feature.accounts.presentation.editaccount.viewmodel
 
-import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.example.shmryandex.core.data.network.model.Result
-import com.example.shmryandex.core.domain.entity.Account
 import com.example.shmryandex.core.domain.usecase.GetSelectedAccountUseCase
 import com.example.shmryandex.core.domain.usecase.LoadAccountsUseCase
 import com.example.shmryandex.core.presentation.mvi.BaseViewModel
@@ -12,16 +10,10 @@ import com.example.shmryandex.feature.accounts.domain.usecase.EditAccountUseCase
 import com.example.shmryandex.feature.accounts.presentation.editaccount.contract.EditAccountUIEffect
 import com.example.shmryandex.feature.accounts.presentation.editaccount.contract.EditAccountUIEvent
 import com.example.shmryandex.feature.accounts.presentation.editaccount.contract.EditAccountUIState
-import com.google.gson.Gson
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
-import java.lang.RuntimeException
-import java.net.URLDecoder
 import javax.inject.Inject
 
-@HiltViewModel
 class EditAccountViewModel @Inject constructor(
     private val editAccountUseCase: EditAccountUseCase,
     private val loadAccountsUseCase: LoadAccountsUseCase,

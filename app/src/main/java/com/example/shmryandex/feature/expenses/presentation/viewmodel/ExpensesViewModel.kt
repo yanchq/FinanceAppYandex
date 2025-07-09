@@ -10,7 +10,6 @@ import com.example.shmryandex.feature.expenses.domain.usecase.GetExpensesListUse
 import com.example.shmryandex.feature.expenses.presentation.contract.ExpensesUIEffect
 import com.example.shmryandex.feature.expenses.presentation.contract.ExpensesUIEvent
 import com.example.shmryandex.feature.expenses.presentation.contract.ExpensesUIState
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -21,7 +20,7 @@ import javax.inject.Inject
  * обрабатывает пользовательские события и обновляет UI состояние.
  */
 
-@HiltViewModel
+
 class ExpensesViewModel @Inject constructor(
     private val getExpensesListUseCase: GetExpensesListUseCase,
     private val getAccountsListUseCase: GetAccountsListUseCase

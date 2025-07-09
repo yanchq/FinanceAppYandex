@@ -10,7 +10,6 @@ import com.example.shmryandex.feature.incomes.domain.usecase.GetIncomesListUseCa
 import com.example.shmryandex.feature.incomes.presentation.contract.IncomesUIEffect
 import com.example.shmryandex.feature.incomes.presentation.contract.IncomesUIEvent
 import com.example.shmryandex.feature.incomes.presentation.contract.IncomesUIState
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -20,7 +19,7 @@ import javax.inject.Inject
  * Управляет состоянием UI, обрабатывает пользовательские события
  * и координирует загрузку данных о доходах через use cases.
  */
-@HiltViewModel
+
 class IncomesViewModel @Inject constructor(
     private val getIncomesListUseCase: GetIncomesListUseCase,
     private val getAccountsListUseCase: GetAccountsListUseCase

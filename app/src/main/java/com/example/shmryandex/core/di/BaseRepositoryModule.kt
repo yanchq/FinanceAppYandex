@@ -4,8 +4,6 @@ import com.example.shmryandex.core.data.repository.BaseAccountsRepositoryImpl
 import com.example.shmryandex.core.domain.repository.BaseAccountsRepository
 import dagger.Binds
 import dagger.Module
-import dagger.hilt.InstallIn
-import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
 /**
@@ -13,7 +11,6 @@ import javax.inject.Singleton
  * Связывает интерфейсы репозиториев с их реализациями.
  */
 @Module
-@InstallIn(SingletonComponent::class)
 interface BaseRepositoryModule {
 
     @Binds

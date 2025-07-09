@@ -4,13 +4,11 @@ import androidx.lifecycle.viewModelScope
 import com.example.shmryandex.core.domain.entity.Account
 import com.example.shmryandex.core.domain.usecase.GetAccountsFlowUseCase
 import com.example.shmryandex.core.domain.usecase.GetSelectedAccountFlowUseCase
-import com.example.shmryandex.core.domain.usecase.LoadAccountsUseCase
 import com.example.shmryandex.core.domain.usecase.SetSelectedAccountUseCase
 import com.example.shmryandex.core.presentation.mvi.BaseViewModel
 import com.example.shmryandex.feature.accounts.presentation.main.contract.AccountsUIEffect
 import com.example.shmryandex.feature.accounts.presentation.main.contract.AccountsUIEvent
 import com.example.shmryandex.feature.accounts.presentation.main.contract.AccountsUIState
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -20,7 +18,6 @@ import javax.inject.Inject
  * Отвечает за управление списком счетов, обработку выбора счета пользователем
  * и поддержание актуального состояния через Flow.
  */
-@HiltViewModel
 class AccountsViewModel @Inject constructor(
     private val getAccountsFlowUseCase: GetAccountsFlowUseCase,
     private val setSelectedAccountUseCase: SetSelectedAccountUseCase,

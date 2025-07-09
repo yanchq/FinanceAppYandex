@@ -4,8 +4,6 @@ import com.example.shmryandex.feature.incomes.data.repository.IncomesRepositoryI
 import com.example.shmryandex.feature.incomes.domain.repository.IncomesRepository
 import dagger.Binds
 import dagger.Module
-import dagger.hilt.InstallIn
-import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
 /**
@@ -14,7 +12,6 @@ import javax.inject.Singleton
  * в рамках жизненного цикла синглтона.
  */
 @Module
-@InstallIn(SingletonComponent::class)
 interface IncomesRepositoryModule {
 
     @Binds

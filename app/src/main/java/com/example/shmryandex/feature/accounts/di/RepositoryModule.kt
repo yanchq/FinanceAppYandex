@@ -4,8 +4,6 @@ import com.example.shmryandex.feature.accounts.data.repository.AccountsRepositor
 import com.example.shmryandex.feature.accounts.domain.repository.AccountsRepository
 import dagger.Binds
 import dagger.Module
-import dagger.hilt.InstallIn
-import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
 /**
@@ -13,7 +11,6 @@ import javax.inject.Singleton
  * Связывает интерфейс репозитория счетов с его реализацией.
  */
 @Module
-@InstallIn(SingletonComponent::class)
 interface RepositoryModule {
 
     @Binds

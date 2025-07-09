@@ -153,9 +153,9 @@ fun MainScreenContent(
             AppNavGraph(
                 navHostController = navHostController,
                 expensesScreenContent = { ExpensesScreen() },
-                expensesHistoryScreenContent = { HistoryScreen() },
+                expensesHistoryScreenContent = { HistoryScreen(it) },
                 incomesScreenContent = { IncomesScreen() },
-                incomesHistoryScreenContent = { HistoryScreen() },
+                incomesHistoryScreenContent = { HistoryScreen(it) },
                 accountScreenContent = { AccountScreen() },
                 addAccountScreenContent = { AddAccountScreen() },
                 categoriesScreenContent = { CategoriesScreen() },

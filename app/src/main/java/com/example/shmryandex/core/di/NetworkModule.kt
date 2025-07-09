@@ -6,11 +6,8 @@ import com.example.shmryandex.core.data.network.interceptor.BaseInterceptor
 import com.example.shmryandex.core.data.network.interceptor.BaseInterceptorImpl
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
-import dagger.Binds
 import dagger.Module
 import dagger.Provides
-import dagger.hilt.InstallIn
-import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -22,7 +19,6 @@ import javax.inject.Singleton
  * Конфигурирует и предоставляет экземпляры Retrofit, OkHttpClient, Moshi и базовые API интерфейсы.
  */
 @Module
-@InstallIn(SingletonComponent::class)
 class NetworkModule {
 
     @Provides

@@ -4,8 +4,6 @@ import com.example.shmryandex.feature.expenses.data.repository.ExpensesRepositor
 import com.example.shmryandex.feature.expenses.domain.repository.ExpensesRepository
 import dagger.Binds
 import dagger.Module
-import dagger.hilt.InstallIn
-import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
 /**
@@ -13,7 +11,6 @@ import javax.inject.Singleton
  * Связывает интерфейс репозитория расходов с его реализацией.
  */
 @Module
-@InstallIn(SingletonComponent::class)
 interface ExpensesRepositoryModule {
 
     @Binds

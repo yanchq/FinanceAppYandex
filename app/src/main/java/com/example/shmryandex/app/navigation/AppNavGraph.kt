@@ -23,13 +23,13 @@ fun AppNavGraph(
     navHostController: NavHostController,
     expensesScreenContent: @Composable () -> Unit,
     incomesScreenContent: @Composable () -> Unit,
-    incomesHistoryScreenContent: @Composable () -> Unit,
+    incomesHistoryScreenContent: @Composable (Boolean) -> Unit,
     accountScreenContent: @Composable () -> Unit,
     addAccountScreenContent: @Composable () -> Unit,
     editAccountScreenContent: @Composable () -> Unit,
     categoriesScreenContent: @Composable () -> Unit,
     optionsScreenContent: @Composable () -> Unit,
-    expensesHistoryScreenContent: @Composable () -> Unit
+    expensesHistoryScreenContent: @Composable (Boolean) -> Unit
 ) {
     NavHost(
         navController = navHostController,
@@ -53,8 +53,10 @@ fun AppNavGraph(
                 arguments = listOf(
                     navArgument(Screen.HISTORY_ARGUMENT) { type = NavType.BoolType }
                 )
-            ) {
-                expensesHistoryScreenContent()
+            ) { backStackEntry ->
+
+                val isIncome = backStackEntry.arguments?.getBoolean("isIncome") ?: false
+                expensesHistoryScreenContent(isIncome)
             }
         }
 
@@ -70,8 +72,10 @@ fun AppNavGraph(
                 arguments = listOf(
                     navArgument(Screen.HISTORY_ARGUMENT) { type = NavType.BoolType }
                 )
-            ) {
-                incomesHistoryScreenContent()
+            ) { backStackEntry ->
+
+                val isIncome = backStackEntry.arguments?.getBoolean("isIncome") ?: false
+                incomesHistoryScreenContent(isIncome)
             }
         }
 

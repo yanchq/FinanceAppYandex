@@ -13,7 +13,8 @@ sealed class HistoryUIEvent: UIEvent {
      * @property startDate Выбранная начальная дата в формате YYYY-MM-DD
      */
     data class StartDateSelected(
-        val startDate: String
+        val startDate: String,
+        val isIncome: Boolean
     ): HistoryUIEvent()
 
     /**
@@ -21,6 +22,7 @@ sealed class HistoryUIEvent: UIEvent {
      * @property endDate Выбранная конечная дата в формате YYYY-MM-DD
      */
     data class EndDateSelected(
-        val endDate: String
+        val endDate: String,
+        val isIncome: Boolean
     ): HistoryUIEvent()
 }

@@ -8,7 +8,6 @@ import com.example.shmryandex.feature.accounts.domain.usecase.CreateAccountUseCa
 import com.example.shmryandex.feature.accounts.presentation.addaccount.contract.AddAccountUIEffect
 import com.example.shmryandex.feature.accounts.presentation.addaccount.contract.AddAccountUIEvent
 import com.example.shmryandex.feature.accounts.presentation.addaccount.contract.AddAccountUIState
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -18,7 +17,7 @@ import javax.inject.Inject
  * Обрабатывает логику создания счета, включая валидацию данных
  * и отображение результатов операции пользователю.
  */
-@HiltViewModel
+
 class AddAccountViewModel @Inject constructor(
     private val createAccountUseCase: CreateAccountUseCase,
     private val loadAccountsUseCase: LoadAccountsUseCase

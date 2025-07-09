@@ -10,7 +10,6 @@ import com.example.shmryandex.feature.history.domain.usecase.GetHistoryByPeriodU
 import com.example.shmryandex.feature.history.presentation.contract.HistoryUIEffect
 import com.example.shmryandex.feature.history.presentation.contract.HistoryUIEvent
 import com.example.shmryandex.feature.history.presentation.contract.HistoryUIState
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -24,21 +23,12 @@ import javax.inject.Inject
  * @property getAccountsListUseCase Use case для получения списка счетов
  * @property isIncome Флаг, определяющий тип отображаемых транзакций (доходы/расходы)
  */
-@HiltViewModel
+
 class HistoryViewModel @Inject constructor(
-    savedStateHandle: SavedStateHandle,
     private val getHistoryByPeriodUseCase: GetHistoryByPeriodUseCase,
     private val getAccountsListUseCase: GetAccountsListUseCase
 ) : BaseViewModel<HistoryUIEvent, HistoryUIState, HistoryUIEffect>
     (HistoryUIState()) {
-
-    private val isIncome: Boolean by lazy {
-        savedStateHandle.get<Boolean>("isIncome")!!
-    }
-
-    init {
-        getHistory()
-    }
 
     /**
      * Обрабатывает события UI.
@@ -54,7 +44,7 @@ class HistoryViewModel @Inject constructor(
                         endDate = event.endDate
                     )
                 )
-                getHistory()
+                getHistory(event.isIncome)
             }
 
             is HistoryUIEvent.StartDateSelected -> {
@@ -63,7 +53,7 @@ class HistoryViewModel @Inject constructor(
                         startDate = event.startDate
                     )
                 )
-                getHistory()
+                getHistory(event.isIncome)
             }
         }
     }
@@ -73,7 +63,7 @@ class HistoryViewModel @Inject constructor(
      * Получает список счетов и запрашивает транзакции для каждого счета.
      * Обновляет состояние UI при успешной загрузке данных.
      */
-    private fun getHistory() {
+    private fun getHistory(isIncome: Boolean) {
         viewModelScope.launch(Dispatchers.IO) {
             val accounts = getAccountsListUseCase()
             when (val historyListResult = getHistoryByPeriodUseCase(
