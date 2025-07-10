@@ -5,17 +5,18 @@ import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.activity.viewModels
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.compose.rememberNavController
+import com.example.core.presentation.LocalViewModelFactory
 import com.example.shmryandex.app.navigation.RootNavGraph
-import com.example.shmryandex.app.presentation.viewmodel.NetworkViewModel
+import com.example.shmryandex.app.presentation.main.viewmodel.NetworkViewModel
 import com.example.shmryandex.appComponent
-import com.example.shmryandex.core.presentation.ui.theme.SHMRYandexTheme
+import com.example.core.utils.ui.theme.SHMRYandexTheme
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -58,7 +59,11 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             SHMRYandexTheme {
-                RootNavGraph(navController = rememberNavController())
+                CompositionLocalProvider(
+                    LocalViewModelFactory provides appComponent.viewModelFactory()
+                ) {
+                    RootNavGraph(navController = rememberNavController())
+                }
             }
         }
     }

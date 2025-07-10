@@ -1,17 +1,29 @@
 package com.example.shmryandex.app.navigation
 
+import android.util.Log
 import androidx.compose.animation.EnterTransition
 import androidx.compose.animation.ExitTransition
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.remember
+import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
+import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import com.example.shmryandex.core.domain.entity.Account
-import com.google.gson.Gson
-import java.net.URLDecoder
+import com.example.accounts.impl.di.DaggerAccountsComponent
+import com.example.accounts.impl.presentation.addaccount.screen.AddAccountScreen
+import com.example.accounts.impl.presentation.editaccount.screen.EditAccountScreen
+import com.example.accounts.impl.presentation.main.screen.AccountScreen
+import com.example.categories.impl.di.DaggerCategoriesComponent
+import com.example.core.presentation.LocalViewModelFactory
+import com.example.expenses.impl.di.DaggerExpensesComponent
+import com.example.history.impl.di.DaggerHistoryComponent
+import com.example.incomes.impl.di.DaggerIncomesComponent
+import com.example.shmryandex.appComponent
 
 /**
  * Основной навигационный граф приложения.
@@ -24,13 +36,14 @@ fun AppNavGraph(
     expensesScreenContent: @Composable () -> Unit,
     incomesScreenContent: @Composable () -> Unit,
     incomesHistoryScreenContent: @Composable (Boolean) -> Unit,
-    accountScreenContent: @Composable () -> Unit,
-    addAccountScreenContent: @Composable () -> Unit,
-    editAccountScreenContent: @Composable () -> Unit,
     categoriesScreenContent: @Composable () -> Unit,
     optionsScreenContent: @Composable () -> Unit,
     expensesHistoryScreenContent: @Composable (Boolean) -> Unit
 ) {
+
+    val context = LocalContext.current
+    val appComponent = context.appComponent
+
     NavHost(
         navController = navHostController,
         startDestination = Screen.EXPENSES_GRAPH_ROUTE,
@@ -41,12 +54,19 @@ fun AppNavGraph(
             ExitTransition.None
         }
     ) {
+
         navigation(
             startDestination = Screen.Expenses.route,
             route = Screen.EXPENSES_GRAPH_ROUTE
         ) {
+            val expensesComponent = DaggerExpensesComponent.factory().create(appComponent)
+
             composable(Screen.Expenses.route) {
-                expensesScreenContent()
+                CompositionLocalProvider(
+                    LocalViewModelFactory provides expensesComponent.viewModelFactory()
+                ) {
+                    expensesScreenContent()
+                }
             }
             composable(
                 route = "${Screen.ExpensesHistory.route}/{${Screen.HISTORY_ARGUMENT}}",
@@ -55,8 +75,16 @@ fun AppNavGraph(
                 )
             ) { backStackEntry ->
 
+                val historyComponent = remember {
+                    DaggerHistoryComponent.factory().create(appComponent)
+                }
                 val isIncome = backStackEntry.arguments?.getBoolean("isIncome") ?: false
-                expensesHistoryScreenContent(isIncome)
+
+                CompositionLocalProvider(
+                    LocalViewModelFactory provides historyComponent.viewModelFactory()
+                ) {
+                    expensesHistoryScreenContent(isIncome)
+                }
             }
         }
 
@@ -65,7 +93,14 @@ fun AppNavGraph(
             route = Screen.INCOMES_GRAPH_ROUTE
         ) {
             composable(Screen.Incomes.route) {
-                incomesScreenContent()
+                val incomesComponent = remember {
+                    DaggerIncomesComponent.factory().create(appComponent)
+                }
+                CompositionLocalProvider(
+                    LocalViewModelFactory provides incomesComponent.viewModelFactory()
+                ) {
+                    incomesScreenContent()
+                }
             }
             composable(
                 route = "${Screen.IncomesHistory.route}/{${Screen.HISTORY_ARGUMENT}}",
@@ -74,8 +109,16 @@ fun AppNavGraph(
                 )
             ) { backStackEntry ->
 
+                val historyComponent = remember {
+                    DaggerHistoryComponent.factory().create(appComponent)
+                }
                 val isIncome = backStackEntry.arguments?.getBoolean("isIncome") ?: false
-                incomesHistoryScreenContent(isIncome)
+
+                CompositionLocalProvider(
+                    LocalViewModelFactory provides historyComponent.viewModelFactory()
+                ) {
+                    incomesHistoryScreenContent(isIncome)
+                }
             }
         }
 
@@ -83,14 +126,30 @@ fun AppNavGraph(
             startDestination = Screen.Account.route,
             route = Screen.ACCOUNT_GRAPH_ROUTE
         ) {
+            val accountsComponent =
+                DaggerAccountsComponent.factory().create(appComponent)
+
             composable(Screen.Account.route) {
-                accountScreenContent()
+                Log.d("ScopesTest", "Navigate accounts")
+                CompositionLocalProvider(
+                    LocalViewModelFactory provides accountsComponent.viewModelFactory()
+                ) {
+                    AccountScreen()
+                }
             }
             composable(Screen.AddAccount.route) {
-                addAccountScreenContent()
+                CompositionLocalProvider(
+                    LocalViewModelFactory provides accountsComponent.viewModelFactory()
+                ) {
+                    AddAccountScreen()
+                }
             }
             composable(Screen.EditAccount.route) {
-                editAccountScreenContent()
+                CompositionLocalProvider(
+                    LocalViewModelFactory provides accountsComponent.viewModelFactory()
+                ) {
+                    EditAccountScreen()
+                }
             }
         }
 
@@ -99,7 +158,15 @@ fun AppNavGraph(
             route = Screen.CATEGORIES_GRAPH_ROUTE
         ) {
             composable(Screen.Categories.route) {
-                categoriesScreenContent()
+                val categoriesComponent = remember {
+                    DaggerCategoriesComponent.factory().create(appComponent)
+                }
+
+                CompositionLocalProvider(
+                    LocalViewModelFactory provides categoriesComponent.viewModelFactory()
+                ) {
+                    categoriesScreenContent()
+                }
             }
         }
 
@@ -112,4 +179,6 @@ fun AppNavGraph(
             }
         }
     }
+
+
 }

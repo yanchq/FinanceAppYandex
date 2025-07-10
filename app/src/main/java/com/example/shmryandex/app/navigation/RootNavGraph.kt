@@ -4,8 +4,8 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import com.example.shmryandex.app.presentation.screen.MainScreen
-import com.example.shmryandex.feature.splash.screen.SplashScreen
+import com.example.shmryandex.app.presentation.main.screen.MainScreen
+import com.example.shmryandex.app.presentation.splash.screen.SplashScreen
 
 /**
  * Корневой навигационный граф приложения.

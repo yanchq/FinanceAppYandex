@@ -7,10 +7,6 @@ plugins {
     kotlin("kapt")
 }
 
-val properties = Properties()
-properties.load(project.rootProject.file("local.properties").inputStream())
-val token = properties.getProperty("TOKEN") ?: ""
-
 android {
     namespace = "com.example.shmryandex"
     compileSdk = 35
@@ -23,8 +19,6 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-
-        buildConfigField("String", "TOKEN", token)
     }
 
     buildTypes {
@@ -51,6 +45,12 @@ android {
 
 dependencies {
 
+    implementation(project(":core"))
+    implementation(project(":features:accounts"))
+    implementation(project(":features:expenses"))
+    implementation(project(":features:incomes"))
+    implementation(project(":features:history"))
+    implementation(project(":features:categories"))
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
@@ -78,9 +78,9 @@ dependencies {
     //Network
     implementation(libs.retrofit.core)
     implementation(libs.retrofit.moshi)
+    implementation(libs.moshi.kotlin)
     implementation(libs.okhttp.core)
     implementation(libs.okhttp.logging)
-    implementation(libs.moshi.kotlin)
     kapt(libs.moshi.codegen)
     //Gson
     implementation(libs.gson)
