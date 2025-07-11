@@ -11,6 +11,13 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
+            <option value="$PROJECT_DIR$/core" />
+            <option value="$PROJECT_DIR$/features" />
+            <option value="$PROJECT_DIR$/features/accounts" />
+            <option value="$PROJECT_DIR$/features/categories" />
+            <option value="$PROJECT_DIR$/features/expenses" />
+            <option value="$PROJECT_DIR$/features/history" />
+            <option value="$PROJECT_DIR$/features/incomes" />
           </set>
         </option>
       </GradleProjectSettings>

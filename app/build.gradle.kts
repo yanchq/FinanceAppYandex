@@ -4,13 +4,8 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
-    alias(libs.plugins.hilt)
     kotlin("kapt")
 }
-
-val properties = Properties()
-properties.load(project.rootProject.file("local.properties").inputStream())
-val token = properties.getProperty("TOKEN") ?: ""
 
 android {
     namespace = "com.example.shmryandex"
@@ -24,8 +19,6 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-
-        buildConfigField("String", "TOKEN", token)
     }
 
     buildTypes {
@@ -52,6 +45,12 @@ android {
 
 dependencies {
 
+    implementation(project(":core"))
+    implementation(project(":features:accounts"))
+    implementation(project(":features:expenses"))
+    implementation(project(":features:incomes"))
+    implementation(project(":features:history"))
+    implementation(project(":features:categories"))
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.activity.compose)
@@ -67,10 +66,9 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
-    //Hilt
-    implementation(libs.hilt.core)
-    kapt(libs.hilt.compiler)
-    implementation(libs.hilt.navigation.compose)
+    //Dagger2
+    implementation(libs.dagger)
+    kapt(libs.dagger.compiler)
     //Navigation
     implementation(libs.navigation)
     //Lottie
@@ -80,9 +78,9 @@ dependencies {
     //Network
     implementation(libs.retrofit.core)
     implementation(libs.retrofit.moshi)
+    implementation(libs.moshi.kotlin)
     implementation(libs.okhttp.core)
     implementation(libs.okhttp.logging)
-    implementation(libs.moshi.kotlin)
     kapt(libs.moshi.codegen)
     //Gson
     implementation(libs.gson)

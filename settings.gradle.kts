@@ -21,3 +21,9 @@ dependencyResolutionManagement {
 
 rootProject.name = "SHMRYandex"
 include(":app")
+include(":core")
+include(":features:accounts")
+include(":features:expenses")
+include(":features:incomes")
+include(":features:history")
+include(":features:categories")
