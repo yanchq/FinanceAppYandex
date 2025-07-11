@@ -28,9 +28,14 @@ interface TransactionsApi {
         @Body requestBody: CreateTransactionRequestBody
     )
 
-    @PUT("transactions{id}")
+    @PUT("transactions/{id}")
     suspend fun editTransaction(
         @Path("id") transactionId: Int,
         @Body requestBody: CreateTransactionRequestBody
     )
+
+    @GET("transactions/{id}")
+    suspend fun getTransactionById(
+        @Path("id") transactionId: Int
+    ): TransactionDto
 }

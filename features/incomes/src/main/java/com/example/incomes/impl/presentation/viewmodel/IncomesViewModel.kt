@@ -26,7 +26,11 @@ class IncomesViewModel @Inject constructor(
     (IncomesUIState()) {
 
     override fun onEvent(event: IncomesUIEvent) {
-
+        when (event) {
+            IncomesUIEvent.LoadIncomes -> {
+                getIncomesList()
+            }
+        }
     }
 
     init {

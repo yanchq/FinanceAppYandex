@@ -14,11 +14,7 @@ import com.example.core.di.ViewModelFactoryScope
 import com.example.expenses.api.ExpensesDependencies
 import com.example.history.api.HistoryDependencies
 import com.example.incomes.api.IncomesDependencies
-import com.example.shmryandex.app.di.module.CategoriesDependenciesModule
 import com.example.shmryandex.app.di.module.ViewModelModule
-import com.example.shmryandex.app.di.module.ExpensesDependenciesModule
-import com.example.shmryandex.app.di.module.HistoryDependenciesModule
-import com.example.shmryandex.app.di.module.IncomesDependenciesModule
 import dagger.BindsInstance
 import dagger.Component
 import javax.inject.Singleton
@@ -33,10 +29,6 @@ import javax.inject.Singleton
         BaseRepositoryModule::class,
         ViewModelModule::class,
         ViewModelFactoryModule::class,
-        ExpensesDependenciesModule::class,
-        IncomesDependenciesModule::class,
-        HistoryDependenciesModule::class,
-        CategoriesDependenciesModule::class,
         CategoriesRepositoryModule::class,
         CategoriesNetworkModule::class,
         BaseTransactionsRepositoryModule::class

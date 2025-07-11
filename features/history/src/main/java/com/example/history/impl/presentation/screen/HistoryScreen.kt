@@ -17,6 +17,7 @@ import com.example.history.impl.presentation.viewmodel.HistoryViewModel
  */
 @Composable
 fun HistoryScreen(
+    onItemClicked: (Int) -> Unit,
     isIncome: Boolean,
     viewModel: HistoryViewModel = viewModel(factory = LocalViewModelFactory.current)
 ) {
@@ -27,6 +28,9 @@ fun HistoryScreen(
         isIncome = isIncome,
         sendEvent = { event ->
             viewModel.onEvent(event)
+        },
+        onItemClicked = {
+            onItemClicked(it)
         }
     )
 }

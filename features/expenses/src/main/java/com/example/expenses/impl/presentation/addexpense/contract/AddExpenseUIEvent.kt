@@ -8,6 +8,8 @@ sealed interface AddExpenseUIEvent: UIEvent {
 
     data object AddExpenseEvent: AddExpenseUIEvent
 
+    data class IsIncomeInit(val isIncome: Boolean): AddExpenseUIEvent
+
     data class CategoryChanged(val category: Category): AddExpenseUIEvent
 
     data class AccountsSelected(val account: Account): AddExpenseUIEvent

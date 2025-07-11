@@ -1,5 +1,6 @@
 package com.example.shmryandex.app.presentation.main.components
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -22,6 +23,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalGraphicsContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -38,6 +40,8 @@ import com.example.shmryandex.app.presentation.main.screen.NavigationItem
 import com.example.core.utils.ui.theme.PrimaryGreen
 import com.example.categories.impl.presentation.screen.CategoriesScreen
 import com.example.expenses.impl.presentation.addexpense.screen.AddExpenseScreen
+import com.example.expenses.impl.presentation.editexpense.components.EditExpenseScreenContent
+import com.example.expenses.impl.presentation.editexpense.screen.EditExpenseScreen
 import com.example.expenses.impl.presentation.main.screen.ExpensesScreen
 import com.example.history.impl.presentation.screen.HistoryScreen
 import com.example.incomes.impl.presentation.screen.IncomesScreen
@@ -53,7 +57,7 @@ fun MainScreenContent(
     val navBackStackEntry by navHostController.currentBackStackEntryAsState()
     val currentNavigationBarRoute =
         navBackStackEntry?.destination?.parent?.route ?: navBackStackEntry?.destination?.route
-    val currentScreenRoute =  navBackStackEntry?.destination?.route
+    val currentScreenRoute = navBackStackEntry?.destination?.route
 
     val currentScreen = when (currentScreenRoute) {
         Screen.Expenses.route -> Screen.Expenses
@@ -65,6 +69,10 @@ fun MainScreenContent(
         Screen.AddAccount.route -> Screen.AddAccount
         "${Screen.IncomesHistory.route}/{${Screen.HISTORY_ARGUMENT}}" -> Screen.IncomesHistory
         Screen.EditAccount.route -> Screen.EditAccount
+        "${Screen.AddExpense.route}/{${Screen.ADD_TRANSACTION_ARGUMENT}}" -> Screen.AddExpense
+        "${Screen.AddIncome.route}/{${Screen.ADD_TRANSACTION_ARGUMENT}}" -> Screen.AddIncome
+        "${Screen.EditIncome.route}/{${Screen.EDIT_TRANSACTION_ARGUMENT}}" -> Screen.EditIncome
+        "${Screen.EditExpense.route}/{${Screen.EDIT_TRANSACTION_ARGUMENT}}" -> Screen.EditExpense
         else -> Screen.Expenses
     }
 
@@ -78,12 +86,15 @@ fun MainScreenContent(
                         Screen.Expenses -> {
                             navHostController.navigate(Screen.ExpensesHistory.route + "/false")
                         }
+
                         Screen.Incomes -> {
                             navHostController.navigate(Screen.IncomesHistory.route + "/true")
                         }
+
                         Screen.Account -> {
                             sendEvent(MainUIEvent.EditAccountIconClicked)
                         }
+
                         else -> {}
                     }
                 }
@@ -137,9 +148,15 @@ fun MainScreenContent(
                             Screen.Account -> {
                                 navHostController.navigate(Screen.AddAccount.route)
                             }
+
                             Screen.Expenses -> {
-                                navHostController.navigate(Screen.AddTransaction.route)
+                                navHostController.navigate(Screen.AddExpense.route + "/false")
                             }
+
+                            Screen.Incomes -> {
+                                navHostController.navigate(Screen.AddIncome.route + "/true")
+                            }
+
                             else -> {
 
                             }
@@ -158,13 +175,36 @@ fun MainScreenContent(
         ) {
             AppNavGraph(
                 navHostController = navHostController,
-                expensesScreenContent = { ExpensesScreen() },
-                expensesHistoryScreenContent = { HistoryScreen(it) },
-                incomesScreenContent = { IncomesScreen() },
-                incomesHistoryScreenContent = { HistoryScreen(it) },
+                expensesScreenContent = {
+                    ExpensesScreen(
+                        onItemClicked = { expenseId ->
+                            navHostController.navigate(Screen.EditExpense.route + "/" + expenseId.toString())
+                        }
+                    )
+                },
+                expensesHistoryScreenContent = { HistoryScreen(
+                    isIncome =  it,
+                    onItemClicked = { expenseId ->
+                        navHostController.navigate(Screen.EditExpense.route + "/" + expenseId.toString())
+                    }
+                ) },
+                incomesScreenContent = {
+                    IncomesScreen(
+                        onItemClicked = { expenseId ->
+                            navHostController.navigate(Screen.EditIncome.route + "/" + expenseId.toString())
+                        }
+                    )
+                },
+                incomesHistoryScreenContent = { HistoryScreen(
+                    isIncome =  it,
+                    onItemClicked = { expenseId ->
+                        navHostController.navigate(Screen.EditIncome.route + "/" + expenseId.toString())
+                    }
+                ) },
                 categoriesScreenContent = { CategoriesScreen() },
                 optionsScreenContent = { OptionsScreen() },
-                addTransactionScreenContent = { AddExpenseScreen() }
+                addTransactionScreenContent = { AddExpenseScreen(it) },
+                editTransactionScreenContent = { EditExpenseScreen(it) }
             )
         }
     }

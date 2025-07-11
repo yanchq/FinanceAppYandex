@@ -2,6 +2,7 @@ package com.example.expenses.impl.presentation.main.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -23,6 +24,7 @@ import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
 import com.example.expenses.R
 import com.example.core.utils.toCurrencyString
 import com.example.expenses.impl.domain.entity.Expense
@@ -41,6 +43,7 @@ import com.example.core.utils.ui.theme.SecondaryGreen
  */
 @Composable
 fun ExpensesScreenContent(
+    onItemClicked: (Int) -> Unit,
     uiState: ExpensesUIState,
     sendEvent: (ExpensesUIEvent) -> Unit
 ) {
@@ -80,7 +83,10 @@ fun ExpensesScreenContent(
         LazyColumn {
             items(uiState.expenses) { expense ->
                 ExpenseCard(
-                    expense
+                    expense = expense,
+                    onItemClicked = {
+                        onItemClicked(expense.id.toInt())
+                    }
                 )
             }
         }
@@ -88,7 +94,10 @@ fun ExpensesScreenContent(
 }
 
 @Composable
-private fun ExpenseCard(expense: Expense) {
+private fun ExpenseCard(
+    expense: Expense,
+    onItemClicked: () -> Unit
+) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(16.dp),
@@ -105,6 +114,9 @@ private fun ExpenseCard(expense: Expense) {
                 )
             }
             .padding(horizontal = 16.dp, vertical = 8.dp)
+            .clickable {
+                onItemClicked()
+            }
 
     ) {
         Box(

@@ -39,11 +39,14 @@ fun AppNavGraph(
     categoriesScreenContent: @Composable () -> Unit,
     optionsScreenContent: @Composable () -> Unit,
     expensesHistoryScreenContent: @Composable (Boolean) -> Unit,
-    addTransactionScreenContent: @Composable () -> Unit
+    addTransactionScreenContent: @Composable (Boolean) -> Unit,
+    editTransactionScreenContent: @Composable (Int) -> Unit
 ) {
 
     val context = LocalContext.current
     val appComponent = context.appComponent
+
+    val expensesComponent = DaggerExpensesComponent.factory().create(appComponent)
 
     NavHost(
         navController = navHostController,
@@ -60,7 +63,6 @@ fun AppNavGraph(
             startDestination = Screen.Expenses.route,
             route = Screen.EXPENSES_GRAPH_ROUTE
         ) {
-            val expensesComponent = DaggerExpensesComponent.factory().create(appComponent)
 
             composable(Screen.Expenses.route) {
                 CompositionLocalProvider(
@@ -70,11 +72,36 @@ fun AppNavGraph(
                 }
             }
 
-            composable(Screen.AddTransaction.route) {
+            composable(
+                route = "${Screen.AddExpense.route}/{${Screen.ADD_TRANSACTION_ARGUMENT}}",
+                arguments = listOf(
+                    navArgument(Screen.ADD_TRANSACTION_ARGUMENT) { type = NavType.BoolType }
+                )
+            ) { backStackEntry ->
+
+                val isIncome = backStackEntry.arguments?.getBoolean("isIncome") ?: false
+
                 CompositionLocalProvider(
                     LocalViewModelFactory provides expensesComponent.viewModelFactory()
                 ) {
-                    addTransactionScreenContent()
+                    addTransactionScreenContent(isIncome)
+                }
+            }
+
+            composable(
+                route = "${Screen.EditExpense.route}/{${Screen.EDIT_TRANSACTION_ARGUMENT}}",
+                arguments = listOf(
+                    navArgument(Screen.EDIT_TRANSACTION_ARGUMENT) { type = NavType.IntType }
+                )
+            ) { backStackEntry ->
+
+                val transactionId =
+                    backStackEntry.arguments?.getInt(Screen.EDIT_TRANSACTION_ARGUMENT) ?: 0
+
+                CompositionLocalProvider(
+                    LocalViewModelFactory provides expensesComponent.viewModelFactory()
+                ) {
+                    editTransactionScreenContent(transactionId)
                 }
             }
 
@@ -102,16 +129,51 @@ fun AppNavGraph(
             startDestination = Screen.Incomes.route,
             route = Screen.INCOMES_GRAPH_ROUTE
         ) {
+
+            val incomesComponent =
+                DaggerIncomesComponent.factory().create(appComponent)
+
             composable(Screen.Incomes.route) {
-                val incomesComponent = remember {
-                    DaggerIncomesComponent.factory().create(appComponent)
-                }
                 CompositionLocalProvider(
                     LocalViewModelFactory provides incomesComponent.viewModelFactory()
                 ) {
                     incomesScreenContent()
                 }
             }
+
+            composable(
+                route = "${Screen.AddIncome.route}/{${Screen.ADD_TRANSACTION_ARGUMENT}}",
+                arguments = listOf(
+                    navArgument(Screen.ADD_TRANSACTION_ARGUMENT) { type = NavType.BoolType }
+                )
+            ) { backStackEntry ->
+
+                val isIncome = backStackEntry.arguments?.getBoolean("isIncome") ?: false
+
+                CompositionLocalProvider(
+                    LocalViewModelFactory provides expensesComponent.viewModelFactory()
+                ) {
+                    addTransactionScreenContent(isIncome)
+                }
+            }
+
+            composable(
+                route = "${Screen.EditIncome.route}/{${Screen.EDIT_TRANSACTION_ARGUMENT}}",
+                arguments = listOf(
+                    navArgument(Screen.EDIT_TRANSACTION_ARGUMENT) { type = NavType.IntType }
+                )
+            ) { backStackEntry ->
+
+                val transactionId =
+                    backStackEntry.arguments?.getInt(Screen.EDIT_TRANSACTION_ARGUMENT) ?: 0
+
+                CompositionLocalProvider(
+                    LocalViewModelFactory provides expensesComponent.viewModelFactory()
+                ) {
+                    editTransactionScreenContent(transactionId)
+                }
+            }
+
             composable(
                 route = "${Screen.IncomesHistory.route}/{${Screen.HISTORY_ARGUMENT}}",
                 arguments = listOf(

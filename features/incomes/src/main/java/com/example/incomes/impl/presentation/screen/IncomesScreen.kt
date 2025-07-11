@@ -14,12 +14,18 @@ import com.example.incomes.impl.presentation.viewmodel.IncomesViewModel
  * и общей суммы за период.
  */
 @Composable
-fun IncomesScreen(viewModel: IncomesViewModel = viewModel(factory = LocalViewModelFactory.current)) {
+fun IncomesScreen(
+    onItemClicked: (Int) -> Unit,
+    viewModel: IncomesViewModel = viewModel(factory = LocalViewModelFactory.current)
+) {
 
     val uiState = viewModel.uiState.collectAsState()
 
    IncomesScreenContent(
-       uiState.value
+       onItemClicked = {
+           onItemClicked(it)
+       },
+       uiState =  uiState.value
    ) { event ->
        viewModel.onEvent(event)
    }

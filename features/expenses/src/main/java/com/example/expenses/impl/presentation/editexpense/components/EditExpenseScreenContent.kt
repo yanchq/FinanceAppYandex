@@ -1,4 +1,4 @@
-package com.example.expenses.impl.presentation.addexpense.components
+package com.example.expenses.impl.presentation.editexpense.components
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -33,19 +33,16 @@ import com.example.core.utils.ui.CustomTimePickerDialog
 import com.example.core.utils.ui.SingleLineTextField
 import com.example.core.utils.ui.theme.PrimaryGreen
 import com.example.expenses.impl.presentation.addexpense.contract.AddExpenseUIEffect
-import com.example.expenses.impl.presentation.addexpense.contract.AddExpenseUIEvent
 import com.example.expenses.impl.presentation.addexpense.contract.AddExpenseUIState
-import java.time.Instant
-import java.time.ZoneId
-import java.time.format.DateTimeFormatter
+import com.example.expenses.impl.presentation.editexpense.contract.EditExpenseUIEvent
+import com.example.expenses.impl.presentation.editexpense.contract.EditExpenseUIState
 
 @Composable
-fun AddExpenseScreenContent(
-    uiState: AddExpenseUIState,
+fun EditExpenseScreenContent(
+    uiState: EditExpenseUIState,
     snackbarHostState: SnackbarHostState,
-    sendEvent: (AddExpenseUIEvent) -> Unit
+    sendEvent: (EditExpenseUIEvent) -> Unit
 ) {
-
     var showDialog by remember { mutableStateOf(false) }
     var showTimeDialog by remember { mutableStateOf(false) }
 
@@ -60,20 +57,20 @@ fun AddExpenseScreenContent(
             accounts = uiState.accountsList,
             selectedAccount = uiState.account,
             onAccountSelected = {
-                sendEvent(AddExpenseUIEvent.AccountsSelected(it))
+                sendEvent(EditExpenseUIEvent.AccountsSelected(it))
             }
         )
         CategoriesDropdownMenu(
             categories = uiState.categoriesList,
             selectedCategory = uiState.category,
             onAccountSelected = {
-                sendEvent(AddExpenseUIEvent.CategoryChanged(it))
+                sendEvent(EditExpenseUIEvent.CategoryChanged(it))
             }
         )
         AmountInputField(
             amount = uiState.amount,
             onAmountChange = {
-                sendEvent(AddExpenseUIEvent.AmountChanged(it))
+                sendEvent(EditExpenseUIEvent.AmountChanged(it))
             },
             label = "Сумма",
             currency = uiState.account?.currency ?: "",
@@ -95,7 +92,7 @@ fun AddExpenseScreenContent(
         SingleLineTextField(
             value = uiState.comment,
             onValueChange = {
-                sendEvent(AddExpenseUIEvent.CommentChanged(it))
+                sendEvent(EditExpenseUIEvent.CommentChanged(it))
             },
             placeholder = "Комментарий"
         )
@@ -103,7 +100,7 @@ fun AddExpenseScreenContent(
         Button(
             onClick = {
                 sendEvent(
-                    AddExpenseUIEvent.AddExpenseEvent
+                    EditExpenseUIEvent.AddExpenseEvent
                 )
             },
             shape = RoundedCornerShape(percent = 50),
@@ -118,7 +115,7 @@ fun AddExpenseScreenContent(
                 disabledContentColor = MaterialTheme.colorScheme.onSurface
             )
         ) {
-            Text(text = "Создать транзакцию")
+            Text(text = "Изменить транзакцию")
         }
 
         SnackbarHost(
@@ -142,7 +139,7 @@ fun AddExpenseScreenContent(
                 onClear = {
                 },
                 onDateSelected = { selectedDate ->
-                    sendEvent(AddExpenseUIEvent.DateChanged(selectedDate!!.formatDateToString()))
+                    sendEvent(EditExpenseUIEvent.DateChanged(selectedDate!!.formatDateToString()))
                 },
             )
         }
@@ -153,7 +150,7 @@ fun AddExpenseScreenContent(
                 onClear = {
                 },
                 onTimeSelected = { selected ->
-                    sendEvent(AddExpenseUIEvent.TimeChanged(selected.formatToString()))
+                    sendEvent(EditExpenseUIEvent.TimeChanged(selected.formatToString()))
                 }
             )
         }

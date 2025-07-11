@@ -79,6 +79,19 @@ class AddExpenseViewModel @Inject constructor(
                     )
                 )
             }
+
+            is AddExpenseUIEvent.IsIncomeInit -> {
+                viewModelScope.launch(Dispatchers.IO) {
+                    val categoriesList = getCategoriesListUseCase()
+                    val filteredCategories = categoriesList.filter { category ->
+                        category.isIncome == event.isIncome
+                    }
+                    setState(currentState.copy(
+                        categoriesList = filteredCategories,
+                        category = filteredCategories[0]
+                    ))
+                }
+            }
         }
     }
 
@@ -107,15 +120,12 @@ class AddExpenseViewModel @Inject constructor(
     }
 
     private fun loadInitialData() {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch {
             val accountsList = getAccountsListUseCase()
-            val categoriesList = getCategoriesListUseCase()
             setState(
                 currentState.copy(
                     accountsList = accountsList,
                     account = accountsList[0],
-                    categoriesList = categoriesList,
-                    category = categoriesList[0]
                 )
             )
             Log.d("AddTransactionTest", currentState.toString())

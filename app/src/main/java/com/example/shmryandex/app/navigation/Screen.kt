@@ -64,15 +64,36 @@ sealed class Screen(
         null,
         false
     )
-    data object AddTransaction: Screen(
-        ADD_TRANSACTION_ROUTE,
-        ADD_TRANSACTION_TITLE,
+    data object AddExpense: Screen(
+        ADD_EXPENSE_ROUTE,
+        ADD_EXPENSE_TITLE,
+        null,
+        false
+    )
+    data object AddIncome: Screen(
+        ADD_INCOME_ROUTE,
+        ADD_INCOME_TITLE,
+        null,
+        false
+    )
+    data object EditIncome: Screen(
+        EDIT_INCOME_ROUTE,
+        EDIT_INCOME_TITLE,
+        null,
+        false
+    )
+    data object EditExpense: Screen(
+        EDIT_EXPENSE_ROUTE,
+        EDIT_EXPENSE_TITLE,
         null,
         false
     )
 
+
     companion object {
         const val HISTORY_ARGUMENT = "isIncome"
+        const val ADD_TRANSACTION_ARGUMENT = "isIncome"
+        const val EDIT_TRANSACTION_ARGUMENT = "transaction"
 
         const val EXPENSES_ROUTE = "Expenses"
         const val INCOMES_ROUTE = "Incomes"
@@ -84,7 +105,10 @@ sealed class Screen(
         const val ADD_ACCOUNT_ROUTE = "AddAccount"
         const val INCOMES_HISTORY_ROUTE = "IncomesHistory"
         const val EDIT_ACCOUNT_ROUTE = "EditAccount"
-        const val ADD_TRANSACTION_ROUTE = "AddExpense"
+        const val ADD_EXPENSE_ROUTE = "AddExpense"
+        const val ADD_INCOME_ROUTE = "AddIncome"
+        const val EDIT_EXPENSE_ROUTE = "EditExpense"
+        const val EDIT_INCOME_ROUTE = "EditIncome"
 
         const val EXPENSES_TITLE = "Расходы сегодня"
         const val INCOMES_TITLE = "Доходы сегодня"
@@ -95,7 +119,10 @@ sealed class Screen(
         const val ADD_ACCOUNT_TITLE = "Создать счет"
         const val INCOMES_HISTORY_TITLE = "История доходов"
         const val EDIT_ACCOUNT_TITLE = "Изменить счет"
-        const val ADD_TRANSACTION_TITLE = "Добавить транзакцию"
+        const val ADD_EXPENSE_TITLE = "Добавить расход"
+        const val ADD_INCOME_TITLE = "Добавить доход"
+        const val EDIT_EXPENSE_TITLE = "Изменить расход"
+        const val EDIT_INCOME_TITLE = "Изменить доход"
 
         const val EXPENSES_GRAPH_ROUTE = "ExpensesGraphRoute"
         const val INCOMES_GRAPH_ROUTE = "IncomesGraphRoute"

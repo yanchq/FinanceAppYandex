@@ -19,6 +19,7 @@ import com.example.history.impl.presentation.contract.HistoryUIState
 
 @Composable
 fun HistoryScreenContent(
+    onItemClicked: (Int) -> Unit,
     uiState: HistoryUIState,
     sendEvent: (HistoryUIEvent) -> Unit,
     isIncome: Boolean
@@ -73,7 +74,9 @@ fun HistoryScreenContent(
                     avatarEmoji = historyItem.emoji,
                     subtitle = historyItem.comment,
                     canNavigate = true,
-                    onNavigateClick = {},
+                    onNavigateClick = {
+                        onItemClicked(historyItem.id.toInt())
+                    },
                 )
             }
         }

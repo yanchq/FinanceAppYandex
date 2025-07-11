@@ -1,17 +1,17 @@
-package com.example.expenses.impl.presentation.addexpense.contract
+package com.example.expenses.impl.presentation.editexpense.contract
 
 import com.example.core.presentation.mvi.UIEffect
 
-sealed interface AddExpenseUIEffect: UIEffect {
+sealed interface EditExpenseUIEffect: UIEffect {
     data class ShowSuccessSnackbar(
-        val message: String = "Транзакция успешно добавлена",
+        val message: String = "Транзакция успешно изменена",
         val color: String = SUCCESS_COLOR
-    ): AddExpenseUIEffect
+    ): EditExpenseUIEffect
 
     data class ShowErrorSnackbar(
         val message: String = "Произошла ошибка",
         val color: String = ERROR_COLOR
-    ): AddExpenseUIEffect
+    ): EditExpenseUIEffect
 
     companion object {
         const val ERROR_COLOR = "Error"
