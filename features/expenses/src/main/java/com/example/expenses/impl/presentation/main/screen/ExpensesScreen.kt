@@ -1,12 +1,12 @@
-package com.example.expenses.impl.presentation.screen
+package com.example.expenses.impl.presentation.main.screen
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.core.presentation.LocalViewModelFactory
 
-import com.example.expenses.impl.presentation.components.ExpensesScreenContent
-import com.example.expenses.impl.presentation.viewmodel.ExpensesViewModel
+import com.example.expenses.impl.presentation.main.components.ExpensesScreenContent
+import com.example.expenses.impl.presentation.main.viewmodel.ExpensesViewModel
 
 /**
  * Composable функция экрана расходов.

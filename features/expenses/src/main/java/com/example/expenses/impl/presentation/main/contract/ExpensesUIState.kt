@@ -1,4 +1,4 @@
-package com.example.expenses.impl.presentation.contract
+package com.example.expenses.impl.presentation.main.contract
 
 import com.example.core.presentation.mvi.UIState
 import com.example.expenses.impl.domain.entity.Expense

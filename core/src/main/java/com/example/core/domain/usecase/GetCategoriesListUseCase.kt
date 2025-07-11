@@ -1,8 +1,8 @@
-package com.example.categories.impl.domain.usecase
+package com.example.core.domain.usecase
 
 import com.example.core.data.network.model.Result
 import com.example.core.domain.entity.Category
-import com.example.categories.impl.domain.repository.CategoriesRepository
+import com.example.core.domain.repository.CategoriesRepository
 import javax.inject.Inject
 
 /**
@@ -13,7 +13,7 @@ class GetCategoriesListUseCase @Inject constructor(
     private val repository: CategoriesRepository
 ) {
 
-    suspend operator fun invoke(): Result<List<Category>> {
+    suspend operator fun invoke(): List<Category> {
         return repository.getCategoriesList()
     }
 }

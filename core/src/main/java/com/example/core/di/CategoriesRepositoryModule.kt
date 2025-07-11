@@ -1,19 +1,17 @@
-package com.example.categories.impl.di
+package com.example.core.di
 
-import com.example.categories.impl.data.repository.CategoriesRepositoryImpl
-import com.example.categories.impl.domain.repository.CategoriesRepository
+import com.example.core.data.repository.CategoriesRepositoryImpl
+import com.example.core.domain.repository.CategoriesRepository
 import dagger.Binds
 import dagger.Module
-import javax.inject.Singleton
 
 /**
  * Модуль Hilt для предоставления репозиториев модуля категорий.
  * Связывает интерфейс репозитория категорий с его реализацией.
  */
 @Module
-interface RepositoryModule {
+interface CategoriesRepositoryModule {
 
     @Binds
-    @CategoriesScope
     fun bindCategoriesRepository(impl: CategoriesRepositoryImpl): CategoriesRepository
 }

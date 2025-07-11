@@ -1,20 +1,18 @@
-package com.example.categories.impl.di
+package com.example.core.di
 
-import com.example.categories.impl.data.network.api.CategoriesApi
+import com.example.core.data.network.api.CategoriesApi
 import dagger.Module
 import dagger.Provides
 import retrofit2.Retrofit
-import javax.inject.Singleton
 
 /**
  * Модуль Hilt для предоставления сетевых зависимостей модуля категорий.
  * Конфигурирует и предоставляет API интерфейс для работы с категориями.
  */
 @Module
-class NetworkModule {
+class CategoriesNetworkModule {
 
     @Provides
-    @CategoriesScope
     fun provideCategoriesApi(
         retrofit: Retrofit
     ): CategoriesApi {

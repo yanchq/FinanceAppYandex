@@ -1,4 +1,4 @@
-package com.example.categories.impl.domain.repository
+package com.example.core.domain.repository
 
 import com.example.core.data.network.model.Result
 import com.example.core.domain.entity.Category
@@ -9,5 +9,5 @@ import com.example.core.domain.entity.Category
  */
 interface CategoriesRepository {
 
-    suspend fun getCategoriesList(): Result<List<Category>>
+    suspend fun getCategoriesList(): List<Category>
 }

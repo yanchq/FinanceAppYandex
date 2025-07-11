@@ -4,7 +4,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.core.data.network.model.Result
 import com.example.core.presentation.mvi.BaseViewModel
 import com.example.core.domain.entity.Category
-import com.example.categories.impl.domain.usecase.GetCategoriesListUseCase
+import com.example.core.domain.usecase.GetCategoriesListUseCase
 import com.example.categories.impl.presentation.contract.CategoriesUIEffect
 import com.example.categories.impl.presentation.contract.CategoriesUIEvent
 import com.example.categories.impl.presentation.contract.CategoriesUIState

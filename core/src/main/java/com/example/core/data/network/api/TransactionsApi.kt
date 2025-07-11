@@ -1,7 +1,11 @@
 package com.example.core.data.network.api
 
+import com.example.core.data.network.model.CreateTransactionRequestBody
 import com.example.core.data.network.model.TransactionDto
+import retrofit2.http.Body
 import retrofit2.http.GET
+import retrofit2.http.POST
+import retrofit2.http.PUT
 import retrofit2.http.Path
 import retrofit2.http.Query
 
@@ -18,4 +22,15 @@ interface TransactionsApi {
         @Query("startDate") startDate: String?,
         @Query("endDate") endDate: String?,
     ): List<TransactionDto>
+
+    @POST("transactions")
+    suspend fun createTransaction(
+        @Body requestBody: CreateTransactionRequestBody
+    )
+
+    @PUT("transactions{id}")
+    suspend fun editTransaction(
+        @Path("id") transactionId: Int,
+        @Body requestBody: CreateTransactionRequestBody
+    )
 }

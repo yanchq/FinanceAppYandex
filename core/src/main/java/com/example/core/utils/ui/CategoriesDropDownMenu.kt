@@ -31,18 +31,20 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
+
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.core.domain.entity.Account
+import com.example.core.domain.entity.Category
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AccountDropdownMenu(
-    accounts: List<Account>,
-    selectedAccount: Account?,
-    onAccountSelected: (Account) -> Unit,
+fun CategoriesDropdownMenu(
+    categories: List<Category>,
+    selectedCategory: Category?,
+    onAccountSelected: (Category) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     var expanded by remember { mutableStateOf(false) }
@@ -58,7 +60,7 @@ fun AccountDropdownMenu(
                 .height(70.dp)
         ) {
             TextField(
-                value = selectedAccount?.name ?: "Выберите счет",
+                value = selectedCategory?.name ?: "Выберите категорию",
                 onValueChange = {},
                 readOnly = true,
                 trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded) },
@@ -67,6 +69,8 @@ fun AccountDropdownMenu(
                     .height(70.dp)
                     .menuAnchor(),
                 colors = TextFieldDefaults.colors(
+                    focusedContainerColor = Color.White,
+                    unfocusedContainerColor = Color.White,
                     disabledTextColor = MaterialTheme.colorScheme.onSurface,
                     focusedIndicatorColor = Color.Transparent,
                     unfocusedIndicatorColor = Color.Transparent,
@@ -77,7 +81,7 @@ fun AccountDropdownMenu(
                 )
             )
             Text(
-                text = "Счет",
+                text = "Категория",
                 modifier = Modifier
                     .align(Alignment.CenterStart)
                     .padding(start = 16.dp),
@@ -104,7 +108,7 @@ fun AccountDropdownMenu(
                         .fillMaxWidth()
                         .verticalScroll(scrollState)
                 ) {
-                    accounts.forEach { account ->
+                    categories.forEach { category ->
                         DropdownMenuItem(
                             text = {
                                 Row(
@@ -119,7 +123,7 @@ fun AccountDropdownMenu(
                                         contentAlignment = Alignment.Center
                                     ) {
                                         Text(
-                                            "\uD83D\uDCB0",
+                                            category.emoji,
                                             fontSize = 20.sp,
                                         )
                                     }
@@ -127,7 +131,7 @@ fun AccountDropdownMenu(
                                     Spacer(Modifier.width(8.dp))
 
                                     Text(
-                                        text = account.name,
+                                        text = category.name,
                                         fontSize = 16.sp,
                                         maxLines = 1,
                                         overflow = TextOverflow.Ellipsis,
@@ -136,7 +140,7 @@ fun AccountDropdownMenu(
                                 }
                             },
                             onClick = {
-                                onAccountSelected(account)
+                                onAccountSelected(category)
                                 expanded = false
                             },
                             modifier = Modifier.fillMaxWidth()

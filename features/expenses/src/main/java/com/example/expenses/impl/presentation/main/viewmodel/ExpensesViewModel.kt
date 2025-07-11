@@ -1,4 +1,4 @@
-package com.example.expenses.impl.presentation.viewmodel
+package com.example.expenses.impl.presentation.main.viewmodel
 
 import android.util.Log
 import androidx.lifecycle.viewModelScope
@@ -7,9 +7,9 @@ import com.example.core.domain.usecase.GetAccountsListUseCase
 import com.example.core.presentation.mvi.BaseViewModel
 import com.example.expenses.impl.domain.entity.Expense
 import com.example.expenses.impl.domain.usecase.GetExpensesListUseCase
-import com.example.expenses.impl.presentation.contract.ExpensesUIEffect
-import com.example.expenses.impl.presentation.contract.ExpensesUIEvent
-import com.example.expenses.impl.presentation.contract.ExpensesUIState
+import com.example.expenses.impl.presentation.main.contract.ExpensesUIEffect
+import com.example.expenses.impl.presentation.main.contract.ExpensesUIEvent
+import com.example.expenses.impl.presentation.main.contract.ExpensesUIState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject

@@ -5,6 +5,9 @@ import com.example.accounts.api.AccountDependencies
 import com.example.categories.api.CategoriesDependencies
 import com.example.shmryandex.app.presentation.MainActivity
 import com.example.core.di.BaseRepositoryModule
+import com.example.core.di.BaseTransactionsRepositoryModule
+import com.example.core.di.CategoriesNetworkModule
+import com.example.core.di.CategoriesRepositoryModule
 import com.example.core.di.ViewModelFactory
 import com.example.core.di.ViewModelFactoryModule
 import com.example.core.di.ViewModelFactoryScope
@@ -33,7 +36,10 @@ import javax.inject.Singleton
         ExpensesDependenciesModule::class,
         IncomesDependenciesModule::class,
         HistoryDependenciesModule::class,
-        CategoriesDependenciesModule::class
+        CategoriesDependenciesModule::class,
+        CategoriesRepositoryModule::class,
+        CategoriesNetworkModule::class,
+        BaseTransactionsRepositoryModule::class
     ]
 )
 interface AppComponent :

@@ -64,6 +64,12 @@ sealed class Screen(
         null,
         false
     )
+    data object AddTransaction: Screen(
+        ADD_TRANSACTION_ROUTE,
+        ADD_TRANSACTION_TITLE,
+        null,
+        false
+    )
 
     companion object {
         const val HISTORY_ARGUMENT = "isIncome"
@@ -78,6 +84,7 @@ sealed class Screen(
         const val ADD_ACCOUNT_ROUTE = "AddAccount"
         const val INCOMES_HISTORY_ROUTE = "IncomesHistory"
         const val EDIT_ACCOUNT_ROUTE = "EditAccount"
+        const val ADD_TRANSACTION_ROUTE = "AddExpense"
 
         const val EXPENSES_TITLE = "Расходы сегодня"
         const val INCOMES_TITLE = "Доходы сегодня"
@@ -88,6 +95,7 @@ sealed class Screen(
         const val ADD_ACCOUNT_TITLE = "Создать счет"
         const val INCOMES_HISTORY_TITLE = "История доходов"
         const val EDIT_ACCOUNT_TITLE = "Изменить счет"
+        const val ADD_TRANSACTION_TITLE = "Добавить транзакцию"
 
         const val EXPENSES_GRAPH_ROUTE = "ExpensesGraphRoute"
         const val INCOMES_GRAPH_ROUTE = "IncomesGraphRoute"

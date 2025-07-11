@@ -1,4 +1,4 @@
-package com.example.categories.impl.data.network.api
+package com.example.core.data.network.api
 
 import com.example.core.data.network.model.CategoryDto
 import retrofit2.http.GET

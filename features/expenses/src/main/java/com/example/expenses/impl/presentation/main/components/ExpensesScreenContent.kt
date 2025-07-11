@@ -1,4 +1,4 @@
-package com.example.expenses.impl.presentation.components
+package com.example.expenses.impl.presentation.main.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -26,8 +26,8 @@ import androidx.compose.ui.unit.dp
 import com.example.expenses.R
 import com.example.core.utils.toCurrencyString
 import com.example.expenses.impl.domain.entity.Expense
-import com.example.expenses.impl.presentation.contract.ExpensesUIEvent
-import com.example.expenses.impl.presentation.contract.ExpensesUIState
+import com.example.expenses.impl.presentation.main.contract.ExpensesUIEvent
+import com.example.expenses.impl.presentation.main.contract.ExpensesUIState
 import com.example.core.utils.ui.theme.DividerGrey
 import com.example.core.utils.ui.theme.SecondaryGreen
 

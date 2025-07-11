@@ -25,39 +25,52 @@ import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.Font
-import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.core.R
 import com.example.core.utils.toCurrencyString
+import com.example.core.R
 
-
+/**
+ * Универсальная карточка приложения.
+ * Отображает информацию в виде карточки с возможностью настройки заголовка,
+ * подзаголовка, суммы, дополнительной суммы и эмодзи-аватара.
+ *
+ * @param title Основной заголовок карточки
+ * @param subtitle Подзаголовок (опционально)
+ * @param amount Числовое значение суммы (опционально)
+ * @param subAmount Дополнительная текстовая информация о сумме (опционально)
+ * @param avatarEmoji Эмодзи для аватара (опционально)
+ * @param canNavigate Флаг, указывающий возможность навигации
+ * @param onNavigateClick Callback для обработки нажатия при навигации
+ * @param isSetting Флаг, указывающий является ли карточка элементом настроек
+ */
+@JvmOverloads
 @Composable
 fun AppCard(
     title: String,
     subtitle: String? = null,
-    amount: Double,
-    currency: String,
+    amount: Double? = null,
+    stringDate: String? = null,
     subAmount: String? = null,
     avatarEmoji: String? = null,
     canNavigate: Boolean = false,
     onNavigateClick: (() -> Unit)? = null,
     isSetting: Boolean = false,
+    currency: String? = null,
 ) {
     val borderColor = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.1f)
     Card(
-        modifier = if (canNavigate && onNavigateClick != null) {
-            Modifier
-                .fillMaxWidth()
-                .height(70.dp)
-                .clickable { }
-        } else {
-            Modifier
-                .fillMaxWidth()
-                .height(70.dp)
-        },
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(70.dp)
+            .then(
+                if (onNavigateClick != null) {
+                    Modifier.clickable { onNavigateClick() }
+                } else {
+                    Modifier
+                }
+            ),
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.background
         ),
@@ -66,7 +79,7 @@ fun AppCard(
             hoveredElevation = 0.dp,
             focusedElevation = 0.dp,
             draggedElevation = 0.dp,
-            disabledElevation = 0.dp,
+            disabledElevation = 0.dp
         ),
         shape = RectangleShape
     ) {
@@ -93,14 +106,10 @@ fun AppCard(
                     modifier = Modifier
                         .size(30.dp)
                         .clip(CircleShape)
-                        .background(MaterialTheme.colorScheme.secondaryContainer),
+                        .background(MaterialTheme.colorScheme.secondary),
                     contentAlignment = Alignment.Center
                 ) {
-                    Text(
-                        text = avatarEmoji,
-                        fontSize = 19.sp,
-                        fontFamily = FontFamily(Font(R.font.roboto_regular))
-                        )
+                    Text(avatarEmoji, fontSize = 19.sp)
                 }
                 Spacer(modifier = Modifier.width(12.dp))
             }
@@ -110,16 +119,14 @@ fun AppCard(
                     text = title,
                     style = MaterialTheme.typography.bodyLarge,
                     fontSize = 16.sp,
-                    fontFamily = FontFamily(Font(R.font.roboto_regular)),
 
-                    )
+                )
                 if (!subtitle.isNullOrEmpty()) {
                     Text(
                         text = subtitle,
                         style = MaterialTheme.typography.bodyMedium,
                         fontSize = 12.sp,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
-                        fontFamily = FontFamily(Font(R.font.roboto_regular)),
                     )
                 }
             }
@@ -129,10 +136,9 @@ fun AppCard(
                     horizontalAlignment = Alignment.End
                 ) {
                     Text(
-                        text = amount.toCurrencyString(currency),
+                        text = amount.toCurrencyString(currency = currency ?: "₽"),
                         style = MaterialTheme.typography.bodyLarge,
                         fontSize = 16.sp,
-                        fontFamily = FontFamily(Font(R.font.roboto_regular)),
                     )
                     if (!subAmount.isNullOrEmpty()) {
                         Text(
@@ -141,32 +147,42 @@ fun AppCard(
                             fontSize = 12.sp,
                             color = MaterialTheme.colorScheme.onSurfaceVariant,
                             textAlign = TextAlign.End,
-                            fontFamily = FontFamily(Font(R.font.roboto_regular)),
                         )
                     }
                 }
                 Spacer(modifier = Modifier.width(16.dp))
             }
 
-            if (canNavigate && onNavigateClick != null) {
+            if (stringDate != null) {
+                Column(
+                    horizontalAlignment = Alignment.End
+                ) {
+                    Text(
+                        text = stringDate,
+                        style = MaterialTheme.typography.bodyLarge,
+                        fontSize = 16.sp,
+                    )
+                }
+                Spacer(modifier = Modifier.width(16.dp))
+            }
+
+            if (canNavigate) {
                 if (isSetting) {
                     Image(
                         painter = painterResource(R.drawable.ic_category_more),
                         contentDescription = null,
                         modifier = Modifier
-                            .size(24.dp),
+                            .size(24.dp)
                     )
                 } else {
                     Image(
                         painter = painterResource(R.drawable.ic_more),
                         contentDescription = "Подробнее",
                         modifier = Modifier
-                            .size(24.dp),
+                            .size(24.dp)
                     )
                 }
-
             }
         }
     }
 }
-

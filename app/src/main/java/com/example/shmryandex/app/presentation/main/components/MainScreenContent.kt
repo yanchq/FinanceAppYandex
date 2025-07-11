@@ -37,7 +37,8 @@ import com.example.shmryandex.app.presentation.main.contract.MainUIState
 import com.example.shmryandex.app.presentation.main.screen.NavigationItem
 import com.example.core.utils.ui.theme.PrimaryGreen
 import com.example.categories.impl.presentation.screen.CategoriesScreen
-import com.example.expenses.impl.presentation.screen.ExpensesScreen
+import com.example.expenses.impl.presentation.addexpense.screen.AddExpenseScreen
+import com.example.expenses.impl.presentation.main.screen.ExpensesScreen
 import com.example.history.impl.presentation.screen.HistoryScreen
 import com.example.incomes.impl.presentation.screen.IncomesScreen
 import com.example.shmryandex.app.presentation.options.OptionsScreen
@@ -132,8 +133,17 @@ fun MainScreenContent(
             if (currentScreen.hasFloatingActionButton) {
                 FloatingActionButton(
                     onClick = {
-                        if (currentScreen == Screen.Account)
-                            navHostController.navigate(Screen.AddAccount.route)
+                        when (currentScreen) {
+                            Screen.Account -> {
+                                navHostController.navigate(Screen.AddAccount.route)
+                            }
+                            Screen.Expenses -> {
+                                navHostController.navigate(Screen.AddTransaction.route)
+                            }
+                            else -> {
+
+                            }
+                        }
                     },
                     shape = CircleShape
                 ) {
@@ -154,6 +164,7 @@ fun MainScreenContent(
                 incomesHistoryScreenContent = { HistoryScreen(it) },
                 categoriesScreenContent = { CategoriesScreen() },
                 optionsScreenContent = { OptionsScreen() },
+                addTransactionScreenContent = { AddExpenseScreen() }
             )
         }
     }

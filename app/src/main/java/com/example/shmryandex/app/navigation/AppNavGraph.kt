@@ -38,7 +38,8 @@ fun AppNavGraph(
     incomesHistoryScreenContent: @Composable (Boolean) -> Unit,
     categoriesScreenContent: @Composable () -> Unit,
     optionsScreenContent: @Composable () -> Unit,
-    expensesHistoryScreenContent: @Composable (Boolean) -> Unit
+    expensesHistoryScreenContent: @Composable (Boolean) -> Unit,
+    addTransactionScreenContent: @Composable () -> Unit
 ) {
 
     val context = LocalContext.current
@@ -68,6 +69,15 @@ fun AppNavGraph(
                     expensesScreenContent()
                 }
             }
+
+            composable(Screen.AddTransaction.route) {
+                CompositionLocalProvider(
+                    LocalViewModelFactory provides expensesComponent.viewModelFactory()
+                ) {
+                    addTransactionScreenContent()
+                }
+            }
+
             composable(
                 route = "${Screen.ExpensesHistory.route}/{${Screen.HISTORY_ARGUMENT}}",
                 arguments = listOf(
@@ -179,6 +189,4 @@ fun AppNavGraph(
             }
         }
     }
-
-
 }
