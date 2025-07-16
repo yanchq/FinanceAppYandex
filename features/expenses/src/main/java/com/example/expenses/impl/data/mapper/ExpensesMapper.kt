@@ -1,9 +1,14 @@
 package com.example.expenses.impl.data.mapper
 
 import com.example.core.data.network.model.TransactionDto
+import com.example.core.data.storage.entity.TransactionDbModel
+import com.example.core.data.storage.entity.TransactionWithRelations
 import com.example.core.utils.convertCurrency
+import com.example.core.utils.extractDate
+import com.example.core.utils.extractTime
 import com.example.expenses.impl.domain.entity.Expense
 import javax.inject.Inject
+import kotlin.text.toDouble
 
 /**
  * Маппер для преобразования транзакций в расходы.
@@ -21,6 +26,30 @@ class ExpensesMapper @Inject constructor() {
             currency = dto.account.currency.convertCurrency(),
             comment = comment,
             createdAt = transactionDate
+        )
+    }
+
+    fun mapTransactionDbToExpense(transactionDb: TransactionWithRelations): Expense = with(transactionDb) {
+        Expense(
+            id = transaction.id.toLong(),
+            name = category.name,
+            emoji = category.emoji,
+            amount = transaction.amount.toDouble(),
+            currency = account.currency,
+            comment = transaction.comment,
+            createdAt = transaction.transactionDate
+        )
+    }
+
+    fun mapTransactionDtoToDbModel(transactionDto: TransactionDto): TransactionDbModel = with(transactionDto) {
+        TransactionDbModel(
+            id = id.toInt(),
+            amount = amount.toDouble(),
+            comment = comment,
+            transactionDate = transactionDate.extractDate(),
+            transactionTime = transactionDate.extractTime(),
+            accountId = account.id,
+            categoryId = category.id.toInt()
         )
     }
 }

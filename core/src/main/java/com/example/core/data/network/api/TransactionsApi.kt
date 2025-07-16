@@ -1,6 +1,7 @@
 package com.example.core.data.network.api
 
 import com.example.core.data.network.model.CreateTransactionRequestBody
+import com.example.core.data.network.model.CreateTransactionResponse
 import com.example.core.data.network.model.TransactionDto
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -26,7 +27,7 @@ interface TransactionsApi {
     @POST("transactions")
     suspend fun createTransaction(
         @Body requestBody: CreateTransactionRequestBody
-    )
+    ): CreateTransactionResponse
 
     @PUT("transactions/{id}")
     suspend fun editTransaction(

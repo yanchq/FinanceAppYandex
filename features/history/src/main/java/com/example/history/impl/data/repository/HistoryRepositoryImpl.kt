@@ -2,7 +2,9 @@ package com.example.history.impl.data.repository
 
 import com.example.core.data.network.api.TransactionsApi
 import com.example.core.data.network.model.Result
+import com.example.core.data.storage.dao.TransactionsDao
 import com.example.core.domain.entity.Account
+import com.example.core.domain.repository.NetworkRepository
 import com.example.history.impl.data.mapper.HistoryMapper
 import com.example.history.impl.domain.entity.HistoryItem
 import com.example.history.impl.domain.repository.HistoryRepository
@@ -21,7 +23,9 @@ import javax.inject.Inject
  */
 class HistoryRepositoryImpl @Inject constructor(
     private val mapper: HistoryMapper,
-    private val api: TransactionsApi
+    private val api: TransactionsApi,
+    private val transactionsDao: TransactionsDao,
+    private val networkRepository: NetworkRepository
 ): HistoryRepository {
 
     /**
@@ -41,7 +45,30 @@ class HistoryRepositoryImpl @Inject constructor(
         endDate: String,
         isIncome: Boolean
     ): Result<List<HistoryItem>> = Result.execute {
-        coroutineScope {
+        if (networkRepository.getNetworkStatus().value) {
+            loadHistoryFromNetwork(
+                accounts = accounts,
+                startDate = startDate,
+                endDate = endDate,
+                isIncome = isIncome
+            )
+        }
+        else {
+            loadHistoryFromDb(
+                startDate = startDate,
+                endDate = endDate,
+                isIncome = isIncome
+            )
+        }
+    }
+
+    private suspend fun loadHistoryFromNetwork(
+        accounts: List<Account>,
+        startDate: String,
+        endDate: String,
+        isIncome: Boolean
+        ): List<HistoryItem> {
+        val historyDto = coroutineScope {
             accounts.map { account ->
                 async {
                     api.getTransactionsByAccountPeriod(
@@ -52,8 +79,36 @@ class HistoryRepositoryImpl @Inject constructor(
                 }
             }
         }.awaitAll().flatten()
-            .filter { it.category.isIncome == isIncome }
+            .filter { it.category.isIncome == isIncome}
             .sortedByDescending { it.createdAt }
-            .map { mapper.mapTransactionDtoToHistoryItem(it) }
+
+
+        val historyDomain = historyDto
+            .map { dto ->
+                mapper.mapTransactionDtoToHistoryItem(dto)
+            }
+
+        val historyDb = historyDto
+            .map { dto ->
+                mapper.mapTransactionDtoToDbModel(dto)
+            }
+
+        transactionsDao.insertTransactionsList(historyDb)
+
+        return historyDomain
+    }
+
+    private suspend fun loadHistoryFromDb(
+        startDate: String,
+        endDate: String,
+        isIncome: Boolean
+    ): List<HistoryItem> {
+        return transactionsDao.getTransactionsByPeriod(
+            startDate = startDate,
+            endDate = endDate
+        ).filter { it.category.isIncome == isIncome }
+            .map { db ->
+                mapper.mapTransactionDbToHistoryItem(db)
+            }
     }
 }

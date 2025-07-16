@@ -1,6 +1,7 @@
 package com.example.core.utils
 
 import java.text.SimpleDateFormat
+import java.time.Instant
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.LocalTime
@@ -52,4 +53,18 @@ fun toUtcIsoString(dateString: String, timeString: String): String {
     val zonedDateTime = dateTime.atZone(ZoneId.systemDefault()).withZoneSameInstant(ZoneOffset.UTC)
 
     return DateTimeFormatter.ISO_INSTANT.format(zonedDateTime.toInstant())
+}
+
+fun String.extractDate(): String {
+    val instant = Instant.parse(this)
+    val dateTime = instant.atZone(ZoneOffset.UTC)
+    return dateTime.toLocalDate().toString() // формат yyyy-MM-dd
+}
+
+fun String.extractTime(): String {
+    val instant = Instant.parse(this)
+    val dateTime = instant.atZone(ZoneOffset.UTC)
+    return dateTime.toLocalTime().let {
+        String.format("%02d:%02d", it.hour, it.minute)
+    }
 }

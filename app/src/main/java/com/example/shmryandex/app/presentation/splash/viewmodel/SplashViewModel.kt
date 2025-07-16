@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.core.data.network.model.Result
 import com.example.core.domain.usecase.GetCategoriesListUseCase
 import com.example.core.domain.usecase.LoadAccountsUseCase
+import com.example.core.domain.usecase.SyncTransactionsUseCase
 import com.example.core.presentation.mvi.BaseViewModel
 import com.example.shmryandex.app.presentation.splash.contract.SplashUIEffect
 import com.example.shmryandex.app.presentation.splash.contract.SplashUIEvent
@@ -21,7 +22,8 @@ import javax.inject.Inject
 
 class SplashViewModel @Inject constructor(
     private val loadAccountsUseCase: LoadAccountsUseCase,
-    private val getCategoriesListUseCase: GetCategoriesListUseCase
+    private val getCategoriesListUseCase: GetCategoriesListUseCase,
+    private val syncTransactionsUseCase: SyncTransactionsUseCase
 ) : BaseViewModel<SplashUIEvent, SplashUIState, SplashUIEffect>(
     SplashUIState()
 ) {
@@ -38,6 +40,8 @@ class SplashViewModel @Inject constructor(
             when (val accountsResult = loadAccountsUseCase()) {
                 is Result.Success -> {
                     getCategoriesListUseCase()
+                    val syncResult = syncTransactionsUseCase()
+                    Log.d("SplashViewModel", "$syncResult")
                     setEffect(SplashUIEffect.NavigateToMainScreen)
                 }
 

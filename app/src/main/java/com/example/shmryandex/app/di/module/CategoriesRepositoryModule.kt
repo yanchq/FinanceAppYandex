@@ -1,7 +1,8 @@
-package com.example.core.di
+package com.example.shmryandex.app.di.module
 
-import com.example.core.data.repository.CategoriesRepositoryImpl
+import com.example.shmryandex.app.data.repository.CategoriesRepositoryImpl
 import com.example.core.domain.repository.CategoriesRepository
+import com.example.shmryandex.app.di.AppScope
 import dagger.Binds
 import dagger.Module
 
@@ -13,5 +14,6 @@ import dagger.Module
 interface CategoriesRepositoryModule {
 
     @Binds
+    @AppScope
     fun bindCategoriesRepository(impl: CategoriesRepositoryImpl): CategoriesRepository
 }

@@ -1,7 +1,6 @@
 package com.example.accounts.impl.di
 
 import com.example.accounts.api.AccountDependencies
-import com.example.core.di.BaseRepositoryModule
 import com.example.core.di.ViewModelFactory
 import com.example.core.di.ViewModelFactoryModule
 import com.example.core.di.ViewModelFactoryScope

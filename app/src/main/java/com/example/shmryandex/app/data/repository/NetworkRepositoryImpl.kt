@@ -1,7 +1,7 @@
 package com.example.shmryandex.app.data.repository
 
 import com.example.shmryandex.app.data.network.NetworkStateReceiver
-import com.example.shmryandex.app.domain.repository.NetworkRepository
+import com.example.core.domain.repository.NetworkRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.StateFlow
 import javax.inject.Inject

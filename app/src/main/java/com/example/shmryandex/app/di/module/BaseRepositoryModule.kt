@@ -1,10 +1,10 @@
-package com.example.core.di
+package com.example.shmryandex.app.di.module
 
-import com.example.core.data.repository.BaseAccountsRepositoryImpl
+import com.example.shmryandex.app.data.repository.BaseAccountsRepositoryImpl
 import com.example.core.domain.repository.BaseAccountsRepository
+import com.example.shmryandex.app.di.AppScope
 import dagger.Binds
 import dagger.Module
-import javax.inject.Singleton
 
 /**
  * Модуль Hilt для предоставления базовых репозиториев.
@@ -14,6 +14,6 @@ import javax.inject.Singleton
 interface BaseRepositoryModule {
 
     @Binds
-    @Singleton
+    @AppScope
     fun bindAccountsRepository(impl: BaseAccountsRepositoryImpl): BaseAccountsRepository
 }

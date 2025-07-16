@@ -2,6 +2,7 @@ package com.example.core.domain.repository
 
 import com.example.core.data.network.model.Result
 import com.example.core.domain.entity.DetailedTransaction
+import com.example.core.domain.entity.Transaction
 
 interface BaseTransactionsRepository {
 
@@ -11,7 +12,7 @@ interface BaseTransactionsRepository {
        amount: String,
        transactionDate: String,
        comment: String
-    ): Result<Unit>
+    ): Result<Transaction>
 
     suspend fun editTransaction(
         transactionId: Int,
@@ -25,4 +26,6 @@ interface BaseTransactionsRepository {
     suspend fun getTransactionById(
         transactionId: Int
     ): Result<DetailedTransaction>
+
+    suspend fun syncTransactions(): Result<Unit>
 }

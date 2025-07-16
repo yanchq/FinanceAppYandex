@@ -1,7 +1,11 @@
 package com.example.history.impl.data.mapper
 
 import com.example.core.data.network.model.TransactionDto
+import com.example.core.data.storage.entity.TransactionDbModel
+import com.example.core.data.storage.entity.TransactionWithRelations
 import com.example.core.utils.convertCurrency
+import com.example.core.utils.extractDate
+import com.example.core.utils.extractTime
 import com.example.history.impl.domain.entity.HistoryItem
 import javax.inject.Inject
 
@@ -27,6 +31,30 @@ class HistoryMapper @Inject constructor() {
             currency = dto.account.currency.convertCurrency(),
             comment = comment,
             createdAt = transactionDate.substring(0, 10)
+        )
+    }
+
+    fun mapTransactionDbToHistoryItem(transactionDb: TransactionWithRelations): HistoryItem = with(transactionDb) {
+        HistoryItem(
+            id = transaction.id.toLong(),
+            name = category.name,
+            emoji = category.emoji,
+            amount = transaction.amount.toDouble(),
+            currency = account.currency,
+            comment = transaction.comment,
+            createdAt = transaction.transactionDate
+        )
+    }
+
+    fun mapTransactionDtoToDbModel(transactionDto: TransactionDto): TransactionDbModel = with(transactionDto) {
+        TransactionDbModel(
+            id = id.toInt(),
+            amount = amount.toDouble(),
+            comment = comment,
+            transactionDate = transactionDate.extractDate(),
+            transactionTime = transactionDate.extractTime(),
+            accountId = account.id,
+            categoryId = category.id.toInt()
         )
     }
 }

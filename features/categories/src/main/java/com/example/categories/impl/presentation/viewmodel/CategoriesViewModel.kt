@@ -33,19 +33,10 @@ class CategoriesViewModel @Inject constructor(
 
     private fun getCategoriesList() {
         viewModelScope.launch(Dispatchers.IO) {
-            when (val categoriesListResult = getCategoriesListUseCase()) {
-                is Result.Error -> {
-
-                }
-                Result.Loading -> {
-
-                }
-                is Result.Success<List<Category>> -> {
-                    setState(currentState.copy(
-                        categories = categoriesListResult.data
-                    ))
-                }
-            }
+            val categoriesListResult = getCategoriesListUseCase()
+            setState(currentState.copy(
+                categories = categoriesListResult
+            ))
         }
     }
 }

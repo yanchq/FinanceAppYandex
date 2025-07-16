@@ -1,4 +1,4 @@
-package com.example.core.data.network.interceptor
+package com.example.shmryandex.app.data.network.interceptor
 
 import okhttp3.Interceptor
 

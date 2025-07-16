@@ -4,34 +4,37 @@ import android.content.Context
 import com.example.accounts.api.AccountDependencies
 import com.example.categories.api.CategoriesDependencies
 import com.example.shmryandex.app.presentation.MainActivity
-import com.example.core.di.BaseRepositoryModule
-import com.example.core.di.BaseTransactionsRepositoryModule
-import com.example.core.di.CategoriesNetworkModule
-import com.example.core.di.CategoriesRepositoryModule
+import com.example.shmryandex.app.di.module.BaseRepositoryModule
+import com.example.shmryandex.app.di.module.BaseTransactionsRepositoryModule
+import com.example.shmryandex.app.di.module.CategoriesNetworkModule
+import com.example.shmryandex.app.di.module.CategoriesRepositoryModule
 import com.example.core.di.ViewModelFactory
 import com.example.core.di.ViewModelFactoryModule
 import com.example.core.di.ViewModelFactoryScope
 import com.example.expenses.api.ExpensesDependencies
 import com.example.history.api.HistoryDependencies
 import com.example.incomes.api.IncomesDependencies
+import com.example.shmryandex.app.di.module.AppDatabaseModule
+import com.example.shmryandex.app.di.module.NetworkModule
+import com.example.shmryandex.app.di.module.NetworkRepositoryModule
 import com.example.shmryandex.app.di.module.ViewModelModule
 import dagger.BindsInstance
 import dagger.Component
-import javax.inject.Singleton
 
-@Singleton
+@AppScope
 @ViewModelFactoryScope
 @Component(
     modules = [
-        com.example.shmryandex.app.di.module.NetworkModule::class,
-        com.example.core.di.NetworkModule::class,
+        NetworkRepositoryModule::class,
         com.example.history.impl.di.RepositoryModule::class,
         BaseRepositoryModule::class,
         ViewModelModule::class,
         ViewModelFactoryModule::class,
         CategoriesRepositoryModule::class,
         CategoriesNetworkModule::class,
-        BaseTransactionsRepositoryModule::class
+        BaseTransactionsRepositoryModule::class,
+        NetworkModule::class,
+        AppDatabaseModule::class
     ]
 )
 interface AppComponent :

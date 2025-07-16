@@ -1,6 +1,6 @@
 package com.example.shmryandex.app.domain.usecase
 
-import com.example.shmryandex.app.domain.repository.NetworkRepository
+import com.example.core.domain.repository.NetworkRepository
 import javax.inject.Inject
 
 /**

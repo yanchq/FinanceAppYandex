@@ -1,6 +1,7 @@
-package com.example.core.di
+package com.example.shmryandex.app.di.module
 
 import com.example.core.data.network.api.CategoriesApi
+import com.example.shmryandex.app.di.AppScope
 import dagger.Module
 import dagger.Provides
 import retrofit2.Retrofit
@@ -13,6 +14,7 @@ import retrofit2.Retrofit
 class CategoriesNetworkModule {
 
     @Provides
+    @AppScope
     fun provideCategoriesApi(
         retrofit: Retrofit
     ): CategoriesApi {

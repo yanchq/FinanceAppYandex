@@ -1,5 +1,6 @@
 package com.example.shmryandex.app.presentation.main.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.shmryandex.app.domain.usecase.ObserveNetworkStateUseCase
@@ -29,6 +30,7 @@ class NetworkViewModel @Inject constructor(
         startMonitoringUseCase()
         viewModelScope.launch {
             observeNetworkStateUseCase().collect { isAvailable ->
+                Log.d("LoadFromDbTest", "$isAvailable")
                 if (!isAvailable) {
                     _events.emit(NetworkEvent.ShowNoConnectionToast)
                 }
