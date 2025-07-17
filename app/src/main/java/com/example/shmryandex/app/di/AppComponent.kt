@@ -14,10 +14,13 @@ import com.example.core.di.ViewModelFactoryScope
 import com.example.expenses.api.ExpensesDependencies
 import com.example.history.api.HistoryDependencies
 import com.example.incomes.api.IncomesDependencies
+import com.example.shmryandex.app.di.module.WorkerModule
 import com.example.shmryandex.app.di.module.AppDatabaseModule
 import com.example.shmryandex.app.di.module.NetworkModule
 import com.example.shmryandex.app.di.module.NetworkRepositoryModule
 import com.example.shmryandex.app.di.module.ViewModelModule
+import com.example.shmryandex.app.di.module.WorkManagerRepositoryModule
+import com.example.shmryandex.app.domain.usecase.SchedulePeriodicSyncUseCase
 import dagger.BindsInstance
 import dagger.Component
 
@@ -34,7 +37,9 @@ import dagger.Component
         CategoriesNetworkModule::class,
         BaseTransactionsRepositoryModule::class,
         NetworkModule::class,
-        AppDatabaseModule::class
+        AppDatabaseModule::class,
+        WorkerModule::class,
+        WorkManagerRepositoryModule::class
     ]
 )
 interface AppComponent :
@@ -44,6 +49,10 @@ interface AppComponent :
 {
 
     fun viewModelFactory(): ViewModelFactory
+    
+    fun workerFactory(): androidx.work.WorkerFactory
+
+    fun schedulePeriodicSyncUseCase(): SchedulePeriodicSyncUseCase
 
     fun inject(mainActivity: MainActivity)
 

@@ -40,8 +40,6 @@ class SplashViewModel @Inject constructor(
             when (val accountsResult = loadAccountsUseCase()) {
                 is Result.Success -> {
                     getCategoriesListUseCase()
-                    val syncResult = syncTransactionsUseCase()
-                    Log.d("SplashViewModel", "$syncResult")
                     setEffect(SplashUIEffect.NavigateToMainScreen)
                 }
 
