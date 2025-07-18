@@ -60,6 +60,19 @@ class TransactionMapper @Inject constructor(
             )
         }
 
+    fun mapTransactionDtoToDbModel(dto: TransactionDto): TransactionDbModel =
+        with(dto) {
+            TransactionDbModel(
+                id = id.toInt(),
+                amount = amount.toDouble(),
+                comment = comment,
+                transactionDate = transactionDate.extractDate(),
+                transactionTime = transactionDate.extractTime(),
+                accountId = account.id,
+                categoryId = category.id.toInt()
+            )
+        }
+
     fun mapTransactionDbToTransaction(
         transactionDb: TransactionDbModel
     ): Transaction = with(transactionDb) {

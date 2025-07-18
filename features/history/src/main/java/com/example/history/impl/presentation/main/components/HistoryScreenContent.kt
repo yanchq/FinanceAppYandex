@@ -1,4 +1,4 @@
-package com.example.history.impl.presentation.components
+package com.example.history.impl.presentation.main.components
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.lazy.LazyColumn
@@ -14,8 +14,8 @@ import com.example.core.utils.ui.CustomDatePickerDialog
 import com.example.core.utils.ui.TopGreenCard
 import com.example.core.utils.formatDateToMillis
 import com.example.core.utils.formatDateToString
-import com.example.history.impl.presentation.contract.HistoryUIEvent
-import com.example.history.impl.presentation.contract.HistoryUIState
+import com.example.history.impl.presentation.main.contract.HistoryUIEvent
+import com.example.history.impl.presentation.main.contract.HistoryUIState
 
 @Composable
 fun HistoryScreenContent(

@@ -1,12 +1,12 @@
-package com.example.history.impl.presentation.screen
+package com.example.history.impl.presentation.main.screen
 
 import androidx.compose.runtime.Composable
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.core.presentation.LocalViewModelFactory
 
-import com.example.history.impl.presentation.components.HistoryScreenContent
-import com.example.history.impl.presentation.viewmodel.HistoryViewModel
+import com.example.history.impl.presentation.main.components.HistoryScreenContent
+import com.example.history.impl.presentation.main.viewmodel.HistoryViewModel
 
 /**
  * Composable-функция, представляющая экран истории транзакций.

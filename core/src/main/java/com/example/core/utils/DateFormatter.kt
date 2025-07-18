@@ -57,13 +57,13 @@ fun toUtcIsoString(dateString: String, timeString: String): String {
 
 fun String.extractDate(): String {
     val instant = Instant.parse(this)
-    val dateTime = instant.atZone(ZoneOffset.UTC)
+    val dateTime = instant.atZone(ZoneId.systemDefault())
     return dateTime.toLocalDate().toString() // формат yyyy-MM-dd
 }
 
 fun String.extractTime(): String {
     val instant = Instant.parse(this)
-    val dateTime = instant.atZone(ZoneOffset.UTC)
+    val dateTime = instant.atZone(ZoneId.systemDefault())
     return dateTime.toLocalTime().let {
         String.format("%02d:%02d", it.hour, it.minute)
     }
