@@ -18,6 +18,7 @@ import com.example.shmryandex.app.di.module.WorkerModule
 import com.example.shmryandex.app.di.module.AppDatabaseModule
 import com.example.shmryandex.app.di.module.NetworkModule
 import com.example.shmryandex.app.di.module.NetworkRepositoryModule
+import com.example.shmryandex.app.di.module.SyncPreferencesRepositoryModule
 import com.example.shmryandex.app.di.module.ViewModelModule
 import com.example.shmryandex.app.di.module.WorkManagerRepositoryModule
 import com.example.shmryandex.app.domain.usecase.SchedulePeriodicSyncUseCase
@@ -39,7 +40,8 @@ import dagger.Component
         NetworkModule::class,
         AppDatabaseModule::class,
         WorkerModule::class,
-        WorkManagerRepositoryModule::class
+        WorkManagerRepositoryModule::class,
+        SyncPreferencesRepositoryModule::class
     ]
 )
 interface AppComponent :

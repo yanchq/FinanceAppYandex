@@ -13,6 +13,10 @@ import com.example.core.domain.repository.NetworkRepository
 import com.example.core.utils.extractDate
 import com.example.core.utils.extractTime
 import com.example.core.utils.toUtcIsoString
+import java.text.SimpleDateFormat
+import java.time.Instant
+import java.util.Date
+import java.util.Locale
 import javax.inject.Inject
 
 
@@ -109,8 +113,7 @@ class BaseTransactionsRepositoryImpl @Inject constructor(
                 transactionDate = transactionDate,
                 comment = comment
             )
-        }
-        else {
+        } else {
             editLocalTransaction(
                 transactionId = transactionId,
                 accountId = accountId,
@@ -191,38 +194,56 @@ class BaseTransactionsRepositoryImpl @Inject constructor(
 
         pendingTransactionsDb.forEach { transaction ->
             if (transaction.localId != null) {
-                val response = createNetworkTransaction(
-                    accountId = transaction.accountId,
-                    categoryId = transaction.categoryId,
-                    amount = transaction.amount.toString(),
-                    transactionDate = toUtcIsoString(
-                        transaction.transactionDate,
-                        transaction.transactionTime
-                    ),
-                    comment = transaction.comment
-                )
-                transactionsDao.deleteTransactionById(transaction.id)
-                transactionsDao.insertTransaction(
-                    mapper.mapTransactionToDbModel(
-                        response
-                    )
-                )
+                syncCreatedTransaction(transaction)
             } else {
-                editNetworkTransaction(
-                    transactionId = transaction.id,
-                    accountId = transaction.accountId,
-                    categoryId = transaction.categoryId,
-                    amount = transaction.amount.toString(),
-                    transactionDate = toUtcIsoString(
-                        transaction.transactionDate,
-                        transaction.transactionTime
-                    ),
-                    comment = transaction.comment
-                )
-                transactionsDao.changeTransactionSyncStatus(
-                    transactionId = transaction.id
-                )
+                syncEditedTransaction(transaction)
             }
+        }
+    }
+
+    private suspend fun syncCreatedTransaction(transaction: TransactionDbModel) {
+        val response = createNetworkTransaction(
+            accountId = transaction.accountId,
+            categoryId = transaction.categoryId,
+            amount = transaction.amount.toString(),
+            transactionDate = toUtcIsoString(
+                transaction.transactionDate,
+                transaction.transactionTime
+            ),
+            comment = transaction.comment
+        )
+        transactionsDao.deleteTransactionById(transaction.id)
+        transactionsDao.insertTransaction(
+            mapper.mapTransactionToDbModel(
+                response
+            )
+        )
+    }
+
+    private suspend fun syncEditedTransaction(transaction: TransactionDbModel) {
+        val networkTransaction = api.getTransactionById(transaction.id)
+
+        val networkTransactionUpdateTime =
+            Instant.parse(networkTransaction.updatedAt).toEpochMilli()
+
+        if (networkTransactionUpdateTime <= transaction.updatedAt) {
+            editNetworkTransaction(
+                transactionId = transaction.id,
+                accountId = transaction.accountId,
+                categoryId = transaction.categoryId,
+                amount = transaction.amount.toString(),
+                transactionDate = toUtcIsoString(
+                    transaction.transactionDate,
+                    transaction.transactionTime
+                ),
+                comment = transaction.comment
+            )
+            transactionsDao.changeTransactionSyncStatus(
+                transactionId = transaction.id
+            )
+        }
+        else {
+            transactionsDao.insertTransaction(mapper.mapTransactionDtoToDbModel(networkTransaction))
         }
     }
 

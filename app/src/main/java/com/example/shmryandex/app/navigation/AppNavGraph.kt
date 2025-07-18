@@ -40,7 +40,9 @@ fun AppNavGraph(
     optionsScreenContent: @Composable () -> Unit,
     expensesHistoryScreenContent: @Composable (Boolean) -> Unit,
     addTransactionScreenContent: @Composable (Boolean) -> Unit,
-    editTransactionScreenContent: @Composable (Int) -> Unit
+    editTransactionScreenContent: @Composable (Int) -> Unit,
+    expensesAnalyticsScreenContent: @Composable (Boolean) -> Unit,
+    incomesAnalyticsScreenContent: @Composable (Boolean) -> Unit,
 ) {
 
     val context = LocalContext.current
@@ -123,6 +125,25 @@ fun AppNavGraph(
                     expensesHistoryScreenContent(isIncome)
                 }
             }
+
+            composable(
+                route = "${Screen.ExpensesAnalytics.route}/{${Screen.HISTORY_ARGUMENT}}",
+                arguments = listOf(
+                    navArgument(Screen.HISTORY_ARGUMENT) { type = NavType.BoolType }
+                )
+            ) { backStackEntry ->
+
+                val historyComponent = remember {
+                    DaggerHistoryComponent.factory().create(appComponent)
+                }
+                val isIncome = backStackEntry.arguments?.getBoolean("isIncome") ?: false
+
+                CompositionLocalProvider(
+                    LocalViewModelFactory provides historyComponent.viewModelFactory()
+                ) {
+                    expensesAnalyticsScreenContent(isIncome)
+                }
+            }
         }
 
         navigation(
@@ -190,6 +211,25 @@ fun AppNavGraph(
                     LocalViewModelFactory provides historyComponent.viewModelFactory()
                 ) {
                     incomesHistoryScreenContent(isIncome)
+                }
+            }
+
+            composable(
+                route = "${Screen.IncomesAnalytics.route}/{${Screen.HISTORY_ARGUMENT}}",
+                arguments = listOf(
+                    navArgument(Screen.HISTORY_ARGUMENT) { type = NavType.BoolType }
+                )
+            ) { backStackEntry ->
+
+                val historyComponent = remember {
+                    DaggerHistoryComponent.factory().create(appComponent)
+                }
+                val isIncome = backStackEntry.arguments?.getBoolean("isIncome") ?: false
+
+                CompositionLocalProvider(
+                    LocalViewModelFactory provides historyComponent.viewModelFactory()
+                ) {
+                    incomesAnalyticsScreenContent(isIncome)
                 }
             }
         }

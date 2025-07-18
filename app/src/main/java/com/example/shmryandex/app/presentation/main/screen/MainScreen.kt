@@ -2,6 +2,10 @@ package com.example.shmryandex.app.presentation.main.screen
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.rememberNavController
@@ -23,6 +27,7 @@ fun MainScreen(viewModel: MainViewModel = viewModel(factory = LocalViewModelFact
     val uiState = viewModel.uiState.collectAsStateWithLifecycle()
 
     val navHostController = rememberNavController()
+    var syncInfoDialogVisibility by remember { mutableStateOf(false) }
 
     LaunchedEffect(Unit) {
         viewModel.effect.collect { effect ->
@@ -30,15 +35,24 @@ fun MainScreen(viewModel: MainViewModel = viewModel(factory = LocalViewModelFact
                 is MainUIEffect.NavigateToEditAccountScreen -> {
                     navHostController.navigate(Screen.EditAccount.route)
                 }
+
+                MainUIEffect.ShowSyncInfoDialog -> {
+                    syncInfoDialogVisibility = true
+                }
             }
         }
     }
 
     MainScreenContent(
         uiState = uiState.value,
-        navHostController = navHostController
-    ) { event ->
-        viewModel.onEvent(event)
-    }
+        navHostController = navHostController,
+        syncInfoDialogVisibility = syncInfoDialogVisibility,
+        onSyncIngoDialogDismiss = {
+            syncInfoDialogVisibility = false
+        },
+        sendEvent = { event ->
+            viewModel.onEvent(event)
+        }
+    )
 }
 

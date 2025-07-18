@@ -10,7 +10,8 @@ sealed class Screen(
     val route: String,
     val title: String = "",
     val topAppBarIcon: Int? = null,
-    val hasFloatingActionButton: Boolean = false
+    val hasFloatingActionButton: Boolean = false,
+    val leftTopAppBarIcon: Int? = null
 ) {
 
     data object Expenses: Screen(
@@ -48,45 +49,73 @@ sealed class Screen(
     )
     data object ExpensesHistory: Screen(
         EXPENSES_HISTORY_ROUTE,
-        EXPENSES_HISTORY_TITLE
+        EXPENSES_HISTORY_TITLE,
+        R.drawable.ic_analysis,
+        false,
+        R.drawable.ic_cancel
     )
     data object IncomesHistory: Screen(
         INCOMES_HISTORY_ROUTE,
-        INCOMES_HISTORY_TITLE
+        INCOMES_HISTORY_TITLE,
+        R.drawable.ic_analysis,
+        false,
+        R.drawable.ic_cancel
     )
     data object AddAccount: Screen(
         ADD_ACCOUNT_ROUTE,
-        ADD_ACCOUNT_TITLE
+        ADD_ACCOUNT_TITLE,
+        null,
+        false,
+        R.drawable.ic_cancel
     )
     data object EditAccount: Screen(
         EDIT_ACCOUNT_ROUTE,
         EDIT_ACCOUNT_TITLE,
         null,
-        false
+        false,
+        R.drawable.ic_cancel
     )
     data object AddExpense: Screen(
         ADD_EXPENSE_ROUTE,
         ADD_EXPENSE_TITLE,
         null,
-        false
+        false,
+        R.drawable.ic_cancel
     )
     data object AddIncome: Screen(
         ADD_INCOME_ROUTE,
         ADD_INCOME_TITLE,
         null,
-        false
+        false,
+        R.drawable.ic_cancel
     )
     data object EditIncome: Screen(
         EDIT_INCOME_ROUTE,
         EDIT_INCOME_TITLE,
         null,
-        false
+        false,
+        R.drawable.ic_cancel
     )
     data object EditExpense: Screen(
         EDIT_EXPENSE_ROUTE,
         EDIT_EXPENSE_TITLE,
         null,
-        false
+        false,
+        R.drawable.ic_cancel
+    )
+    data object ExpensesAnalytics: Screen(
+        EXPENSES_ANALYTICS_ROUTE,
+        EXPENSES_ANALYTICS_TITLE,
+        null,
+        false,
+        R.drawable.ic_cancel
+    )
+    data object IncomesAnalytics: Screen(
+        INCOMES_ANALYTICS_ROUTE,
+        INCOMES_ANALYTICS_TITLE,
+        null,
+        false,
+        R.drawable.ic_cancel
     )
 
 
@@ -109,6 +138,8 @@ sealed class Screen(
         const val ADD_INCOME_ROUTE = "AddIncome"
         const val EDIT_EXPENSE_ROUTE = "EditExpense"
         const val EDIT_INCOME_ROUTE = "EditIncome"
+        const val EXPENSES_ANALYTICS_ROUTE = "ExpensesAnalytics"
+        const val INCOMES_ANALYTICS_ROUTE = "IncomesAnalytics"
 
         const val EXPENSES_TITLE = "Расходы сегодня"
         const val INCOMES_TITLE = "Доходы сегодня"
@@ -123,6 +154,8 @@ sealed class Screen(
         const val ADD_INCOME_TITLE = "Добавить доход"
         const val EDIT_EXPENSE_TITLE = "Изменить расход"
         const val EDIT_INCOME_TITLE = "Изменить доход"
+        const val INCOMES_ANALYTICS_TITLE = "Анализ доходов"
+        const val EXPENSES_ANALYTICS_TITLE = "Анализ расходов"
 
         const val EXPENSES_GRAPH_ROUTE = "ExpensesGraphRoute"
         const val INCOMES_GRAPH_ROUTE = "IncomesGraphRoute"

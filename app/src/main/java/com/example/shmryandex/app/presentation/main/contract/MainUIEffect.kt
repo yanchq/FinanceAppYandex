@@ -5,4 +5,6 @@ import com.example.core.presentation.mvi.UIEffect
 sealed class MainUIEffect: UIEffect {
 
     data class NavigateToEditAccountScreen(val encodedAccount: String): MainUIEffect()
+
+    data object ShowSyncInfoDialog: MainUIEffect()
 }

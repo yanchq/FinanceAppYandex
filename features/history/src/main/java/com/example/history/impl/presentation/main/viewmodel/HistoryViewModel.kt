@@ -1,4 +1,4 @@
-package com.example.history.impl.presentation.viewmodel
+package com.example.history.impl.presentation.main.viewmodel
 
 import androidx.lifecycle.viewModelScope
 import com.example.core.data.network.model.Result
@@ -6,9 +6,9 @@ import com.example.core.domain.usecase.GetAccountsListUseCase
 import com.example.core.presentation.mvi.BaseViewModel
 import com.example.history.impl.domain.entity.HistoryItem
 import com.example.history.impl.domain.usecase.GetHistoryByPeriodUseCase
-import com.example.history.impl.presentation.contract.HistoryUIEffect
-import com.example.history.impl.presentation.contract.HistoryUIEvent
-import com.example.history.impl.presentation.contract.HistoryUIState
+import com.example.history.impl.presentation.main.contract.HistoryUIEffect
+import com.example.history.impl.presentation.main.contract.HistoryUIEvent
+import com.example.history.impl.presentation.main.contract.HistoryUIState
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject

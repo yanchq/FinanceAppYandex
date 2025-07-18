@@ -1,4 +1,4 @@
-package com.example.history.impl.presentation.contract
+package com.example.history.impl.presentation.main.contract
 
 import com.example.core.presentation.mvi.UIState
 import com.example.history.impl.domain.entity.HistoryItem

@@ -1,6 +1,5 @@
 package com.example.shmryandex.app.presentation.main.components
 
-import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -23,7 +22,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalGraphicsContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -40,10 +38,10 @@ import com.example.shmryandex.app.presentation.main.screen.NavigationItem
 import com.example.core.utils.ui.theme.PrimaryGreen
 import com.example.categories.impl.presentation.screen.CategoriesScreen
 import com.example.expenses.impl.presentation.addexpense.screen.AddExpenseScreen
-import com.example.expenses.impl.presentation.editexpense.components.EditExpenseScreenContent
 import com.example.expenses.impl.presentation.editexpense.screen.EditExpenseScreen
 import com.example.expenses.impl.presentation.main.screen.ExpensesScreen
-import com.example.history.impl.presentation.screen.HistoryScreen
+import com.example.history.impl.presentation.analytics.screen.AnalyticsScreen
+import com.example.history.impl.presentation.main.screen.HistoryScreen
 import com.example.incomes.impl.presentation.screen.IncomesScreen
 import com.example.shmryandex.app.presentation.options.OptionsScreen
 
@@ -52,6 +50,8 @@ fun MainScreenContent(
     uiState: MainUIState,
     navHostController: NavHostController,
     sendEvent: (MainUIEvent) -> Unit,
+    syncInfoDialogVisibility: Boolean,
+    onSyncIngoDialogDismiss: () -> Unit
 ) {
 
     val navBackStackEntry by navHostController.currentBackStackEntryAsState()
@@ -73,6 +73,8 @@ fun MainScreenContent(
         "${Screen.AddIncome.route}/{${Screen.ADD_TRANSACTION_ARGUMENT}}" -> Screen.AddIncome
         "${Screen.EditIncome.route}/{${Screen.EDIT_TRANSACTION_ARGUMENT}}" -> Screen.EditIncome
         "${Screen.EditExpense.route}/{${Screen.EDIT_TRANSACTION_ARGUMENT}}" -> Screen.EditExpense
+        "${Screen.IncomesAnalytics.route}/{${Screen.HISTORY_ARGUMENT}}" -> Screen.IncomesAnalytics
+        "${Screen.ExpensesAnalytics.route}/{${Screen.HISTORY_ARGUMENT}}" -> Screen.ExpensesAnalytics
         else -> Screen.Expenses
     }
 
@@ -80,8 +82,12 @@ fun MainScreenContent(
         topBar = {
             CustomTopAppBar(
                 title = currentScreen.title,
-                icon = currentScreen.topAppBarIcon,
-                onIconClick = {
+                rightIcon = currentScreen.topAppBarIcon,
+                leftIcon = currentScreen.leftTopAppBarIcon,
+                onLeftIconClick = {
+                    navHostController.popBackStack()
+                },
+                onRightIconClick = {
                     when (currentScreen) {
                         Screen.Expenses -> {
                             navHostController.navigate(Screen.ExpensesHistory.route + "/false")
@@ -93,6 +99,14 @@ fun MainScreenContent(
 
                         Screen.Account -> {
                             sendEvent(MainUIEvent.EditAccountIconClicked)
+                        }
+
+                        Screen.ExpensesHistory -> {
+                            navHostController.navigate(Screen.ExpensesAnalytics.route + "/false")
+                        }
+
+                        Screen.IncomesHistory -> {
+                            navHostController.navigate(Screen.IncomesAnalytics.route + "/true")
                         }
 
                         else -> {}
@@ -169,6 +183,17 @@ fun MainScreenContent(
             }
         }
     ) { paddingValues ->
+
+        if (syncInfoDialogVisibility) {
+            SyncInfoDialog(
+                uiState.syncTime,
+                uiState.syncStatus
+            ) {
+                onSyncIngoDialogDismiss()
+            }
+        }
+
+
         Box(
             modifier = Modifier
                 .padding(paddingValues)
@@ -204,7 +229,9 @@ fun MainScreenContent(
                 categoriesScreenContent = { CategoriesScreen() },
                 optionsScreenContent = { OptionsScreen() },
                 addTransactionScreenContent = { AddExpenseScreen(it) },
-                editTransactionScreenContent = { EditExpenseScreen(it) }
+                editTransactionScreenContent = { EditExpenseScreen(it) },
+                expensesAnalyticsScreenContent = { AnalyticsScreen(it) },
+                incomesAnalyticsScreenContent = { AnalyticsScreen(it) }
             )
         }
     }
@@ -213,8 +240,10 @@ fun MainScreenContent(
 @Composable
 private fun CustomTopAppBar(
     title: String,
-    icon: Int?,
-    onIconClick: () -> Unit = {}
+    rightIcon: Int?,
+    leftIcon: Int?,
+    onRightIconClick: () -> Unit = {},
+    onLeftIconClick: () -> Unit = {},
 ) {
     Box(
         modifier = Modifier
@@ -223,6 +252,19 @@ private fun CustomTopAppBar(
             .windowInsetsPadding(WindowInsets.statusBars)
             .height(64.dp)
     ) {
+
+        leftIcon?.let {
+            IconButton(
+                onClick = onLeftIconClick,
+                modifier = Modifier.align(Alignment.CenterStart)
+            ) {
+                Image(
+                    painter = painterResource(it),
+                    contentDescription = null
+                )
+            }
+        }
+
         Text(
             modifier = Modifier
                 .fillMaxWidth()
@@ -232,9 +274,9 @@ private fun CustomTopAppBar(
             style = MaterialTheme.typography.titleLarge
         )
 
-        icon?.let {
+        rightIcon?.let {
             IconButton(
-                onClick = onIconClick,
+                onClick = onRightIconClick,
                 modifier = Modifier.align(Alignment.CenterEnd)
             ) {
                 Image(

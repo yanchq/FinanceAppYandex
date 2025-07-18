@@ -1,13 +1,10 @@
-package com.example.history.impl.presentation.contract
+package com.example.history.impl.presentation.analytics.contract
 
 import com.example.core.presentation.mvi.UIEvent
+import com.example.history.impl.presentation.main.contract.HistoryUIEvent
 
-/**
- * Sealed класс, представляющий события пользовательского интерфейса для экрана истории транзакций.
- * Определяет все возможные действия пользователя на экране, такие как выбор дат периода.
- */
-sealed class HistoryUIEvent: UIEvent {
-    
+sealed interface AnalyticsUIEvent: UIEvent {
+
     /**
      * Событие выбора начальной даты периода.
      * @property startDate Выбранная начальная дата в формате YYYY-MM-DD
@@ -15,7 +12,7 @@ sealed class HistoryUIEvent: UIEvent {
     data class StartDateSelected(
         val startDate: String,
         val isIncome: Boolean
-    ): HistoryUIEvent()
+    ): AnalyticsUIEvent
 
     /**
      * Событие выбора конечной даты периода.
@@ -24,5 +21,5 @@ sealed class HistoryUIEvent: UIEvent {
     data class EndDateSelected(
         val endDate: String,
         val isIncome: Boolean
-    ): HistoryUIEvent()
+    ): AnalyticsUIEvent
 }
