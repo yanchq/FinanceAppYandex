@@ -23,6 +23,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -43,7 +44,7 @@ import com.example.expenses.impl.presentation.main.screen.ExpensesScreen
 import com.example.history.impl.presentation.analytics.screen.AnalyticsScreen
 import com.example.history.impl.presentation.main.screen.HistoryScreen
 import com.example.incomes.impl.presentation.screen.IncomesScreen
-import com.example.shmryandex.app.presentation.options.OptionsScreen
+import com.example.shmryandex.app.presentation.options.main.screen.OptionsScreen
 
 @Composable
 fun MainScreenContent(
@@ -85,9 +86,11 @@ fun MainScreenContent(
                 rightIcon = currentScreen.topAppBarIcon,
                 leftIcon = currentScreen.leftTopAppBarIcon,
                 onLeftIconClick = {
+                    sendEvent(MainUIEvent.HapticButtonClicked)
                     navHostController.popBackStack()
                 },
                 onRightIconClick = {
+                    sendEvent(MainUIEvent.HapticButtonClicked)
                     when (currentScreen) {
                         Screen.Expenses -> {
                             navHostController.navigate(Screen.ExpensesHistory.route + "/false")
@@ -128,6 +131,7 @@ fun MainScreenContent(
                     NavigationBarItem(
                         selected = currentNavigationBarRoute == item.screen,
                         onClick = {
+                            sendEvent(MainUIEvent.HapticButtonClicked)
                             if (currentNavigationBarRoute != item.screen) {
                                 navHostController.navigate(item.screen) {
                                     launchSingleTop = true
@@ -146,7 +150,7 @@ fun MainScreenContent(
                         },
                         label = {
                             Text(
-                                text = item.label,
+                                text = stringResource(R.string.expenses_title),
                                 fontSize = 12.sp
                             )
                         }
@@ -158,6 +162,7 @@ fun MainScreenContent(
             if (currentScreen.hasFloatingActionButton) {
                 FloatingActionButton(
                     onClick = {
+                        sendEvent(MainUIEvent.HapticButtonClicked)
                         when (currentScreen) {
                             Screen.Account -> {
                                 navHostController.navigate(Screen.AddAccount.route)
@@ -227,7 +232,7 @@ fun MainScreenContent(
                     }
                 ) },
                 categoriesScreenContent = { CategoriesScreen() },
-                optionsScreenContent = { OptionsScreen() },
+                optionsScreenContent = { OptionsScreen(navHostController) },
                 addTransactionScreenContent = { AddExpenseScreen(it) },
                 editTransactionScreenContent = { EditExpenseScreen(it) },
                 expensesAnalyticsScreenContent = { AnalyticsScreen(it) },
@@ -248,7 +253,7 @@ private fun CustomTopAppBar(
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .background(PrimaryGreen)
+            .background(MaterialTheme.colorScheme.primaryContainer)
             .windowInsetsPadding(WindowInsets.statusBars)
             .height(64.dp)
     ) {

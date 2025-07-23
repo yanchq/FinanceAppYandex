@@ -5,6 +5,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -27,7 +28,8 @@ fun MainScreen(viewModel: MainViewModel = viewModel(factory = LocalViewModelFact
     val uiState = viewModel.uiState.collectAsStateWithLifecycle()
 
     val navHostController = rememberNavController()
-    var syncInfoDialogVisibility by remember { mutableStateOf(false) }
+
+    var syncInfoDialogVisibility by rememberSaveable { mutableStateOf(true) }
 
     LaunchedEffect(Unit) {
         viewModel.effect.collect { effect ->
@@ -37,7 +39,7 @@ fun MainScreen(viewModel: MainViewModel = viewModel(factory = LocalViewModelFact
                 }
 
                 MainUIEffect.ShowSyncInfoDialog -> {
-                    syncInfoDialogVisibility = true
+
                 }
             }
         }

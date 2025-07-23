@@ -117,6 +117,13 @@ sealed class Screen(
         false,
         R.drawable.ic_cancel
     )
+    data object AppInfo: Screen(
+        APP_INFO_ROUTE,
+        APP_INFO_TITLE,
+        null,
+        false,
+        R.drawable.ic_cancel
+    )
 
 
     companion object {
@@ -140,6 +147,7 @@ sealed class Screen(
         const val EDIT_INCOME_ROUTE = "EditIncome"
         const val EXPENSES_ANALYTICS_ROUTE = "ExpensesAnalytics"
         const val INCOMES_ANALYTICS_ROUTE = "IncomesAnalytics"
+        const val APP_INFO_ROUTE = "AppInfoRoute"
 
         const val EXPENSES_TITLE = "Расходы сегодня"
         const val INCOMES_TITLE = "Доходы сегодня"
@@ -156,6 +164,7 @@ sealed class Screen(
         const val EDIT_INCOME_TITLE = "Изменить доход"
         const val INCOMES_ANALYTICS_TITLE = "Анализ доходов"
         const val EXPENSES_ANALYTICS_TITLE = "Анализ расходов"
+        const val APP_INFO_TITLE = "О программе"
 
         const val EXPENSES_GRAPH_ROUTE = "ExpensesGraphRoute"
         const val INCOMES_GRAPH_ROUTE = "IncomesGraphRoute"

@@ -23,6 +23,7 @@ import com.example.core.presentation.LocalViewModelFactory
 import com.example.expenses.impl.di.DaggerExpensesComponent
 import com.example.history.impl.di.DaggerHistoryComponent
 import com.example.incomes.impl.di.DaggerIncomesComponent
+import com.example.shmryandex.app.presentation.options.buildinfo.AppInfoScreen
 import com.example.shmryandex.appComponent
 
 /**
@@ -288,6 +289,10 @@ fun AppNavGraph(
         ) {
             composable(Screen.Options.route) {
                 optionsScreenContent()
+            }
+
+            composable(Screen.AppInfo.route) {
+                AppInfoScreen()
             }
         }
     }

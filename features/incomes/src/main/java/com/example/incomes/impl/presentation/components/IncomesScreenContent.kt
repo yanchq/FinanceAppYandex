@@ -45,7 +45,7 @@ fun IncomesScreenContent(
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier
-                .background(SecondaryGreen)
+                .background(MaterialTheme.colorScheme.secondaryContainer)
                 .fillMaxWidth()
                 .height(56.dp)
                 .drawBehind {

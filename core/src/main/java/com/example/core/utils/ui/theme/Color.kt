@@ -13,6 +13,18 @@ val Pink40 = Color(0xFF7D5260)
 val PrimaryGreen = Color(0xFF2AE881)
 val SecondaryGreen = Color(0xFFD4FAE6)
 
+// Яркий жёлтый
+val PrimaryYellow = Color(0xFFFFEB3B) // яркий, насыщенный, солнечный
+
+// Тусклый жёлтый
+val SecondaryYellow = Color(0xFFFFF9C4) // светлый, мягкий, пастельный
+
+// Яркий красный
+val PrimaryRed = Color(0xFFFF5252) // яркий алый, насыщенный
+
+// Тусклый красный
+val SecondaryRed = Color(0xFFFFCDD2) // светлый розовато-красный, "выцветший"
+
 val Grey = Color(0xFFECE6F0)
 val TextGrey = Color(0xFF49454F)
 val TextBlack = Color(0xFF1D1B20)

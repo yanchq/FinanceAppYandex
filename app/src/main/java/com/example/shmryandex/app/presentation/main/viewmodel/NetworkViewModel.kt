@@ -3,11 +3,10 @@ package com.example.shmryandex.app.presentation.main.viewmodel
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.core.domain.usecase.SyncTransactionsUseCase
-import com.example.shmryandex.app.domain.usecase.ObserveNetworkStateUseCase
-import com.example.shmryandex.app.domain.usecase.StartMonitoringUseCase
-import com.example.shmryandex.app.domain.usecase.StopMonitoringUseCase
-import com.example.shmryandex.app.domain.usecase.TriggerImmediateSyncUseCase
+import com.example.shmryandex.app.domain.usecase.network.ObserveNetworkStateUseCase
+import com.example.shmryandex.app.domain.usecase.network.StartMonitoringUseCase
+import com.example.shmryandex.app.domain.usecase.network.StopMonitoringUseCase
+import com.example.shmryandex.app.domain.usecase.sync.TriggerImmediateSyncUseCase
 import com.example.shmryandex.app.presentation.NetworkEvent
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow

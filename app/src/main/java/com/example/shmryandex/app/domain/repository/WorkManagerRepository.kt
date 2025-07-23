@@ -6,7 +6,7 @@ package com.example.shmryandex.app.domain.repository
  */
 interface WorkManagerRepository {
 
-    fun schedulePeriodicSync()
+    suspend fun schedulePeriodicSync()
 
     fun triggerImmediateSync()
 } 

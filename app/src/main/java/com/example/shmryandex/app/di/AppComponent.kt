@@ -16,12 +16,14 @@ import com.example.history.api.HistoryDependencies
 import com.example.incomes.api.IncomesDependencies
 import com.example.shmryandex.app.di.module.WorkerModule
 import com.example.shmryandex.app.di.module.AppDatabaseModule
+import com.example.shmryandex.app.di.module.HapticModule
 import com.example.shmryandex.app.di.module.NetworkModule
 import com.example.shmryandex.app.di.module.NetworkRepositoryModule
+import com.example.shmryandex.app.di.module.OptionsRepositoryModule
 import com.example.shmryandex.app.di.module.SyncPreferencesRepositoryModule
 import com.example.shmryandex.app.di.module.ViewModelModule
 import com.example.shmryandex.app.di.module.WorkManagerRepositoryModule
-import com.example.shmryandex.app.domain.usecase.SchedulePeriodicSyncUseCase
+import com.example.shmryandex.app.domain.usecase.sync.SchedulePeriodicSyncUseCase
 import dagger.BindsInstance
 import dagger.Component
 
@@ -41,7 +43,9 @@ import dagger.Component
         AppDatabaseModule::class,
         WorkerModule::class,
         WorkManagerRepositoryModule::class,
-        SyncPreferencesRepositoryModule::class
+        SyncPreferencesRepositoryModule::class,
+        OptionsRepositoryModule::class,
+        HapticModule::class
     ]
 )
 interface AppComponent :

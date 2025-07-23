@@ -1,5 +1,6 @@
 package com.example.core.utils.ui.theme
 
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
@@ -21,11 +22,9 @@ val Typography = Typography(
         fontSize = 16.sp,
         fontWeight = FontWeight.Normal,
         fontFamily = FontFamily(Font(R.font.roboto_regular)),
-        color = TextBlack
     ),
     titleLarge = TextStyle(
         fontSize = 22.sp,
-        color = TextBlack,
         fontFamily = FontFamily(Font(R.font.roboto_regular))
     ),
     bodySmall = TextStyle(

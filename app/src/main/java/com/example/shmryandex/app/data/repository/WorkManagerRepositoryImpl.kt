@@ -12,6 +12,7 @@ import androidx.work.WorkInfo
 import androidx.work.WorkManager
 import com.example.shmryandex.app.domain.repository.WorkManagerRepository
 import com.example.shmryandex.app.data.worker.SyncTransactionsWorker
+import com.example.shmryandex.app.domain.repository.SyncPreferencesRepository
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
@@ -20,12 +21,18 @@ import javax.inject.Inject
  * Предоставляет информацию о состоянии синхронизации и управляет задачами.
  */
 class WorkManagerRepositoryImpl @Inject constructor(
-    private val context: Context
+    private val context: Context,
+    private val syncPreferencesRepository: SyncPreferencesRepository
 ) : WorkManagerRepository {
 
     private val workManager = WorkManager.getInstance(context)
 
-    override fun schedulePeriodicSync() {
+    override suspend fun schedulePeriodicSync() {
+
+        val syncRepeatInterval = syncPreferencesRepository.getSyncInterval()
+
+        Log.d("ServerSyncTest", "sync interval: $syncRepeatInterval hours")
+
         val constraints = Constraints.Builder()
             .setRequiredNetworkType(NetworkType.CONNECTED)
             .setRequiresBatteryNotLow(false)
@@ -33,7 +40,7 @@ class WorkManagerRepositoryImpl @Inject constructor(
             .build()
 
         val syncWorkRequest = PeriodicWorkRequestBuilder<SyncTransactionsWorker>(
-            repeatInterval = SYNC_INTERVAL_HOURS,
+            repeatInterval = syncRepeatInterval,
             repeatIntervalTimeUnit = TimeUnit.HOURS
         )
             .setConstraints(constraints)
@@ -75,6 +82,5 @@ class WorkManagerRepositoryImpl @Inject constructor(
     companion object {
         const val SYNC_INTERVAL_HOURS = 4L
         const val INITIAL_BACKOFF_DELAY_MINUTES = 15L
-        const val MAX_BACKOFF_DELAY_HOURS = 2L
     }
 } 

@@ -4,4 +4,6 @@ import com.example.core.presentation.mvi.UIEvent
 
 sealed class MainUIEvent : UIEvent {
     data object EditAccountIconClicked: MainUIEvent()
+
+    data object HapticButtonClicked: MainUIEvent()
 }
