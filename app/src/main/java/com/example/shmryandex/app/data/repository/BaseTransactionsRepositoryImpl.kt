@@ -1,10 +1,8 @@
 package com.example.shmryandex.app.data.repository
 
-import android.util.Log
 import com.example.shmryandex.app.data.mapper.TransactionMapper
 import com.example.core.data.network.api.TransactionsApi
 import com.example.core.data.network.model.CreateTransactionRequestBody
-import com.example.core.data.network.model.CreateTransactionResponse
 import com.example.core.data.network.model.Result
 import com.example.core.data.storage.dao.TransactionsDao
 import com.example.core.data.storage.entity.TransactionDbModel
@@ -15,6 +13,10 @@ import com.example.core.domain.repository.NetworkRepository
 import com.example.core.utils.extractDate
 import com.example.core.utils.extractTime
 import com.example.core.utils.toUtcIsoString
+import java.text.SimpleDateFormat
+import java.time.Instant
+import java.util.Date
+import java.util.Locale
 import javax.inject.Inject
 
 
@@ -24,6 +26,7 @@ class BaseTransactionsRepositoryImpl @Inject constructor(
     private val networkRepository: NetworkRepository,
     private val transactionsDao: TransactionsDao
 ) : BaseTransactionsRepository {
+
     override suspend fun createTransaction(
         accountId: Int,
         categoryId: Int,
@@ -101,6 +104,35 @@ class BaseTransactionsRepositoryImpl @Inject constructor(
         transactionDate: String,
         comment: String
     ): Result<Unit> = Result.execute {
+        if (networkRepository.getNetworkStatus().value) {
+            editNetworkTransaction(
+                transactionId = transactionId,
+                accountId = accountId,
+                categoryId = categoryId,
+                amount = amount,
+                transactionDate = transactionDate,
+                comment = comment
+            )
+        } else {
+            editLocalTransaction(
+                transactionId = transactionId,
+                accountId = accountId,
+                categoryId = categoryId,
+                amount = amount,
+                transactionDate = transactionDate,
+                comment = comment
+            )
+        }
+    }
+
+    private suspend fun editNetworkTransaction(
+        transactionId: Int,
+        accountId: Int,
+        categoryId: Int,
+        amount: String,
+        transactionDate: String,
+        comment: String
+    ) {
         api.editTransaction(
             transactionId = transactionId,
             CreateTransactionRequestBody(
@@ -111,6 +143,41 @@ class BaseTransactionsRepositoryImpl @Inject constructor(
                 comment = comment
             )
         )
+        val editedTransactionDb = TransactionDbModel(
+            id = transactionId,
+            amount = amount.toDouble(),
+            categoryId = categoryId,
+            accountId = accountId,
+            transactionDate = transactionDate.extractDate(),
+            transactionTime = transactionDate.extractTime(),
+            comment = comment
+        )
+
+        transactionsDao.editTransaction(editedTransactionDb)
+    }
+
+    private suspend fun editLocalTransaction(
+        transactionId: Int,
+        accountId: Int,
+        categoryId: Int,
+        amount: String,
+        transactionDate: String,
+        comment: String
+    ) {
+        val transactionDb = transactionsDao.getTransactionById(transactionId)
+        val editedTransactionDb = transactionDb.transaction.copy(
+            id = transactionId,
+            amount = amount.toDouble(),
+            categoryId = categoryId,
+            accountId = accountId,
+            transactionDate = transactionDate.extractDate(),
+            transactionTime = transactionDate.extractTime(),
+            comment = comment,
+            updatedAt = System.currentTimeMillis(),
+            syncStatus = "pending"
+        )
+
+        transactionsDao.editTransaction(editedTransactionDb)
     }
 
     override suspend fun getTransactionById(transactionId: Int): Result<DetailedTransaction> =
@@ -124,59 +191,59 @@ class BaseTransactionsRepositoryImpl @Inject constructor(
 
     override suspend fun syncTransactions(): Result<Unit> = Result.execute {
         val pendingTransactionsDb = transactionsDao.getPendingTransactions()
-        Log.d("SyncStatus", "Pending transactions: $pendingTransactionsDb")
 
         pendingTransactionsDb.forEach { transaction ->
             if (transaction.localId != null) {
-                when (val response = createTransaction(
-                    accountId = transaction.accountId,
-                    categoryId = transaction.categoryId,
-                    amount = transaction.amount.toString(),
-                    transactionDate = toUtcIsoString(
-                        transaction.transactionDate,
-                        transaction.transactionTime
-                    ),
-                    comment = transaction.comment
-                )) {
-                    is Result.Error -> {
-                        Log.d("SyncStatus", response.exception.toString())
-                    }
-                    Result.Loading -> {}
-                    is Result.Success<Transaction> -> {
-                        try {
-                            Log.d("SyncStatus", "Pending Transaction id: ${transaction.id}")
-                            transactionsDao.deleteTransactionById(transaction.id)
-                            transactionsDao.insertTransaction(
-                                mapper.mapTransactionToDbModel(
-                                    response.data
-                                )
-                            )
-                        } catch (e: Exception) {
-                            Log.d("SyncStatus", e.message.toString())
-                        }
-                    }
-                }
+                syncCreatedTransaction(transaction)
             } else {
-                when (editTransaction(
-                    transactionId = transaction.id,
-                    accountId = transaction.accountId,
-                    categoryId = transaction.categoryId,
-                    amount = transaction.amount.toString(),
-                    transactionDate = toUtcIsoString(
-                        transaction.transactionDate,
-                        transaction.transactionTime
-                    ),
-                    comment = transaction.comment
-                )) {
-                    is Result.Error -> {}
-                    Result.Loading -> {}
-                    is Result.Success<*> -> {
-                        transactionsDao.changeTransactionSyncStatus(
-                            transactionId = transaction.id
-                        )
-                    }
-                }
+                syncEditedTransaction(transaction)
             }
+        }
+    }
+
+    private suspend fun syncCreatedTransaction(transaction: TransactionDbModel) {
+        val response = createNetworkTransaction(
+            accountId = transaction.accountId,
+            categoryId = transaction.categoryId,
+            amount = transaction.amount.toString(),
+            transactionDate = toUtcIsoString(
+                transaction.transactionDate,
+                transaction.transactionTime
+            ),
+            comment = transaction.comment
+        )
+        transactionsDao.deleteTransactionById(transaction.id)
+        transactionsDao.insertTransaction(
+            mapper.mapTransactionToDbModel(
+                response
+            )
+        )
+    }
+
+    private suspend fun syncEditedTransaction(transaction: TransactionDbModel) {
+        val networkTransaction = api.getTransactionById(transaction.id)
+
+        val networkTransactionUpdateTime =
+            Instant.parse(networkTransaction.updatedAt).toEpochMilli()
+
+        if (networkTransactionUpdateTime <= transaction.updatedAt) {
+            editNetworkTransaction(
+                transactionId = transaction.id,
+                accountId = transaction.accountId,
+                categoryId = transaction.categoryId,
+                amount = transaction.amount.toString(),
+                transactionDate = toUtcIsoString(
+                    transaction.transactionDate,
+                    transaction.transactionTime
+                ),
+                comment = transaction.comment
+            )
+            transactionsDao.changeTransactionSyncStatus(
+                transactionId = transaction.id
+            )
+        }
+        else {
+            transactionsDao.insertTransaction(mapper.mapTransactionDtoToDbModel(networkTransaction))
         }
     }
 

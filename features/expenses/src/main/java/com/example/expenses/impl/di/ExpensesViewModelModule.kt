@@ -26,4 +26,5 @@ interface ExpensesViewModelModule {
     @IntoMap
     @ViewModelKey(EditExpenseViewModel::class)
     fun bindEditExpenseViewModel(editExpenseViewModel: EditExpenseViewModel): ViewModel
+
 }

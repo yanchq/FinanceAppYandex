@@ -1,3 +1,4 @@
 <resources>
-    <string name="app_name">SHMRYandex</string>
+    <string name="app_name" translatable="false">SHMRYandex</string>
+    <string name="expenses_title">Expenses</string>
 </resources>

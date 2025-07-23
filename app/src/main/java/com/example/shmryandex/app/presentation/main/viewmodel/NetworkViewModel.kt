@@ -3,9 +3,10 @@ package com.example.shmryandex.app.presentation.main.viewmodel
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.shmryandex.app.domain.usecase.ObserveNetworkStateUseCase
-import com.example.shmryandex.app.domain.usecase.StartMonitoringUseCase
-import com.example.shmryandex.app.domain.usecase.StopMonitoringUseCase
+import com.example.shmryandex.app.domain.usecase.network.ObserveNetworkStateUseCase
+import com.example.shmryandex.app.domain.usecase.network.StartMonitoringUseCase
+import com.example.shmryandex.app.domain.usecase.network.StopMonitoringUseCase
+import com.example.shmryandex.app.domain.usecase.sync.TriggerImmediateSyncUseCase
 import com.example.shmryandex.app.presentation.NetworkEvent
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
@@ -20,7 +21,8 @@ import javax.inject.Inject
 class NetworkViewModel @Inject constructor(
     private val observeNetworkStateUseCase: ObserveNetworkStateUseCase,
     private val startMonitoringUseCase: StartMonitoringUseCase,
-    private val stopMonitoringUseCase: StopMonitoringUseCase
+    private val stopMonitoringUseCase: StopMonitoringUseCase,
+    private val triggerImmediateSyncUseCase: TriggerImmediateSyncUseCase,
 ) : ViewModel() {
 
     private val _events = MutableSharedFlow<NetworkEvent>()
@@ -30,9 +32,14 @@ class NetworkViewModel @Inject constructor(
         startMonitoringUseCase()
         viewModelScope.launch {
             observeNetworkStateUseCase().collect { isAvailable ->
-                Log.d("LoadFromDbTest", "$isAvailable")
                 if (!isAvailable) {
                     _events.emit(NetworkEvent.ShowNoConnectionToast)
+                }
+                else {
+                    Log.d("SyncTransactionsTest", "Network status: $isAvailable")
+                    
+                    // Запускаем WorkManager
+                    triggerImmediateSyncUseCase()
                 }
             }
         }

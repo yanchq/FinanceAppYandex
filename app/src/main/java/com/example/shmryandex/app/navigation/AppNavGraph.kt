@@ -23,6 +23,7 @@ import com.example.core.presentation.LocalViewModelFactory
 import com.example.expenses.impl.di.DaggerExpensesComponent
 import com.example.history.impl.di.DaggerHistoryComponent
 import com.example.incomes.impl.di.DaggerIncomesComponent
+import com.example.shmryandex.app.presentation.options.buildinfo.AppInfoScreen
 import com.example.shmryandex.appComponent
 
 /**
@@ -40,7 +41,9 @@ fun AppNavGraph(
     optionsScreenContent: @Composable () -> Unit,
     expensesHistoryScreenContent: @Composable (Boolean) -> Unit,
     addTransactionScreenContent: @Composable (Boolean) -> Unit,
-    editTransactionScreenContent: @Composable (Int) -> Unit
+    editTransactionScreenContent: @Composable (Int) -> Unit,
+    expensesAnalyticsScreenContent: @Composable (Boolean) -> Unit,
+    incomesAnalyticsScreenContent: @Composable (Boolean) -> Unit,
 ) {
 
     val context = LocalContext.current
@@ -123,6 +126,25 @@ fun AppNavGraph(
                     expensesHistoryScreenContent(isIncome)
                 }
             }
+
+            composable(
+                route = "${Screen.ExpensesAnalytics.route}/{${Screen.HISTORY_ARGUMENT}}",
+                arguments = listOf(
+                    navArgument(Screen.HISTORY_ARGUMENT) { type = NavType.BoolType }
+                )
+            ) { backStackEntry ->
+
+                val historyComponent = remember {
+                    DaggerHistoryComponent.factory().create(appComponent)
+                }
+                val isIncome = backStackEntry.arguments?.getBoolean("isIncome") ?: false
+
+                CompositionLocalProvider(
+                    LocalViewModelFactory provides historyComponent.viewModelFactory()
+                ) {
+                    expensesAnalyticsScreenContent(isIncome)
+                }
+            }
         }
 
         navigation(
@@ -192,6 +214,25 @@ fun AppNavGraph(
                     incomesHistoryScreenContent(isIncome)
                 }
             }
+
+            composable(
+                route = "${Screen.IncomesAnalytics.route}/{${Screen.HISTORY_ARGUMENT}}",
+                arguments = listOf(
+                    navArgument(Screen.HISTORY_ARGUMENT) { type = NavType.BoolType }
+                )
+            ) { backStackEntry ->
+
+                val historyComponent = remember {
+                    DaggerHistoryComponent.factory().create(appComponent)
+                }
+                val isIncome = backStackEntry.arguments?.getBoolean("isIncome") ?: false
+
+                CompositionLocalProvider(
+                    LocalViewModelFactory provides historyComponent.viewModelFactory()
+                ) {
+                    incomesAnalyticsScreenContent(isIncome)
+                }
+            }
         }
 
         navigation(
@@ -248,6 +289,10 @@ fun AppNavGraph(
         ) {
             composable(Screen.Options.route) {
                 optionsScreenContent()
+            }
+
+            composable(Screen.AppInfo.route) {
+                AppInfoScreen()
             }
         }
     }
