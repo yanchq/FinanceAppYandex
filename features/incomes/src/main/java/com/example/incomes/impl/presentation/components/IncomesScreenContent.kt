@@ -21,13 +21,16 @@ import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.example.incomes.R
 import com.example.core.utils.toCurrencyString
+import com.example.core.utils.ui.localizedString
 import com.example.incomes.impl.domain.entity.Income
 import com.example.incomes.impl.presentation.contract.IncomesUIEvent
 import com.example.incomes.impl.presentation.contract.IncomesUIState
 import com.example.core.utils.ui.theme.DividerGrey
 import com.example.core.utils.ui.theme.SecondaryGreen
+import com.example.core.utils.ui.theme.TextBlack
 
 @Composable
 fun IncomesScreenContent(
@@ -60,12 +63,12 @@ fun IncomesScreenContent(
                 .padding(horizontal = 16.dp, vertical = 8.dp)
         ) {
             Text(
-                text = "Всего",
-                style = MaterialTheme.typography.bodyMedium
+                text = localizedString(com.example.core.R.string.total_amount),
+                color = TextBlack
             )
             Text(
                 text = uiState.summary.toCurrencyString("₽"),
-                style = MaterialTheme.typography.bodyMedium
+                color = TextBlack
             )
         }
 
@@ -123,7 +126,9 @@ private fun IncomeCard(
                     modifier = Modifier
                         .fillMaxWidth(),
                     text = income.comment,
-                    style = MaterialTheme.typography.bodySmall
+                    style = MaterialTheme.typography.bodyMedium,
+                    fontSize = 12.sp,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
             }
 

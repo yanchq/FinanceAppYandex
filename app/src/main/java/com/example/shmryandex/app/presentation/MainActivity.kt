@@ -15,6 +15,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.compose.rememberNavController
+import com.example.core.presentation.LocalAppLocale
 import com.example.core.presentation.LocalViewModelFactory
 import com.example.core.utils.ui.theme.SHMRYandexTheme
 import com.example.shmryandex.app.navigation.RootNavGraph
@@ -23,6 +24,7 @@ import com.example.shmryandex.app.presentation.theme.ThemeViewModel
 import com.example.shmryandex.appComponent
 
 import kotlinx.coroutines.launch
+import java.util.Locale
 import javax.inject.Inject
 
 /**
@@ -77,12 +79,14 @@ class MainActivity : ComponentActivity() {
         setContent {
             val isDarkTheme by themeViewModel.isDarkTheme.collectAsStateWithLifecycle()
             val mainColor by themeViewModel.mainColor.collectAsStateWithLifecycle()
+            val locale by themeViewModel.locale.collectAsStateWithLifecycle()
 
             SHMRYandexTheme(
                 darkTheme = isDarkTheme,
                 mainColor = mainColor) {
                 CompositionLocalProvider(
                     LocalViewModelFactory provides appComponent.viewModelFactory(),
+                    LocalAppLocale provides Locale(locale)
                 ) {
                     RootNavGraph(navController = rememberNavController())
                 }

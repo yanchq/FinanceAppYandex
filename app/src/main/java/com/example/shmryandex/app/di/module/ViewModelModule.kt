@@ -4,7 +4,11 @@ import androidx.lifecycle.ViewModel
 import com.example.core.di.ViewModelKey
 import com.example.shmryandex.app.presentation.main.viewmodel.MainViewModel
 import com.example.shmryandex.app.presentation.main.viewmodel.NetworkViewModel
+import com.example.shmryandex.app.presentation.options.changelocale.ChangeLocaleViewModel
+import com.example.shmryandex.app.presentation.options.haptic.HapticViewModel
 import com.example.shmryandex.app.presentation.options.main.viewmodel.OptionsViewModel
+import com.example.shmryandex.app.presentation.options.maincolor.MainColorViewModel
+import com.example.shmryandex.app.presentation.options.sync.SyncViewModel
 import com.example.shmryandex.app.presentation.splash.viewmodel.SplashViewModel
 import com.example.shmryandex.app.presentation.theme.ThemeViewModel
 import dagger.Binds
@@ -38,4 +42,24 @@ interface ViewModelModule {
     @IntoMap
     @ViewModelKey(ThemeViewModel::class)
     fun bindThemeViewModel(themeViewModel: ThemeViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(ChangeLocaleViewModel::class)
+    fun bindChangeLocaleViewModel(changeLocaleViewModel: ChangeLocaleViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(MainColorViewModel::class)
+    fun bindChangeMainColorViewModel(mainColorViewModel: MainColorViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(SyncViewModel::class)
+    fun bindSyncViewModel(syncViewModel: SyncViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(HapticViewModel::class)
+    fun bindHapticViewModel(hapticViewModel: HapticViewModel): ViewModel
 }

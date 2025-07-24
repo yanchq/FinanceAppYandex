@@ -1,6 +1,7 @@
 package com.example.shmryandex.app.data.repository
 
 import android.content.Context
+import android.util.Log
 import androidx.core.content.edit
 import com.example.core.data.haptic.HapticType
 import com.example.core.utils.ui.MainColorType
@@ -71,6 +72,7 @@ class OptionsPreferencesRepositoryImpl @Inject constructor(
             putString(KEY_LOCALE, language)
         }
         locale.value = language
+        Log.d("ChangeLocaleTest", "Locale changed in repository to: ${locale.value}")
     }
 
     override suspend fun getLanguage(): String {

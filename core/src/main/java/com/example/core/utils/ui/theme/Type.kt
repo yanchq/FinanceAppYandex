@@ -24,6 +24,7 @@ val Typography = Typography(
         fontFamily = FontFamily(Font(R.font.roboto_regular)),
     ),
     titleLarge = TextStyle(
+        color = TextBlack,
         fontSize = 22.sp,
         fontFamily = FontFamily(Font(R.font.roboto_regular))
     ),

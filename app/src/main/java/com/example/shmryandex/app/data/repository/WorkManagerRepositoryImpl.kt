@@ -54,7 +54,7 @@ class WorkManagerRepositoryImpl @Inject constructor(
 
         workManager.enqueueUniquePeriodicWork(
             SyncTransactionsWorker.WORK_NAME,
-            ExistingPeriodicWorkPolicy.KEEP, // Сохраняем существующую работу если она уже запланирована
+            ExistingPeriodicWorkPolicy.REPLACE, // Заменяем существующую работу если она уже запланирована
             syncWorkRequest
         )
     }

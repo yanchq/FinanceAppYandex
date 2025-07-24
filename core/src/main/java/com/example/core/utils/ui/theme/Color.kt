@@ -29,3 +29,9 @@ val Grey = Color(0xFFECE6F0)
 val TextGrey = Color(0xFF49454F)
 val TextBlack = Color(0xFF1D1B20)
 val DividerGrey = Color(0xFFCAC4D0)
+val DarkGrayBackground = Color(0xFF121212)
+val SoftDarkGray = Color(0xFF1C1C1E) // чуть теплее, ближе к графиту
+val DeepSlateGray = Color(0xFF2A2A2D) // с легкой синевой, как мокрый асфальт
+val CharcoalGray = Color(0xFF202124) // темно-серый, используется в Android System UI
+val DimGray = Color(0xFF3A3A3C) // серый с хорошей читаемостью, для контейнеров
+

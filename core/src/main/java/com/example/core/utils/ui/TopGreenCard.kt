@@ -32,6 +32,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.core.R
 import com.example.core.utils.toCurrencyString
+import com.example.core.utils.ui.theme.TextBlack
 
 
 @Composable
@@ -103,6 +104,7 @@ fun TopGreenCard(
                 Text(
                     text = title,
                     style = MaterialTheme.typography.bodyMedium,
+                    color = TextBlack
                 )
             }
 
@@ -110,6 +112,7 @@ fun TopGreenCard(
                 Text(
                     text = amount.toCurrencyString(""),
                     style = MaterialTheme.typography.bodyMedium,
+                    color = TextBlack
                 )
                 Spacer(modifier = Modifier.width(8.dp))
             }
@@ -118,6 +121,7 @@ fun TopGreenCard(
                 Text(
                     text = currency,
                     style = MaterialTheme.typography.bodyMedium,
+                    color = TextBlack
                 )
                 Spacer(modifier = Modifier.width(8.dp))
             }
