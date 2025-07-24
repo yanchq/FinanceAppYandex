@@ -152,6 +152,20 @@ sealed class Screen(
         false,
         R.drawable.ic_cancel
     )
+    data object PinCode: Screen(
+        PIN_CODE_ROUTE,
+        R.string.app_password_title,
+        null,
+        false,
+        R.drawable.ic_cancel
+    )
+    data object Login: Screen(
+        LOGIN_ROUTE,
+        R.string.app_password_title,
+        null,
+        false,
+        R.drawable.ic_cancel
+    )
 
 
     companion object {
@@ -180,6 +194,8 @@ sealed class Screen(
         const val CHANGE_MAIN_COLOR_ROUTE = "ChangeMainColorRoute"
         const val SYNC_INTERVAL_ROUTE = "SyncIntervalRoute"
         const val SELECT_HAPTIC_ROUTE = "SelectHapticRoute"
+        const val PIN_CODE_ROUTE = "PinCode"
+        const val LOGIN_ROUTE = "LoginCode"
 
         const val APP_INFO_TITLE = "О программе"
         const val CHANGE_LOCALE_TITLE = "Язык"

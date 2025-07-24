@@ -16,6 +16,7 @@ import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Color.Companion.White
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import com.example.core.utils.ui.theme.DividerGrey
 import com.example.core.utils.ui.theme.PrimaryGreen
@@ -51,6 +52,7 @@ fun ThemeToggle(
         Switch(
             checked = isDarkTheme,
             onCheckedChange = onToggle,
+            modifier = Modifier.testTag("theme_toggle_switch"),
             colors = SwitchDefaults.colors(
                 checkedThumbColor = White,
                 uncheckedThumbColor = Color(0xFF79747E),

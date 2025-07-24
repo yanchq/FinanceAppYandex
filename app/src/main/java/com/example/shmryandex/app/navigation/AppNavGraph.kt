@@ -27,6 +27,7 @@ import com.example.shmryandex.app.presentation.options.buildinfo.AppInfoScreen
 import com.example.shmryandex.app.presentation.options.changelocale.ChangeLocaleScreen
 import com.example.shmryandex.app.presentation.options.haptic.HapticScreen
 import com.example.shmryandex.app.presentation.options.maincolor.ChangeMainColorScreen
+import com.example.shmryandex.app.presentation.options.pincode.PinCodeScreen
 import com.example.shmryandex.app.presentation.options.sync.SyncScreen
 import com.example.shmryandex.appComponent
 
@@ -308,6 +309,9 @@ fun AppNavGraph(
             }
             composable(Screen.SelectHaptic.route) {
                 HapticScreen()
+            }
+            composable(Screen.PinCode.route) {
+                PinCodeScreen(navHostController)
             }
         }
     }

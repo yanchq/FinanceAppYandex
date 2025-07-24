@@ -1,4 +1,4 @@
-package com.example.shmryandex.app.data.prefsoptions
+package com.example.shmryandex.app.data.haptic
 
 import android.Manifest
 import android.content.Context
@@ -31,9 +31,6 @@ class HapticManagerImpl @Inject constructor(
     private fun lightHaptic() {
         vibrator.vibrate(VibrationEffect.createOneShot(50, VibrationEffect.DEFAULT_AMPLITUDE))
     }
-
-    val build = BuildConfig.VERSION_NAME
-
 
     @RequiresPermission(Manifest.permission.VIBRATE)
     private fun mediumHaptic() {

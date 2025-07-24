@@ -92,4 +92,6 @@ dependencies {
     ksp(libs.room.compiler)
     //WorkManager
     implementation(libs.work.runtime)
+    //EncryptedSharedPreferences
+    implementation(libs.security.crypto)
 }
