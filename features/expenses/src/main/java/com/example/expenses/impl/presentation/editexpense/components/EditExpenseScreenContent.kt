@@ -1,6 +1,7 @@
 package com.example.expenses.impl.presentation.editexpense.components
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -31,7 +32,11 @@ import com.example.core.utils.ui.CustomDatePickerDialog
 import com.example.core.utils.ui.CustomSnackbar
 import com.example.core.utils.ui.CustomTimePickerDialog
 import com.example.core.utils.ui.SingleLineTextField
+import com.example.core.utils.ui.localizedString
+import com.example.core.utils.ui.theme.Grey
 import com.example.core.utils.ui.theme.PrimaryGreen
+import com.example.core.utils.ui.theme.TextBlack
+import com.example.expenses.R
 import com.example.expenses.impl.presentation.addexpense.contract.AddExpenseUIEffect
 import com.example.expenses.impl.presentation.addexpense.contract.AddExpenseUIState
 import com.example.expenses.impl.presentation.editexpense.contract.EditExpenseUIEvent
@@ -72,18 +77,17 @@ fun EditExpenseScreenContent(
             onAmountChange = {
                 sendEvent(EditExpenseUIEvent.AmountChanged(it))
             },
-            label = "Сумма",
             currency = uiState.account?.currency ?: "",
         )
         AppCard(
-            title = "Дата",
+            title = localizedString(com.example.core.R.string.date),
             onNavigateClick = {
                 showDialog = true
             },
             stringDate = uiState.transactionDate
         )
         AppCard(
-            title = "Время",
+            title = localizedString(com.example.core.R.string.time),
             onNavigateClick = {
                 showTimeDialog = true
             },
@@ -94,7 +98,12 @@ fun EditExpenseScreenContent(
             onValueChange = {
                 sendEvent(EditExpenseUIEvent.CommentChanged(it))
             },
-            placeholder = "Комментарий"
+            placeholder = localizedString(com.example.core.R.string.comment)
+        )
+
+        Spacer(
+            modifier = Modifier
+                .height(50.dp)
         )
 
         Button(
@@ -111,12 +120,20 @@ fun EditExpenseScreenContent(
             colors = ButtonDefaults.buttonColors(
                 containerColor = MaterialTheme.colorScheme.primaryContainer,
                 contentColor = MaterialTheme.colorScheme.onPrimary,
-                disabledContainerColor = MaterialTheme.colorScheme.surface,
+                disabledContainerColor = Grey,
                 disabledContentColor = MaterialTheme.colorScheme.onSurface
             )
         ) {
-            Text(text = "Изменить транзакцию")
+            Text(
+                text = localizedString(R.string.edit_transaction),
+                color = TextBlack
+            )
         }
+
+        Spacer(
+            modifier = Modifier
+                .height(50.dp)
+        )
 
         SnackbarHost(
             hostState = snackbarHostState,

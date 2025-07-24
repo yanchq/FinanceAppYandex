@@ -8,7 +8,7 @@ enum class MainColorType(val color: String) {
 
     companion object {
         fun fromValue(color: String): MainColorType {
-            return values().find { it.color == color } ?: RED
+            return MainColorType.entries.find { it.color == color } ?: RED
         }
 
         fun getDefault(): MainColorType = RED

@@ -54,7 +54,7 @@ fun ThemeToggle(
             colors = SwitchDefaults.colors(
                 checkedThumbColor = White,
                 uncheckedThumbColor = Color(0xFF79747E),
-                checkedTrackColor = PrimaryGreen,
+                checkedTrackColor = MaterialTheme.colorScheme.primaryContainer,
                 uncheckedTrackColor = Color(0xFFE6E0E9)
             )
         )

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="total_amount">Всего</string>
+    <string name="account">Счет</string>
+    <string name="category">Статья</string>
+    <string name="date">Дата</string>
+    <string name="time">Время</string>
+    <string name="comment">Комментарий</string>
+    <string name="create_transaction">Создать транзакцию</string>
+</resources>

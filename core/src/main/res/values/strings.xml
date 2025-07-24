@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="total_amount">Total</string>
+    <string name="account">Account</string>
+    <string name="category">Category</string>
+    <string name="date">Date</string>
+    <string name="time">Time</string>
+    <string name="comment">Comment</string>
+    <string name="create_transaction">Create transaction</string>
+</resources>

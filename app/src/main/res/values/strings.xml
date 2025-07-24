@@ -1,4 +1,32 @@
 <resources>
     <string name="app_name" translatable="false">SHMRYandex</string>
-    <string name="expenses_title">Expenses</string>
+
+    <string name="expenses_nav_item_title">Expenses</string>
+    <string name="incomes_nav_item_title">Incomes</string>
+    <string name="accounts_nav_item_title">Account</string>
+    <string name="categories_nav_item_title">Categories</string>
+    <string name="options_nav_item_title">Options</string>
+
+    <string name="expenses_title">Expenses Today</string>
+    <string name="incomes_title">Incomes Today</string>
+    <string name="accounts_title">My Account</string>
+    <string name="categories_title">My Categories</string>
+    <string name="options_title">Options</string>
+    <string name="add_expense_title">Add Expense</string>
+    <string name="add_incomes_title">Add Income</string>
+    <string name="add_account_title">Add Account</string>
+    <string name="edit_account_title">Edit Account</string>
+    <string name="edit_expense_title">Edit Expense</string>
+    <string name="edit_income_title">Edit Income</string>
+    <string name="expenses_history_title">Expenses History</string>
+    <string name="incomes_history_title">Incomes History</string>
+    <string name="expenses_analytics_title">Expenses Analytics</string>
+    <string name="incomes_analytics_title">Incomes Analytics</string>
+    <string name="app_info_title">App Info</string>
+    <string name="change_locale_title">Language</string>
+    <string name="change_main_color_title">Main Color</string>
+    <string name="sync_title">Synchronization</string>
+    <string name="haptics_title">Haptics</string>
+    <string name="sounds_title">Sounds</string>
+    <string name="app_password_title">Password</string>
 </resources>

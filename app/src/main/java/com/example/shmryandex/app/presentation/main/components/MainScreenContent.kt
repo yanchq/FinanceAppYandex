@@ -38,6 +38,7 @@ import com.example.shmryandex.app.presentation.main.contract.MainUIState
 import com.example.shmryandex.app.presentation.main.screen.NavigationItem
 import com.example.core.utils.ui.theme.PrimaryGreen
 import com.example.categories.impl.presentation.screen.CategoriesScreen
+import com.example.core.utils.ui.localizedString
 import com.example.expenses.impl.presentation.addexpense.screen.AddExpenseScreen
 import com.example.expenses.impl.presentation.editexpense.screen.EditExpenseScreen
 import com.example.expenses.impl.presentation.main.screen.ExpensesScreen
@@ -76,13 +77,18 @@ fun MainScreenContent(
         "${Screen.EditExpense.route}/{${Screen.EDIT_TRANSACTION_ARGUMENT}}" -> Screen.EditExpense
         "${Screen.IncomesAnalytics.route}/{${Screen.HISTORY_ARGUMENT}}" -> Screen.IncomesAnalytics
         "${Screen.ExpensesAnalytics.route}/{${Screen.HISTORY_ARGUMENT}}" -> Screen.ExpensesAnalytics
+        Screen.ChangeLocale.route -> Screen.ChangeLocale
+        Screen.AppInfo.route -> Screen.AppInfo
+        Screen.ChangeMainColor.route -> Screen.ChangeMainColor
+        Screen.SyncInterval.route -> Screen.SyncInterval
+        Screen.SelectHaptic.route -> Screen.SelectHaptic
         else -> Screen.Expenses
     }
 
     Scaffold(
         topBar = {
             CustomTopAppBar(
-                title = currentScreen.title,
+                title = localizedString(currentScreen.title),
                 rightIcon = currentScreen.topAppBarIcon,
                 leftIcon = currentScreen.leftTopAppBarIcon,
                 onLeftIconClick = {
@@ -150,7 +156,7 @@ fun MainScreenContent(
                         },
                         label = {
                             Text(
-                                text = stringResource(R.string.expenses_title),
+                                text = localizedString(item.label),
                                 fontSize = 12.sp
                             )
                         }
