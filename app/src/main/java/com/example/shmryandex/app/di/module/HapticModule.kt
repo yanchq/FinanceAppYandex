@@ -1,7 +1,7 @@
 package com.example.shmryandex.app.di.module
 
 import com.example.core.data.haptic.HapticManager
-import com.example.shmryandex.app.data.prefsoptions.HapticManagerImpl
+import com.example.shmryandex.app.data.haptic.HapticManagerImpl
 import com.example.shmryandex.app.di.AppScope
 import dagger.Binds
 import dagger.Module

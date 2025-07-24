@@ -3,6 +3,8 @@ package com.example.shmryandex.app.data.repository
 import android.content.Context
 import android.util.Log
 import androidx.core.content.edit
+import androidx.security.crypto.EncryptedSharedPreferences
+import androidx.security.crypto.MasterKeys
 import com.example.core.data.haptic.HapticType
 import com.example.core.utils.ui.MainColorType
 import com.example.shmryandex.app.domain.repository.OptionsPreferencesRepository
@@ -13,6 +15,16 @@ import javax.inject.Inject
 class OptionsPreferencesRepositoryImpl @Inject constructor(
     private val context: Context
 ) : OptionsPreferencesRepository {
+
+    val masterKeyAlias = MasterKeys.getOrCreate(MasterKeys.AES256_GCM_SPEC)
+
+    val encryptedSharedPreferences = EncryptedSharedPreferences.create(
+        ENCRYPTED_PREF,
+        masterKeyAlias,
+        context,
+        EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
+        EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
+    )
 
     private val sharedPreferences = context.getSharedPreferences(
         OPTIONS_PREF,
@@ -108,12 +120,24 @@ class OptionsPreferencesRepositoryImpl @Inject constructor(
         return mainColor
     }
 
+    override suspend fun getPinCode(): Int {
+        return encryptedSharedPreferences.getInt(KEY_PIN_CODE, 0)
+    }
+
+    override suspend fun setPinCode(pin: Int) {
+        encryptedSharedPreferences.edit {
+            putInt(KEY_PIN_CODE, pin)
+        }
+    }
+
     companion object {
         private const val OPTIONS_PREF = "options_pref"
+        private const val ENCRYPTED_PREF = "encrypted_pref"
         private const val KEY_THEME_MODE = "theme_mode"
         private const val KEY_HAPTIC_ENABLED_STATE = "haptic_state"
         private const val KEY_HAPTIC_TYPE = "haptic_type"
         private const val KEY_LOCALE = "locale"
         private const val KEY_MAIN_THEME_COLOR = "main_color"
+        private const val KEY_PIN_CODE = "pin_code"
     }
 }

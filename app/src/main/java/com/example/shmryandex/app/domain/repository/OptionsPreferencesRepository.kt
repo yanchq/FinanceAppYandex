@@ -31,4 +31,8 @@ interface OptionsPreferencesRepository {
     suspend fun setMainThemeColor(color: MainColorType)
 
     suspend fun getMainThemeColorFlow(): StateFlow<MainColorType>
+
+    suspend fun getPinCode(): Int
+
+    suspend fun setPinCode(pin: Int)
 }

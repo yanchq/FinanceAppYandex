@@ -34,6 +34,13 @@ fun SplashScreen(
                         popUpTo(Screen.Splash.route) { inclusive = true }
                     }
                 }
+
+                SplashUIEffect.NavigateToLoginScreen -> {
+                    delay(200)
+                    navController.navigate(Screen.Login.route) {
+                        popUpTo(Screen.Splash.route) { inclusive = true }
+                    }
+                }
             }
         }
     }

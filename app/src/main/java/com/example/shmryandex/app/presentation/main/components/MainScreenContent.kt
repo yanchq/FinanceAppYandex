@@ -82,6 +82,7 @@ fun MainScreenContent(
         Screen.ChangeMainColor.route -> Screen.ChangeMainColor
         Screen.SyncInterval.route -> Screen.SyncInterval
         Screen.SelectHaptic.route -> Screen.SelectHaptic
+        Screen.PinCode.route -> Screen.PinCode
         else -> Screen.Expenses
     }
 

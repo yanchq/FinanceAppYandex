@@ -44,6 +44,7 @@ fun OptionsScreenContent(
             name = localizedString(R.string.app_password_title),
             onClick = {
                 sendEvent(OptionsUIEvent.HapticButtonClicked)
+                navHostController.navigate(Screen.PinCode.route)
             }
         )
         OptionCard(
