@@ -9,5 +9,6 @@ import com.example.core.presentation.mvi.UIState
  */
 data class AccountsUIState(
     val selectedAccount: Account? = null,
-    val accounts: List<Account> = emptyList()
+    val accounts: List<Account> = emptyList(),
+    val graphInfo: Pair<Int, List<Double>>? = null
 ): UIState

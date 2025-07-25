@@ -1,12 +1,10 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
-    
-    alias(libs.plugins.ksp)
 }
 
 android {
-    namespace = "com.example.history"
+    namespace = "com.example.graphs"
     compileSdk = 35
 
     defaultConfig {
@@ -42,39 +40,19 @@ android {
 
 dependencies {
 
-    implementation(project(":core"))
-    implementation(project(":core:graphs"))
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
     implementation(libs.androidx.activity.compose)
-    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.6.2")
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.ui)
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
+    implementation (libs.mpandroidchart)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(platform(libs.androidx.compose.bom))
     androidTestImplementation(libs.androidx.ui.test.junit4)
-    debugImplementation(libs.androidx.ui.tooling)
-    debugImplementation(libs.androidx.ui.test.manifest)
-    //Dagger2
-    implementation(libs.dagger)
-    ksp(libs.dagger.compiler)
-    //Network
-    implementation(libs.retrofit.core)
-    implementation(libs.retrofit.moshi)
-    implementation(libs.okhttp.core)
-    implementation(libs.okhttp.logging)
-    implementation(libs.moshi.kotlin)
-    ksp(libs.moshi.codegen)
-    //Gson
-    implementation(libs.gson)
-    //Room
-    implementation(libs.room.runtime)
-    implementation(libs.room.ktx)
-    ksp(libs.room.compiler)
 }

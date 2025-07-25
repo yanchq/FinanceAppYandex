@@ -29,4 +29,6 @@
     <string name="haptics_title">Haptics</string>
     <string name="sounds_title">Sounds</string>
     <string name="app_password_title">Password</string>
+    <string name="dark_mode">Dark mode</string>
+    <string name="enter_pin_code">Enter PIN-code</string>
 </resources>

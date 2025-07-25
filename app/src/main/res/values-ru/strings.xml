@@ -28,4 +28,6 @@
     <string name="haptics_title">Хаптики</string>
     <string name="sounds_title">Звуки</string>
     <string name="app_password_title">Код пароль</string>
+    <string name="dark_mode">Темная тема</string>
+    <string name="enter_pin_code">Введите PIN-код</string>
 </resources>

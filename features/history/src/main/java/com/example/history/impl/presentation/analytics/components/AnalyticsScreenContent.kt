@@ -15,6 +15,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
+import com.example.core.R
 import com.example.core.presentation.mvi.ScreenContent
 import com.example.core.utils.formatDateToMillis
 import com.example.core.utils.formatDateToString
@@ -22,8 +23,11 @@ import com.example.core.utils.ui.AppCard
 import com.example.core.utils.ui.CustomDatePickerDialog
 import com.example.core.utils.ui.LoadingScreen
 import com.example.core.utils.ui.TopGreenCard
+import com.example.core.utils.ui.localizedString
+import com.example.graphs.PieGraph
 import com.example.history.impl.presentation.analytics.contract.AnalyticsUIEvent
 import com.example.history.impl.presentation.analytics.contract.AnalyticsUIState
+import com.example.history.impl.presentation.analytics.utils.generateColorsHSV
 import com.example.history.impl.presentation.main.components.DateType
 import com.example.history.impl.presentation.main.contract.HistoryUIEvent
 
@@ -35,6 +39,7 @@ fun AnalyticsScreenContent(
 ) {
     var showDialog by remember { mutableStateOf(false) }
     var currentPicker by remember { mutableStateOf(DateType.START) }
+    val colors = generateColorsHSV(uiState.items.count())
 
     LaunchedEffect(Unit) {
         sendEvent(
@@ -48,7 +53,7 @@ fun AnalyticsScreenContent(
     Column {
 
         TopGreenCard(
-            title = "Начало",
+            title = localizedString(R.string.start),
             currency = uiState.startDate,
             onNavigateClick = {
                 currentPicker = DateType.START
@@ -57,7 +62,7 @@ fun AnalyticsScreenContent(
         )
 
         TopGreenCard(
-            title = "Конец",
+            title = localizedString(R.string.end),
             currency = uiState.endDate,
             onNavigateClick = {
                 currentPicker = DateType.END
@@ -66,10 +71,22 @@ fun AnalyticsScreenContent(
         )
 
         TopGreenCard(
-            title = "Сумма",
+            title = localizedString(R.string.total_amount),
             amount = uiState.totalAmount,
             currency = "₽"
         )
+
+        if (uiState.items.isNotEmpty()) {
+
+            val dataMap = mutableMapOf<String, Float>()
+            uiState.items.forEach {
+                dataMap.put(it.emoji + " " + it.name, it.percentage.toFloat())
+            }
+            PieGraph(
+                data = dataMap,
+                colors = colors
+            )
+        }
 
         when (uiState.screenContent) {
             ScreenContent.Content -> {
@@ -79,11 +96,13 @@ fun AnalyticsScreenContent(
                         items(
                             items = uiState.items,
                         ) { historyItem ->
-                            AnalyticsCard(historyItem)
+                            AnalyticsCard(
+                                analyticsItem = historyItem,
+                                color = colors.getOrNull(uiState.items.indexOf(historyItem))
+                            )
                         }
                     }
-                }
-                else {
+                } else {
                     Box(
                         modifier = Modifier
                             .weight(1f)
@@ -98,6 +117,7 @@ fun AnalyticsScreenContent(
                     }
                 }
             }
+
             ScreenContent.Error -> {}
             ScreenContent.Loading -> {
                 LoadingScreen()

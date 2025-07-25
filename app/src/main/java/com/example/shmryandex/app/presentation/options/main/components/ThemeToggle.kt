@@ -18,8 +18,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Color.Companion.White
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
+import com.example.core.utils.ui.localizedString
 import com.example.core.utils.ui.theme.DividerGrey
 import com.example.core.utils.ui.theme.PrimaryGreen
+import com.example.shmryandex.R
 
 @Composable
 fun ThemeToggle(
@@ -46,7 +48,7 @@ fun ThemeToggle(
     ) {
         Text(
             modifier = Modifier.weight(1f),
-            text = "Тёмная тема",
+            text = localizedString(R.string.dark_mode),
             style = MaterialTheme.typography.bodyMedium
         )
         Switch(
