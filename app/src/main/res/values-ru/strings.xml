@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="expenses_nav_item_title">Расходы</string>
+    <string name="incomes_nav_item_title">Доходы</string>
+    <string name="accounts_nav_item_title">Счет</string>
+    <string name="categories_nav_item_title">Статьи</string>
+    <string name="options_nav_item_title">Настройки</string>
+
+    <string name="expenses_title">Расходы сегодня</string>
+    <string name="incomes_title">Доходы сегодня</string>
+    <string name="accounts_title">Мой Счет</string>
+    <string name="categories_title">Мои Статьи</string>
+    <string name="options_title">Настройки</string>
+    <string name="add_expense_title">Добавить Расход</string>
+    <string name="add_incomes_title">Добавить Доход</string>
+    <string name="add_account_title">Добавить Счет</string>
+    <string name="edit_account_title">Изменить Счет</string>
+    <string name="edit_expense_title">Изменить Расход</string>
+    <string name="edit_income_title">Изменить Доход</string>
+    <string name="expenses_history_title">История Расходов</string>
+    <string name="incomes_history_title">История Доходов</string>
+    <string name="expenses_analytics_title">Анализ Расходов</string>
+    <string name="incomes_analytics_title">Анализ Доходов</string>
+    <string name="app_info_title">О программе</string>
+    <string name="change_locale_title">Язык</string>
+    <string name="change_main_color_title">Основной цвет</string>
+    <string name="sync_title">Синхронизация</string>
+    <string name="haptics_title">Хаптики</string>
+    <string name="sounds_title">Звуки</string>
+    <string name="app_password_title">Код пароль</string>
+    <string name="dark_mode">Темная тема</string>
+    <string name="enter_pin_code">Введите PIN-код</string>
+</resources>

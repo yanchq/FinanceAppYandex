@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="total_amount">Всего</string>
+    <string name="account">Счет</string>
+    <string name="category">Статья</string>
+    <string name="date">Дата</string>
+    <string name="time">Время</string>
+    <string name="comment">Комментарий</string>
+    <string name="create_transaction">Создать транзакцию</string>
+    <string name="choose_account">Выберите счет</string>
+    <string name="start">Начало</string>
+    <string name="end">Конец</string>
+
+    <string name="haptic_long">Длинный</string>
+    <string name="haptic_short">Короткий</string>
+    <string name="haptic_medium">Средний</string>
+</resources>

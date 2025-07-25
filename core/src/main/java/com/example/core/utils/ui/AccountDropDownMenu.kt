@@ -35,6 +35,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.core.R
 import com.example.core.domain.entity.Account
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -58,7 +59,7 @@ fun AccountDropdownMenu(
                 .height(70.dp)
         ) {
             TextField(
-                value = selectedAccount?.name ?: "Выберите счет",
+                value = selectedAccount?.name ?: localizedString(R.string.choose_account),
                 onValueChange = {},
                 readOnly = true,
                 trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded) },
@@ -70,6 +71,8 @@ fun AccountDropdownMenu(
                     disabledTextColor = MaterialTheme.colorScheme.onSurface,
                     focusedIndicatorColor = Color.Transparent,
                     unfocusedIndicatorColor = Color.Transparent,
+                    unfocusedContainerColor = MaterialTheme.colorScheme.background,
+                    focusedContainerColor = MaterialTheme.colorScheme.background
                 ),
                 singleLine = true,
                 textStyle = MaterialTheme.typography.bodyLarge.copy(
@@ -77,13 +80,11 @@ fun AccountDropdownMenu(
                 )
             )
             Text(
-                text = "Счет",
+                text = localizedString(R.string.account),
                 modifier = Modifier
                     .align(Alignment.CenterStart)
                     .padding(start = 16.dp),
-                style = MaterialTheme.typography.bodyLarge.copy(
-                    color = Color.Black
-                )
+                color = MaterialTheme.colorScheme.onSurface
             )
         }
 

@@ -9,11 +9,13 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import com.example.core.R
 import com.example.core.utils.ui.AppCard
 import com.example.core.utils.ui.CustomDatePickerDialog
 import com.example.core.utils.ui.TopGreenCard
 import com.example.core.utils.formatDateToMillis
 import com.example.core.utils.formatDateToString
+import com.example.core.utils.ui.localizedString
 import com.example.history.impl.presentation.main.contract.HistoryUIEvent
 import com.example.history.impl.presentation.main.contract.HistoryUIState
 
@@ -39,7 +41,7 @@ fun HistoryScreenContent(
     Column {
 
         TopGreenCard(
-            title = "Начало",
+            title = localizedString(R.string.start),
             currency = uiState.startDate,
             onNavigateClick = {
                 currentPicker = DateType.START
@@ -48,7 +50,7 @@ fun HistoryScreenContent(
         )
 
         TopGreenCard(
-            title = "Конец",
+            title = localizedString(R.string.end),
             currency = uiState.endDate,
             onNavigateClick = {
                 currentPicker = DateType.END
@@ -57,7 +59,7 @@ fun HistoryScreenContent(
         )
 
         TopGreenCard(
-            title = "Сумма",
+            title = localizedString(R.string.total_amount),
             amount = uiState.totalAmount,
             currency = "₽"
         )

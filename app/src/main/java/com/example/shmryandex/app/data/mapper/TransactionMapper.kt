@@ -34,6 +34,19 @@ class TransactionMapper @Inject constructor(
             )
         }
 
+    fun mapTransactionDtoToTransaction(dto: TransactionDto): Transaction =
+        with(dto) {
+            Transaction(
+                id = id,
+                amount = amount.toDouble(),
+                categoryId = category.id.toInt(),
+                accountId = account.id,
+                comment = comment,
+                transactionDate = transactionDate.extractDate(),
+                transactionTime = transactionDate.extractTime()
+            )
+        }
+
     fun mapTransactionResponseToTransaction(response: CreateTransactionResponse): Transaction =
         with(response) {
             Transaction(
@@ -84,6 +97,20 @@ class TransactionMapper @Inject constructor(
             comment = comment,
             transactionDate = transactionDate,
             transactionTime = transactionTime
+        )
+    }
+
+    fun mapTransactionWithRelationsDbToTransaction(
+        transactionDb: TransactionWithRelations
+    ): Transaction = with(transactionDb) {
+        Transaction(
+            id = transaction.id.toLong(),
+            amount = transaction.amount,
+            categoryId = category.id,
+            accountId = account.id,
+            comment = transaction.comment,
+            transactionDate = transaction.transactionDate,
+            transactionTime = transaction.transactionTime
         )
     }
 

@@ -8,4 +8,5 @@ import com.example.core.presentation.mvi.UIEffect
  */
 sealed class SplashUIEffect: UIEffect {
     data object NavigateToMainScreen : SplashUIEffect()
+    data object NavigateToLoginScreen : SplashUIEffect()
 }

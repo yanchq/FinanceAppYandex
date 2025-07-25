@@ -24,14 +24,17 @@ import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.expenses.R
 import com.example.core.utils.toCurrencyString
+import com.example.core.utils.ui.localizedString
 import com.example.expenses.impl.domain.entity.Expense
 import com.example.expenses.impl.presentation.main.contract.ExpensesUIEvent
 import com.example.expenses.impl.presentation.main.contract.ExpensesUIState
 import com.example.core.utils.ui.theme.DividerGrey
 import com.example.core.utils.ui.theme.SecondaryGreen
+import com.example.core.utils.ui.theme.TextBlack
 
 /**
  * Composable функция контента экрана расходов.
@@ -56,7 +59,7 @@ fun ExpensesScreenContent(
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier
-                .background(SecondaryGreen)
+                .background(MaterialTheme.colorScheme.secondaryContainer)
                 .fillMaxWidth()
                 .height(56.dp)
                 .drawBehind {
@@ -71,12 +74,12 @@ fun ExpensesScreenContent(
                 .padding(horizontal = 16.dp, vertical = 8.dp)
         ) {
             Text(
-                text = "Всего",
-                style = MaterialTheme.typography.bodyMedium
+                text = localizedString(com.example.core.R.string.total_amount),
+                color = TextBlack
             )
             Text(
                 text = uiState.summary.toCurrencyString("₽"),
-                style = MaterialTheme.typography.bodyMedium
+                color = TextBlack
             )
         }
 
@@ -144,7 +147,9 @@ private fun ExpenseCard(
                     modifier = Modifier
                         .fillMaxWidth(),
                     text = expense.comment,
-                    style = MaterialTheme.typography.bodySmall
+                    style = MaterialTheme.typography.bodyMedium,
+                    fontSize = 12.sp,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
             }
 

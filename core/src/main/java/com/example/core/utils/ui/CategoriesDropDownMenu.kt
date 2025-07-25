@@ -37,6 +37,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.core.R
 import com.example.core.domain.entity.Category
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -69,11 +70,11 @@ fun CategoriesDropdownMenu(
                     .height(70.dp)
                     .menuAnchor(),
                 colors = TextFieldDefaults.colors(
-                    focusedContainerColor = Color.White,
-                    unfocusedContainerColor = Color.White,
                     disabledTextColor = MaterialTheme.colorScheme.onSurface,
                     focusedIndicatorColor = Color.Transparent,
                     unfocusedIndicatorColor = Color.Transparent,
+                    unfocusedContainerColor = MaterialTheme.colorScheme.background,
+                    focusedContainerColor = MaterialTheme.colorScheme.background
                 ),
                 singleLine = true,
                 textStyle = MaterialTheme.typography.bodyLarge.copy(
@@ -81,13 +82,11 @@ fun CategoriesDropdownMenu(
                 )
             )
             Text(
-                text = "Категория",
+                text = localizedString(R.string.category),
                 modifier = Modifier
                     .align(Alignment.CenterStart)
                     .padding(start = 16.dp),
-                style = MaterialTheme.typography.bodyLarge.copy(
-                    color = Color.Black
-                )
+                color = MaterialTheme.colorScheme.onSurface
             )
         }
 

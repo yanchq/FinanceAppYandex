@@ -7,6 +7,10 @@ import androidx.work.Configuration
 import androidx.work.WorkManager
 import com.example.shmryandex.app.di.AppComponent
 import com.example.shmryandex.app.di.DaggerAppComponent
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.launch
 
 /**
  * Основной класс приложения.
@@ -15,6 +19,9 @@ import com.example.shmryandex.app.di.DaggerAppComponent
 class FinanceApp: Application() {
 
     lateinit var appComponent: AppComponent
+    
+    // CoroutineScope для приложения
+    private val applicationScope = CoroutineScope(SupervisorJob() + Dispatchers.Main)
 
     override fun onCreate() {
         super.onCreate()
@@ -44,13 +51,13 @@ class FinanceApp: Application() {
     }
 
     private fun schedulePeriodicSync() {
-        try {
+
             val scheduleSyncUseCase = appComponent.schedulePeriodicSyncUseCase()
-            scheduleSyncUseCase()
-            Log.d("FinanceApp", "Periodic sync scheduled successfully")
-        } catch (e: Exception) {
-            Log.e("FinanceApp", "Failed to schedule periodic sync", e)
-        }
+            // Запускаем suspend функцию в корутине
+            applicationScope.launch {
+                scheduleSyncUseCase()
+                Log.d("FinanceApp", "Periodic sync scheduled successfully")
+            }
     }
 }
 

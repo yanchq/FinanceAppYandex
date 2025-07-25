@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.example.shmryandex.app.presentation.login.LoginScreen
 import com.example.shmryandex.app.presentation.main.screen.MainScreen
 import com.example.shmryandex.app.presentation.splash.screen.SplashScreen
 
@@ -19,6 +20,10 @@ fun RootNavGraph(navController: NavHostController) {
     ) {
         composable(Screen.Splash.route) {
             SplashScreen(navController)
+        }
+
+        composable(Screen.Login.route) {
+            LoginScreen(navController)
         }
 
         composable("main") {

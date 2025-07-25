@@ -1,4 +1,4 @@
-package com.example.shmryandex.app.domain.usecase
+package com.example.shmryandex.app.domain.usecase.network
 
 import com.example.core.domain.repository.NetworkRepository
 import javax.inject.Inject

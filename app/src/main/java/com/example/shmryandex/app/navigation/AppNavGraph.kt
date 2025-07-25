@@ -23,6 +23,12 @@ import com.example.core.presentation.LocalViewModelFactory
 import com.example.expenses.impl.di.DaggerExpensesComponent
 import com.example.history.impl.di.DaggerHistoryComponent
 import com.example.incomes.impl.di.DaggerIncomesComponent
+import com.example.shmryandex.app.presentation.options.buildinfo.AppInfoScreen
+import com.example.shmryandex.app.presentation.options.changelocale.ChangeLocaleScreen
+import com.example.shmryandex.app.presentation.options.haptic.HapticScreen
+import com.example.shmryandex.app.presentation.options.maincolor.ChangeMainColorScreen
+import com.example.shmryandex.app.presentation.options.pincode.PinCodeScreen
+import com.example.shmryandex.app.presentation.options.sync.SyncScreen
 import com.example.shmryandex.appComponent
 
 /**
@@ -288,6 +294,24 @@ fun AppNavGraph(
         ) {
             composable(Screen.Options.route) {
                 optionsScreenContent()
+            }
+            composable(Screen.AppInfo.route) {
+                AppInfoScreen()
+            }
+            composable(Screen.ChangeLocale.route) {
+                ChangeLocaleScreen()
+            }
+            composable(Screen.ChangeMainColor.route) {
+                ChangeMainColorScreen()
+            }
+            composable(Screen.SyncInterval.route) {
+                SyncScreen()
+            }
+            composable(Screen.SelectHaptic.route) {
+                HapticScreen()
+            }
+            composable(Screen.PinCode.route) {
+                PinCodeScreen(navHostController)
             }
         }
     }

@@ -6,7 +6,8 @@ import com.example.shmryandex.app.presentation.main.contract.MainUIEvent
 import com.example.shmryandex.app.presentation.main.contract.MainUIState
 import com.example.core.domain.usecase.GetSelectedAccountUseCase
 import com.example.core.presentation.mvi.BaseViewModel
-import com.example.shmryandex.app.domain.usecase.GetLastSyncInfoUseCase
+import com.example.shmryandex.app.domain.usecase.sync.GetLastSyncInfoUseCase
+import com.example.shmryandex.app.domain.usecase.haptic.TriggerHapticUseCase
 import com.google.gson.Gson
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -15,7 +16,8 @@ import javax.inject.Inject
 
 class MainViewModel @Inject constructor(
     private val getSelectedAccountUseCase: GetSelectedAccountUseCase,
-    private val getLastSyncInfoUseCase: GetLastSyncInfoUseCase
+    private val getLastSyncInfoUseCase: GetLastSyncInfoUseCase,
+    private val triggerHapticUseCase: TriggerHapticUseCase,
 ): BaseViewModel<MainUIEvent, MainUIState, MainUIEffect>
     (MainUIState()){
 
@@ -28,11 +30,18 @@ class MainViewModel @Inject constructor(
             MainUIEvent.EditAccountIconClicked -> {
                 navigateToEditAccountScreen()
             }
+
+            MainUIEvent.HapticButtonClicked -> {
+                viewModelScope.launch(Dispatchers.IO) {
+                    triggerHapticUseCase()
+                }
+            }
         }
     }
 
     private fun navigateToEditAccountScreen() {
         viewModelScope.launch(Dispatchers.IO) {
+            triggerHapticUseCase()
             val selectedAccount = getSelectedAccountUseCase()
             if (selectedAccount != null) {
                 val gson = Gson()
