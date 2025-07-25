@@ -59,7 +59,7 @@ fun AccountDropdownMenu(
                 .height(70.dp)
         ) {
             TextField(
-                value = selectedAccount?.name ?: "Выберите счет",
+                value = selectedAccount?.name ?: localizedString(R.string.choose_account),
                 onValueChange = {},
                 readOnly = true,
                 trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded) },

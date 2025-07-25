@@ -7,4 +7,11 @@
     <string name="time">Time</string>
     <string name="comment">Comment</string>
     <string name="create_transaction">Create transaction</string>
+    <string name="choose_account">Choose account</string>
+    <string name="start">Start</string>
+    <string name="end">End</string>
+
+    <string name="haptic_long">Long</string>
+    <string name="haptic_short">Short</string>
+    <string name="haptic_medium">Medium</string>
 </resources>

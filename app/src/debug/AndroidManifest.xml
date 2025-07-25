@@ -4,12 +4,6 @@
 
     <application tools:node="merge">
         
-        <!-- Тестовая Activity для UI-тестов без ActionBar -->
-        <activity
-            android:name=".TestActivity"
-            android:theme="@android:style/Theme.Material.Light.NoActionBar"
-            android:exported="false" />
-            
     </application>
 
 </manifest> 

@@ -26,10 +26,13 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.example.core.presentation.LocalViewModelFactory
+import com.example.core.utils.ui.localizedString
+import com.example.shmryandex.R
 import com.example.shmryandex.app.navigation.Screen
 import kotlinx.coroutines.delay
 
@@ -50,8 +53,9 @@ fun LoginScreen(
         verticalArrangement = Arrangement.Center
     ) {
         Text(
-            text = "Введите PIN-код",
-            style = MaterialTheme.typography.titleLarge
+            text = localizedString(R.string.enter_pin_code),
+            color = MaterialTheme.colorScheme.onSurface,
+            modifier = Modifier.testTag("pin_title")
         )
 
         Spacer(modifier = Modifier.height(24.dp))
@@ -89,7 +93,11 @@ fun LoginScreen(
 
         if (isError) {
             Spacer(modifier = Modifier.height(16.dp))
-            Text(text = "Неверный PIN-код", color = Color.Red)
+            Text(
+                text = "Неверный PIN-код",
+                color = Color.Red,
+                modifier = Modifier.testTag("error_message")
+            )
         }
     }
 }
@@ -117,6 +125,7 @@ fun PinKeyboard(
                     Box(
                         modifier = Modifier
                             .size(80.dp)
+                            .testTag("pin_key_$key")
                             .clickable {
                                 when (key) {
                                     "<" -> onDelete()
@@ -145,7 +154,7 @@ fun PinIndicators(
     currentPin: String,
     isError: Boolean,
 ) {
-    Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
+    Row(modifier = Modifier.fillMaxWidth().testTag("pin_indicators"), horizontalArrangement = Arrangement.Center) {
         repeat(4) { i ->
             val filled = i < currentPin.length
             val borderColor = when {
@@ -157,6 +166,7 @@ fun PinIndicators(
             Box(
                 modifier = Modifier
                     .size(35.dp)
+                    .testTag("pin_indicator_$i")
                     .border(
                         width = 6.dp,
                         color = borderColor,

@@ -6,6 +6,7 @@ import com.example.core.data.network.model.CreateTransactionRequestBody
 import com.example.core.data.network.model.Result
 import com.example.core.data.storage.dao.TransactionsDao
 import com.example.core.data.storage.entity.TransactionDbModel
+import com.example.core.domain.entity.Account
 import com.example.core.domain.entity.DetailedTransaction
 import com.example.core.domain.entity.Transaction
 import com.example.core.domain.repository.BaseTransactionsRepository
@@ -13,6 +14,10 @@ import com.example.core.domain.repository.NetworkRepository
 import com.example.core.utils.extractDate
 import com.example.core.utils.extractTime
 import com.example.core.utils.toUtcIsoString
+import com.example.history.impl.domain.entity.HistoryItem
+import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitAll
+import kotlinx.coroutines.coroutineScope
 import java.text.SimpleDateFormat
 import java.time.Instant
 import java.util.Date
@@ -201,6 +206,89 @@ class BaseTransactionsRepositoryImpl @Inject constructor(
         }
     }
 
+    override suspend fun getTransactionsByPeriod(
+        accounts: List<Account>,
+        startDate: String,
+        endDate: String
+    ): Result<List<Transaction>> = Result.execute {
+
+        if (networkRepository.getNetworkStatus().value) {
+            loadTransactionsFromNetwork(
+                accounts = accounts,
+                startDate = startDate,
+                endDate = endDate,
+            )
+        }
+        else {
+            loadTransactionsFromDb(
+                startDate = startDate,
+                endDate = endDate,
+            )
+        }
+    }
+
+    private suspend fun loadTransactionsFromNetwork(
+        accounts: List<Account>,
+        startDate: String,
+        endDate: String,
+    ): List<Transaction> {
+        val transactionsDto = coroutineScope {
+            accounts.map { account ->
+                async {
+                    api.getTransactionsByAccountPeriod(
+                        accountId = account.id,
+                        startDate = startDate,
+                        endDate = endDate
+                    )
+                }
+            }
+        }.awaitAll().flatten()
+            .sortedByDescending { it.createdAt }
+
+
+        val transactionDomain = transactionsDto
+            .map { dto ->
+                mapper.mapTransactionDtoToTransaction(dto)
+                    .copy(
+                        amount = if (dto.category.isIncome) {
+                            dto.amount.toDouble()
+                        }
+                        else {
+                            -dto.amount.toDouble()
+                        }
+                    )
+            }
+
+        val transactionDb = transactionsDto
+            .map { dto ->
+                mapper.mapTransactionDtoToDbModel(dto)
+            }
+
+        transactionsDao.insertTransactionsList(transactionDb)
+
+        return transactionDomain
+    }
+
+    private suspend fun loadTransactionsFromDb(
+        startDate: String,
+        endDate: String,
+    ): List<Transaction> {
+        return transactionsDao.getTransactionsByPeriod(
+            startDate = startDate,
+            endDate = endDate
+        ).map { db ->
+            mapper.mapTransactionWithRelationsDbToTransaction(db)
+                .copy(
+                    amount = if (db.category.isIncome) {
+                        db.transaction.amount
+                    }
+                    else {
+                        -db.transaction.amount
+                    }
+                )
+        }
+    }
+
     private suspend fun syncCreatedTransaction(transaction: TransactionDbModel) {
         val response = createNetworkTransaction(
             accountId = transaction.accountId,
@@ -241,8 +329,7 @@ class BaseTransactionsRepositoryImpl @Inject constructor(
             transactionsDao.changeTransactionSyncStatus(
                 transactionId = transaction.id
             )
-        }
-        else {
+        } else {
             transactionsDao.insertTransaction(mapper.mapTransactionDtoToDbModel(networkTransaction))
         }
     }
